@@ -38,9 +38,9 @@ export function onSessionInvalid(listener: SessionInvalidListener): () => void {
   return () => sessionInvalidListeners.delete(listener);
 }
 
-let refreshPromise: Promise<boolean> | null = null;
+let refreshPromise: Promise<"ok" | "invalid" | "unverifiable"> | null = null;
 
-function refreshSession(): Promise<boolean> {
+function refreshSession(): Promise<"ok" | "invalid" | "unverifiable"> {
   if (!refreshPromise) {
     refreshPromise = (async () => {
       try {
@@ -48,9 +48,9 @@ function refreshSession(): Promise<boolean> {
           method: "POST",
           credentials: "same-origin",
         });
-        return response.ok;
+        return response.ok ? "ok" : response.status === 429 || response.status >= 500 ? "unverifiable" : "invalid";
       } catch {
-        return false;
+        return "unverifiable";
       } finally {
         refreshPromise = null;
       }
@@ -85,9 +85,10 @@ export async function api<T>(path: string, options: ApiOptions = {}, canRetry = 
     throw new ApiError(0, "NETWORK_ERROR", "No hay conexión con el servidor. Reintentar más tarde.");
   }
 
-  if (response.status === 401 && canRetry && !path.startsWith("/api/auth/")) {
+  if (response.status === 401 && canRetry && (!path.startsWith("/api/auth/") || path === "/api/auth/session")) {
     const refreshed = await refreshSession();
-    if (refreshed) return api<T>(path, options, false);
+    if (refreshed === "ok") return api<T>(path, options, false);
+    if (refreshed === "unverifiable") throw new ApiError(0, "NETWORK_ERROR", "No se pudo comprobar la sesión.");
     for (const listener of sessionInvalidListeners) listener();
   }
   if (response.status === 401 && !canRetry) {

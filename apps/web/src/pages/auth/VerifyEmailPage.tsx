@@ -8,12 +8,29 @@ import { AuthShell } from "@/pages/auth/LoginPage";
 import { useSession } from "@/session/SessionProvider";
 
 type State = "processing" | "verified" | "invalid" | "network";
+const verificationRequests = new Map<string, Promise<PublicUser>>();
+
+function verifyEmail(token: string): Promise<PublicUser> {
+  const pending = verificationRequests.get(token);
+  if (pending) return pending;
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 15000);
+  const request = api<{ user: PublicUser }>("/api/auth/verify-email", {
+    method: "POST", body: { token }, signal: controller.signal,
+  }).then(({ data }) => data.user).finally(() => {
+    window.clearTimeout(timeout);
+    verificationRequests.delete(token);
+  });
+  verificationRequests.set(token, request);
+  return request;
+}
 
 export default function VerifyEmailPage() {
   const [params] = useSearchParams();
   const [token] = useState(() => params.get("token") ?? "");
-  const { setUser, user } = useSession();
+  const { setUser } = useSession();
   const [state, setState] = useState<State>("processing");
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     // El token se captura una vez y se retira de la URL visible (plan §7.5).
@@ -23,32 +40,25 @@ export default function VerifyEmailPage() {
       return;
     }
 
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 15000);
     let disposed = false;
-    api("/api/auth/verify-email", { method: "POST", body: { token }, signal: controller.signal })
-      .then(() => {
+    verifyEmail(token)
+      .then((user) => {
+        if (disposed) return;
+        setUser(user);
         setState("verified");
-        void api<{ user: PublicUser | null }>("/api/auth/session")
-          .then(({ data }) => {
-            if (data.user) setUser(data.user);
-          })
-          .catch(() => undefined);
       })
       .catch((error: unknown) => {
+        if (disposed) return;
         if (error instanceof DOMException && error.name === "AbortError") {
-          if (!disposed) setState("network");
+          setState("network");
           return;
         }
         setState(error instanceof ApiError && error.isNetwork ? "network" : "invalid");
-      })
-      .finally(() => window.clearTimeout(timeout));
+      });
     return () => {
       disposed = true;
-      window.clearTimeout(timeout);
-      controller.abort();
     };
-  }, [setUser, token]);
+  }, [attempt, setUser, token]);
 
   return (
     <AuthShell title="Verificación de correo">
@@ -60,21 +70,10 @@ export default function VerifyEmailPage() {
 
       {state === "verified" ? (
         <StatusNotice tone="success" title="Correo verificado">
-          {user ? (
-            <>
-              Tu cuenta quedó verificada. Ya puedes publicar en la retroalimentación.{" "}
-              <Link to="/retroalimentacion" className="text-primary underline underline-offset-4">
-                Ir a la retroalimentación
-              </Link>
-            </>
-          ) : (
-            <>
-              Tu cuenta quedó verificada. Ahora ingresa para participar.{" "}
-              <Link to="/login" className="text-primary underline underline-offset-4">
-                Ir a ingresar
-              </Link>
-            </>
-          )}
+          Tu cuenta quedó verificada. Ya puedes publicar en la retroalimentación.{" "}
+          <Link to="/retroalimentacion" className="text-primary underline underline-offset-4">
+            Ir a la retroalimentación
+          </Link>
         </StatusNotice>
       ) : null}
 
@@ -93,7 +92,7 @@ export default function VerifyEmailPage() {
           <StatusNotice tone="destructive" title="Error de conexión">
             No pudimos contactar el servidor.
           </StatusNotice>
-          <Button variant="outline" onClick={() => window.location.reload()}>
+          <Button variant="outline" onClick={() => { setState("processing"); setAttempt((current) => current + 1); }}>
             Reintentar
           </Button>
         </div>

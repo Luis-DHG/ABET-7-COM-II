@@ -1,6 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { PublicUser } from "@blogdpc/contracts";
 import { api, ApiError, onSessionInvalid } from "@/lib/http";
+import { createSessionGate } from "./sessionGate";
 
 export type SessionStatus = "unknown" | "anonymous" | "authenticated" | "unverifiable";
 
@@ -18,13 +19,20 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<SessionStatus>("unknown");
   const [user, setUser] = useState<PublicUser | null>(null);
   const [online, setOnline] = useState(() => navigator.onLine);
+  const gate = useRef(createSessionGate());
 
   const loadSession = useCallback(async (signal?: AbortSignal) => {
-    try {
-      const { data } = await api<{ user: PublicUser | null }>("/api/auth/session", { signal });
-      setUser(data.user);
-      setStatus(data.user ? "authenticated" : "anonymous");
-    } catch (error) {
+    const result = await gate.current.run(async () => {
+      try {
+        const { data } = await api<{ user: PublicUser | null }>("/api/auth/session", { signal });
+        return { data, error: null };
+      } catch (error) {
+        return { data: null, error };
+      }
+    });
+    if (!result.applied) return;
+    const { data, error } = result.value;
+    if (error !== null) {
       if (error instanceof DOMException && error.name === "AbortError") return;
       if (error instanceof ApiError && (error.isNetwork || error.status >= 500)) {
         // Sin borrar sesión conocida: puede ser solo pérdida de red (plan §8.3).
@@ -33,11 +41,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       }
       setUser(null);
       setStatus("anonymous");
+      return;
     }
+    setUser(data!.user);
+    setStatus(data!.user ? "authenticated" : "anonymous");
   }, []);
 
   // Limpieza local solo cuando el servidor confirma sesión inválida.
   useEffect(() => onSessionInvalid(() => {
+    gate.current.notifyExternalUpdate();
     setUser(null);
     setStatus("anonymous");
   }), []);
@@ -67,6 +79,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   }, [loadSession]);
 
   const setUserAndStatus = useCallback((next: PublicUser | null) => {
+    gate.current.notifyExternalUpdate(next);
     setUser(next);
     setStatus(next ? "authenticated" : "anonymous");
   }, []);
@@ -75,6 +88,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     try {
       await api("/api/auth/logout", { method: "POST" });
     } finally {
+      gate.current.notifyExternalUpdate();
       setUser(null);
       setStatus("anonymous");
     }
