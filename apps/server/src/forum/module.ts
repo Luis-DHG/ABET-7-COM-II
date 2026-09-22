@@ -84,15 +84,17 @@ export function createForumModule(db: Database) {
       if (pageRoots.length === 0) return { comments: [], nextCursor: null };
 
       const rootIds = pageRoots.map((root) => root.id);
-      const directReplies = await db.select(publicSelection)
-        .from(comments)
-        .innerJoin(users, eq(comments.authorId, users.id))
-        .where(and(inArray(comments.rootId, rootIds), sql`extensions.nlevel(${comments.path}) = 2`))
-        .orderBy(asc(comments.createdAt), asc(comments.id));
-      const deepRows = await db.select({ rootId: comments.rootId })
-        .from(comments)
-        .where(and(inArray(comments.rootId, rootIds), sql`extensions.nlevel(${comments.path}) > 2`))
-        .groupBy(comments.rootId);
+      const [directReplies, deepRows] = await Promise.all([
+        db.select(publicSelection)
+          .from(comments)
+          .innerJoin(users, eq(comments.authorId, users.id))
+          .where(and(inArray(comments.rootId, rootIds), sql`extensions.nlevel(${comments.path}) = 2`))
+          .orderBy(asc(comments.createdAt), asc(comments.id)),
+        db.select({ rootId: comments.rootId })
+          .from(comments)
+          .where(and(inArray(comments.rootId, rootIds), sql`extensions.nlevel(${comments.path}) > 2`))
+          .groupBy(comments.rootId),
+      ]);
       const deepRoots = new Set(deepRows.map((row) => row.rootId));
       const repliesByRoot = new Map<string, PublicComment[]>();
       for (const reply of directReplies) {

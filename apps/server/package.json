@@ -14,9 +14,10 @@
     "db:migrate": "tsx --env-file-if-exists=../../.env src/db/migrate.ts",
     "db:provision-role": "tsx --env-file-if-exists=../../.env src/db/provision-role.ts",
     "db:verify": "tsx --env-file-if-exists=../../.env src/db/verify.ts",
-    "dev": "tsx watch --env-file-if-exists=../../.env src/server.ts",
+    "dev": "pnpm --filter @blogdpc/contracts build && tsx watch --env-file-if-exists=../../.env src/server.ts",
     "prestart": "node --env-file-if-exists=../../.env dist/db/migrate.js",
     "start": "node --env-file-if-exists=../../.env dist/server.js",
+    "sprint0:baseline": "tsx --env-file-if-exists=../../.env src/scripts/sprint0-baseline.ts",
     "test": "tsx --test src/**/*.test.ts"
   },
   "dependencies": {

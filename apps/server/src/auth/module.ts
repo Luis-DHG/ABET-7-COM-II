@@ -281,6 +281,7 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
           purpose: "RESET_PASSWORD",
           tokenHash: hashOpaqueToken(token),
           expiresAt: new Date(now.getTime() + RESET_TOKEN_LIFETIME_MS),
+          createdAt: now,
         });
       });
       try {
