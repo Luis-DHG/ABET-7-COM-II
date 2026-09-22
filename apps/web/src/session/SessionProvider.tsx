@@ -9,7 +9,6 @@ interface SessionContextValue {
   user: PublicUser | null;
   online: boolean;
   setUser: (user: PublicUser | null) => void;
-  refreshSession: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -86,7 +85,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     user,
     online,
     setUser: setUserAndStatus,
-    refreshSession: () => loadSession(),
     logout,
   };
 

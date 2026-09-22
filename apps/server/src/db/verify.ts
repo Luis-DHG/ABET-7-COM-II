@@ -153,7 +153,6 @@ try {
     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
   const config: AppConfig = {
-    nodeEnv: "test",
     port: 3000,
     appOrigin: "http://localhost:5173",
     databaseUrl,

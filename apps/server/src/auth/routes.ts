@@ -88,7 +88,7 @@ export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
 
   router.get("/google/callback", async (request, response) => {
     try {
-      const callbackUrl = new URL(request.originalUrl, config.appOrigin);
+      const callbackUrl = new URL(request.originalUrl, config.google.redirectUri);
       const session = await auth.completeGoogle(callbackUrl, readCookie(request, GOOGLE_STATE_COOKIE));
       response.clearCookie(GOOGLE_STATE_COOKIE, {
         httpOnly: true,
@@ -98,7 +98,12 @@ export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
       });
       setSessionCookies(response, session, config.cookieSecure);
       response.redirect(303, new URL("/retroalimentacion", config.appOrigin).toString());
-    } catch {
+    } catch (error) {
+      console.error(JSON.stringify({
+        level: "error",
+        event: "google_auth_failed",
+        error: error instanceof Error ? error.message : "unknown",
+      }));
       response.clearCookie(GOOGLE_STATE_COOKIE, {
         httpOnly: true,
         secure: config.cookieSecure,

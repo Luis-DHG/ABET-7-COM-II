@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { AlertCircle, CheckCircle2, Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
@@ -46,16 +45,5 @@ export function FieldError({ id, message }: { id: string; message?: string }) {
     <p id={id} role="alert" className="text-sm text-destructive">
       {message}
     </p>
-  );
-}
-
-export function TextLink({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) {
-  return (
-    <Link
-      to={to}
-      className={cn("font-medium text-primary underline underline-offset-4 hover:text-primary/80", className)}
-    >
-      {children}
-    </Link>
   );
 }

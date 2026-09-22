@@ -121,4 +121,3 @@ export const comments = appSchema.table("comments", {
 ]);
 
 export type User = typeof users.$inferSelect;
-export type Comment = typeof comments.$inferSelect;

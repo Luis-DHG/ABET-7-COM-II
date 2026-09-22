@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,7 +25,6 @@ export function ConfirmDialog({
   pending?: boolean;
   onConfirm: () => void;
 }) {
-  const [activated, setActivated] = useState(false);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -40,12 +38,8 @@ export function ConfirmDialog({
           </Button>
           <Button
             variant="destructive"
-            disabled={pending || activated}
-            onClick={() => {
-              if (activated) return;
-              setActivated(true);
-              onConfirm();
-            }}
+            disabled={pending}
+            onClick={onConfirm}
           >
             {pending ? "Procesando…" : confirmLabel}
           </Button>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,6 @@ export default function ForumPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const abortRef = useRef<AbortController | null>(null);
 
   const loadPage = useCallback(async (cursor: string | null, signal?: AbortSignal) => {
     const query = cursor ? `?limit=${PAGE_SIZE}&cursor=${encodeURIComponent(cursor)}` : `?limit=${PAGE_SIZE}`;
@@ -42,7 +41,6 @@ export default function ForumPage() {
 
   useEffect(() => {
     const controller = new AbortController();
-    abortRef.current = controller;
     setInitialLoading(true);
     loadPage(null, controller.signal)
       .then(({ data, meta }) => {

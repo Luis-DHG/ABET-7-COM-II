@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { EditorialModule } from "@/pages/moduleContent";
-import { FORUM_PATH, previousOf, nextOf, type ModuleInfo } from "@/lib/manifest";
+import { FORUM_PATH, MODULES, previousOf, nextOf, type ModuleInfo } from "@/lib/manifest";
 import { cn } from "@/lib/utils";
 
 export function ModuleLayout({ module, content }: { module: ModuleInfo; content: EditorialModule }) {
@@ -59,10 +59,10 @@ export function ModuleProgress({ module }: { module: ModuleInfo }) {
   return (
     <div className="space-y-2">
       <p className="text-sm font-medium text-muted-foreground">
-        Módulo {module.number} de 7
+        Módulo {module.number} de {MODULES.length}
       </p>
       <ol className="flex items-center gap-1.5" aria-hidden>
-        {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+        {MODULES.map(({ number: n }) => (
           <li
             key={n}
             className={cn(
@@ -83,6 +83,12 @@ export function PreviousNext({ current }: { current: ModuleInfo }) {
   const next = nextOf(current);
   return (
     <nav aria-label="Navegación entre módulos" className="module-pagination flex flex-wrap items-stretch gap-3 border-t pt-6">
+      <Link
+        to={MODULES[0].path}
+        className="flex min-h-11 items-center rounded-lg border bg-card px-4 py-3 text-sm font-medium transition-colors hover:border-primary/50"
+      >
+        Índice completo
+      </Link>
       {previous ? (
         <Link
           to={previous.path}

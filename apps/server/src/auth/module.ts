@@ -56,7 +56,14 @@ function toAccessClaims(user: User): AccessClaims {
 }
 
 function isUniqueViolation(error: unknown): boolean {
-  return typeof error === "object" && error !== null && "code" in error && error.code === "23505";
+  let candidate = error;
+  while (typeof candidate === "object" && candidate !== null) {
+    const databaseError = candidate as { code?: unknown; cause?: unknown };
+    if (databaseError.code === "23505") return true;
+    if (databaseError.cause === candidate) return false;
+    candidate = databaseError.cause;
+  }
+  return false;
 }
 
 export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer) {
@@ -93,6 +100,7 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
       const id = randomUUID();
       const token = createOpaqueToken();
       const passwordHash = await hashPassword(input.password);
+      const createdAt = new Date();
 
       try {
         await db.transaction(async (tx) => {
@@ -107,7 +115,8 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
             userId: id,
             purpose: "VERIFY_EMAIL",
             tokenHash: hashOpaqueToken(token),
-            expiresAt: new Date(Date.now() + VERIFY_TOKEN_LIFETIME_MS),
+            expiresAt: new Date(createdAt.getTime() + VERIFY_TOKEN_LIFETIME_MS),
+            createdAt,
           });
         });
       } catch (error) {
@@ -338,6 +347,8 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
         expectedState: state.state,
         expectedNonce: state.nonce,
         idTokenExpected: true,
+      }, {
+        redirect_uri: config.google.redirectUri,
       });
       const claims = tokens.claims();
       if (!claims || typeof claims.email !== "string" || claims.email_verified !== true || typeof claims.sub !== "string") {

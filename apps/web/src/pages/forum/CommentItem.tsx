@@ -21,6 +21,7 @@ interface CommentItemProps {
   comment: PublicComment;
   canReply: boolean;
   threadMode?: boolean;
+  parentAuthorName?: string;
   onReplyPublished: (comment: PublicComment) => void;
 }
 
@@ -28,6 +29,7 @@ export const CommentItem = memo(function CommentItem({
   comment,
   canReply,
   threadMode = false,
+  parentAuthorName,
   onReplyPublished,
 }: CommentItemProps) {
   const [replying, setReplying] = useState(false);
@@ -55,7 +57,9 @@ export const CommentItem = memo(function CommentItem({
         </header>
 
         {comment.depth > 1 && threadMode ? (
-          <p className="mt-1 text-xs text-muted-foreground">Respuesta en nivel {comment.depth}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Respuesta a {parentAuthorName ?? "este comentario"}
+          </p>
         ) : null}
 
         <p
@@ -112,6 +116,7 @@ export const CommentItem = memo(function CommentItem({
               comment={reply}
               canReply={canReply}
               threadMode={threadMode}
+              parentAuthorName={comment.authorName}
               onReplyPublished={onReplyPublished}
             />
           ))}

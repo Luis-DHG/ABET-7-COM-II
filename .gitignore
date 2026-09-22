@@ -9,3 +9,21 @@ dist/
 coverage/
 *.log
 docs/
+
+# Build caches
+*.tsbuildinfo
+.turbo/
+.vite/
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+
+# Env locals
+*.local

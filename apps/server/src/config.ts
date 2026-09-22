@@ -3,7 +3,6 @@ import { z } from "zod";
 const booleanFromEnv = z.enum(["true", "false"]).transform((value) => value === "true");
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().min(1).max(65_535).default(3000),
   APP_ORIGIN: z.string().url(),
   DATABASE_URL: z.string().refine((value) => /^postgres(?:ql)?:\/\//u.test(value)),
@@ -25,7 +24,6 @@ const envSchema = z.object({
 });
 
 export interface AppConfig {
-  nodeEnv: "development" | "test" | "production";
   port: number;
   appOrigin: string;
   databaseUrl: string;
@@ -59,7 +57,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
 
   const value = parsed.data;
   return {
-    nodeEnv: value.NODE_ENV,
     port: value.PORT,
     appOrigin: new URL(value.APP_ORIGIN).origin,
     databaseUrl: value.DATABASE_URL,
