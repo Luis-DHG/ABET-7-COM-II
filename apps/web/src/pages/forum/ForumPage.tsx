@@ -99,7 +99,7 @@ export default function ForumPage() {
         {notice}
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_16rem]">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <section aria-label="Comentarios" className="space-y-6 min-w-0">
           <ParticipationBox canPublish={canPublish} onPublished={handlePublished} />
 
@@ -143,7 +143,7 @@ export default function ForumPage() {
           )}
         </section>
 
-        <aside className="space-y-4 lg:self-start">
+        <aside className="order-first space-y-4 lg:order-none lg:self-start">
           <div className="rounded-lg border bg-card p-4 text-sm">
             <h2 className="font-semibold">Normas del foro</h2>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">

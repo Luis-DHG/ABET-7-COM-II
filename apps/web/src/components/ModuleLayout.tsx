@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -6,8 +6,21 @@ import type { EditorialModule } from "@/pages/moduleContent";
 import { FORUM_PATH, MODULES, previousOf, nextOf, type ModuleInfo } from "@/lib/manifest";
 import { cn } from "@/lib/utils";
 
+// En escritorio el índice siempre está abierto; en móvil es colapsable.
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia("(min-width: 768px)").matches);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = () => setIsDesktop(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return isDesktop;
+}
+
 export function ModuleLayout({ module, content }: { module: ModuleInfo; content: EditorialModule }) {
   const heading = useRef<HTMLHeadingElement>(null);
+  const isDesktop = useIsDesktop();
   useEffect(() => {
     const hash = window.location.hash.slice(1);
     const target = hash ? document.getElementById(hash) : heading.current;
@@ -36,8 +49,16 @@ export function ModuleLayout({ module, content }: { module: ModuleInfo; content:
       <div className="editorial-grid">
         <aside className="module-index">
           <nav aria-label="En este módulo">
-            <h2>En este módulo</h2>
-            <ol>{content.sections.map((section) => <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>)}</ol>
+            <details
+              className="module-index-details"
+              open={isDesktop ? true : undefined}
+              onToggle={(event) => {
+                if (isDesktop) event.currentTarget.open = true;
+              }}
+            >
+              <summary>En este módulo</summary>
+              <ol>{content.sections.map((section) => <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>)}</ol>
+            </details>
           </nav>
           {module.number !== 7 ? <Link className="glossary-shortcut" to="/glosario"><BookOpen aria-hidden /> Consultar glosario <ArrowUpRight aria-hidden /></Link> : null}
           <p className="editorial-caption">Divulgación para estudiantes de ingeniería.</p>
@@ -61,15 +82,15 @@ export function ModuleProgress({ module }: { module: ModuleInfo }) {
       <p className="text-sm font-medium text-muted-foreground">
         Módulo {module.number} de {MODULES.length}
       </p>
-      <ol className="flex items-center gap-1.5" aria-hidden>
+      <ol className="flex items-end gap-1.5" aria-hidden>
         {MODULES.map(({ number: n }) => (
           <li
             key={n}
             className={cn(
-              "size-2.5 rounded-full border",
-              n < module.number && "border-primary bg-primary",
-              n === module.number && "border-primary bg-primary/30",
-              n > module.number && "border-border bg-transparent",
+              "w-[7px] rounded-[2px]",
+              n < module.number && "h-3.5 bg-primary/40",
+              n === module.number && "h-6 bg-primary",
+              n > module.number && "h-3.5 border border-border bg-transparent",
             )}
           />
         ))}
@@ -84,8 +105,8 @@ export function PreviousNext({ current }: { current: ModuleInfo }) {
   return (
     <nav aria-label="Navegación entre módulos" className="module-pagination flex flex-wrap items-stretch gap-3 border-t pt-6">
       <Link
-        to={MODULES[0].path}
-        className="flex min-h-11 items-center rounded-lg border bg-card px-4 py-3 text-sm font-medium transition-colors hover:border-primary/50"
+        to={`${MODULES[0].path}#recorrido`}
+        className="self-center text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
       >
         Índice completo
       </Link>

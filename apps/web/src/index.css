@@ -38,7 +38,7 @@
 /* Páginas editoriales: lectura, esquemas y datos con la paleta existente. */
 .editorial-module { display: flex; flex-direction: column; gap: 3rem; }
 .module-hero { border-bottom: 1px solid var(--border); padding: .5rem 0 2.5rem; }
-.module-hero-copy { padding-top: 2rem; max-width: 52rem; }
+.module-hero-copy { padding-top: 1.25rem; max-width: 56rem; }
 .module-subject { color: var(--primary); font-size: .875rem; font-weight: 600; margin-bottom: .75rem; }
 .module-hero h1 { max-width: 19ch; font-size: clamp(2rem, 5vw, 3.75rem); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; text-wrap: balance; }
 /* El encabezado recibe foco al cambiar de ruta; los controles conservan su anillo. */
@@ -48,7 +48,8 @@
 .module-meta [data-slot="badge"] { white-space: normal; height: auto; min-height: 1.5rem; }
 .editorial-grid { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 3rem; }
 .module-index { position: sticky; top: 5rem; align-self: start; display: flex; flex-direction: column; gap: 1.5rem; }
-.module-index h2 { font-size: .8125rem; font-weight: 600; margin-bottom: .5rem; }
+.module-index summary { min-height: 44px; display: flex; align-items: center; list-style: none; cursor: pointer; position: relative; margin-bottom: .5rem; font-size: .8125rem; font-weight: 600; }
+.module-index summary::-webkit-details-marker { display: none; }
 .module-index ol { border-left: 1px solid var(--border); }
 .module-index li a { display: flex; min-height: 44px; align-items: center; padding: .625rem 0 .625rem 1rem; font-size: .8125rem; line-height: 1.5; color: var(--muted-foreground); }
 .module-index li a:hover { color: var(--primary); background: var(--secondary); }
@@ -147,18 +148,20 @@
 .reference-list li > span { color: var(--primary); font-size: .875rem; font-variant-numeric: tabular-nums; }
 .reference-list li > div { display: flex; flex-direction: column; gap: .5rem; }
 .reference-list p, .reference-list a { font-size: .875rem; overflow-wrap: anywhere; }
-.module-pagination > a { min-width: 0; flex-basis: 220px; }
+.module-pagination > a { min-width: 0; }
 .module-pagination > span { display: none; }
 
 @media (max-width: 767px) {
   .editorial-module { gap: 2rem; }
   .editorial-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .module-index { position: static; border-bottom: 1px solid var(--border); padding-bottom: 1rem; gap: .5rem; }
+  .module-index summary::after { content: "+"; position: absolute; right: .5rem; top: .5rem; color: var(--primary); font-size: 1.25rem; line-height: 1.5rem; }
+  .module-index details[open] summary::after { content: "−"; }
   .module-index ol { display: grid; grid-template-columns: 1fr 1fr; border: 0; gap: 0 1rem; }
   .module-index li a { padding-left: 0; }
   .module-index > .editorial-caption { display: none; }
-  .module-hero-copy { padding-top: 1.5rem; }
-  .module-hero { padding-bottom: 1.75rem; }
+  .module-hero-copy { padding-top: .75rem; }
+  .module-hero { padding-bottom: 1.25rem; }
   .editorial-body { gap: 2.75rem; }
 }
 @media (max-width: 479px) {
@@ -175,6 +178,15 @@
   .module-directory li a { grid-template-columns: 1.5rem 1fr; gap: .5rem; }
   .module-directory svg { display: none; }
   .video-pending, .forum-invitation { padding: 1.25rem; }
+}
+@media (min-width: 768px) {
+  .module-index summary { cursor: default; }
+}
+@media (min-width: 1280px) {
+  .editorial-grid { grid-template-columns: 14rem minmax(0, 1fr); gap: 4rem; }
+  .editorial-body { font-size: 1.0625rem; }
+  .explorer-controls fieldset { grid-template-columns: repeat(4, 1fr); }
+  .metric-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* Paleta del proyecto (plan_frontend §4.2). Sin modo oscuro en el MVP. */

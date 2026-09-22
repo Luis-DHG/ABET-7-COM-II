@@ -35,7 +35,7 @@ export function AppShell() {
       </a>
       <Header />
       <OfflineBanner />
-      <main id="contenido" className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6">
+      <main id="contenido" className="mx-auto w-full max-w-[80rem] flex-1 px-4 py-8 sm:px-6 lg:px-8">
         <Outlet />
       </main>
       <Footer />
@@ -49,7 +49,7 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-3 px-4 sm:px-6">
+      <div className="mx-auto flex h-14 w-full max-w-[80rem] items-center gap-3 px-4 sm:px-6 lg:px-8">
         <Link to="/planeacion" className="shrink-0 font-semibold tracking-tight" aria-label="BlogDPC ISAC, inicio">
           BlogDPC · ISAC
         </Link>
@@ -140,7 +140,7 @@ function Header() {
                 <Menu aria-hidden />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-80 overflow-y-auto">
+            <SheetContent side="left" className="w-80 max-w-[85vw] overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>BlogDPC · ISAC</SheetTitle>
                 <SheetDescription>Señales, radar y comunicaciones.</SheetDescription>
@@ -235,7 +235,7 @@ function OfflineBanner() {
 function Footer() {
   return (
     <footer className="border-t">
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-6 text-sm text-muted-foreground sm:px-6">
+      <div className="mx-auto flex w-full max-w-[80rem] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-6 text-sm text-muted-foreground sm:px-6 lg:px-8">
         <Link to="/privacidad" className="underline underline-offset-4 hover:text-foreground">
           Privacidad
         </Link>
