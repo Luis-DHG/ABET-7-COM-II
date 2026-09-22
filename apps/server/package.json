@@ -18,7 +18,7 @@
     "prestart": "node --env-file-if-exists=../../.env dist/db/migrate.js",
     "start": "node --env-file-if-exists=../../.env dist/server.js",
     "sprint0:baseline": "tsx --env-file-if-exists=../../.env src/scripts/sprint0-baseline.ts",
-    "test": "tsx --test src/**/*.test.ts"
+    "test": "pnpm --filter @blogdpc/contracts build && pnpm build && node --test dist/**/*.test.js"
   },
   "dependencies": {
     "@blogdpc/contracts": "workspace:*",

@@ -8,7 +8,11 @@ dist/
 !.env.example
 coverage/
 *.log
+*.md
+!README.md
 docs/
+.opencode/
+graphify-out/
 
 # Build caches
 *.tsbuildinfo

@@ -1,0 +1,17 @@
+export const FORMULAS = {
+  subcarrierSpacing: String.raw`\Delta f = \frac{1}{T_u}`,
+  rangeResolution: String.raw`\Delta R = \frac{c}{2B}`,
+  velocityResolution: String.raw`\Delta v = \frac{c}{2f_cMT_{\mathrm{sym}}}`,
+  delayAndDoppler: String.raw`\tau = \frac{2R}{c}\qquad f_D = \frac{2vf_c}{c}`,
+  echoResponse: String.raw`H[k,m] = \alpha\,\exp(-j2\pi k\Delta f\tau)\,\exp(j2\pi f_DmT_{\mathrm{sym}})`,
+  speedOfLight: String.raw`c = 299\,792\,458\;\mathrm{m/s}`,
+  bandwidthSpacing: String.raw`\Delta f = \frac{B}{N}`,
+  symbolDuration: String.raw`T_{\mathrm{sym}} = \frac{1{,}25}{\Delta f}`,
+  qpskRate: String.raw`R_{\mathrm{QPSK}} = \frac{2N}{T_{\mathrm{sym}}}\;\mathrm{bit/s}`,
+  wavelength: String.raw`\lambda = \frac{c}{f_c}\;[\mathrm{m}]`,
+  doppler: String.raw`f_D = \frac{2vf_c}{c}\;[\mathrm{Hz}]`,
+  ber: String.raw`\mathrm{BER} = \frac{\text{bits erróneos}}{\text{bits transmitidos}}`,
+  snr: String.raw`\mathrm{SNR}_{\mathrm{dB}} = 10\log_{10}\!\left(\frac{P_s}{P_n}\right)\;[\mathrm{dB}]`,
+  detectionProbability: String.raw`P_d = P(\text{declarar objetivo}\mid\text{objetivo presente})`,
+  crlb: String.raw`\operatorname{Var}(\hat{R}) \ge \operatorname{CRLB}_{R}\;[\mathrm{m}^2]`,
+} as const;

@@ -5,8 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { EditorialNote as Note, ForumInvitation } from "@/components/EditorialExtras";
 import { SignalDiagram } from "@/components/SignalDiagram";
 import { OfdmExplorer } from "@/components/OfdmExplorer";
-import { Glossary } from "@/components/Glossary";
+import { Formula } from "@/components/Formula";
+import { LazyGlossary } from "@/components/LazyGlossary";
 import { MODULES } from "@/lib/manifest";
+import { FORMULAS } from "@/lib/formulas";
 
 export interface EditorialModule {
   headline: string;
@@ -74,7 +76,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
       { id: "dfrc", title: "OFDM-DFRC: compartir la forma de onda", content: <>
         <p><strong>DFRC</strong> significa Dual-Function Radar-Communication. Su objetivo es que una forma de onda transporte información y permita obtener observaciones del entorno. En OFDM, los datos se distribuyen entre subportadoras ortogonales.</p>
         <p>El eco modifica la fase a través de las subportadoras y los símbolos: esas variaciones contienen información de retardo y Doppler. Conocer la señal transmitida ayuda a separar su contenido de datos de la respuesta del objetivo.</p>
-        <div className="equation"><span>Δf = 1 / T<sub>u</sub></span><small>Separación de subportadoras [Hz] y duración útil del símbolo [s].</small></div>
+        <div className="equation" tabIndex={0}><Formula tex={FORMULAS.subcarrierSpacing} display /><small>Separación de subportadoras [Hz] y duración útil del símbolo [s].</small></div>
         <p>El diseño exige observar varias métricas a la vez. Una mayor tasa de datos no garantiza una mayor precisión de sensing, y mejorar una resolución puede modificar el tiempo de observación necesario.</p>
       </> },
       { id: "arquitecturas", title: "Dónde transmitimos y dónde escuchamos", content: <>
@@ -116,12 +118,12 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         <div className="example-block"><h3>Prueba este compromiso</h3><p>Duplica el ancho de banda manteniendo el número de símbolos. Mejora la resolución de distancia y aumenta la tasa bruta, pero se acorta la observación y empeora la resolución de velocidad. Después duplica los símbolos para recuperar tiempo de observación.</p></div>
       </> },
       { id: "ecuaciones", title: "Las relaciones detrás del resultado", content: <>
-        <div className="equation"><span>ΔR = c / (2B)</span><small>Resolución ideal de distancia [m]. B es el ancho de banda [Hz].</small></div>
-        <div className="equation"><span>Δv = c / (2f<sub>c</sub>MT<sub>sym</sub>)</span><small>Resolución de velocidad [m/s]. M símbolos observados de duración Tsym, incluido el prefijo.</small></div>
-        <div className="equation"><span>τ = 2R / c &nbsp; · &nbsp; f<sub>D</sub> = 2vf<sub>c</sub> / c</span><small>Retardo [s] y Doppler [Hz] para la geometría monostática.</small></div>
-        <p>Usamos c = 299 792 458 m/s, Δf = B/N y T<sub>sym</sub> = 1,25/Δf. La tasa bruta QPSK es 2N/T<sub>sym</sub> bit/s. Los controles mantienen el objetivo dentro del retardo admitido por el prefijo y del intervalo Doppler no ambiguo.</p>
+        <div className="equation" tabIndex={0}><Formula tex={FORMULAS.rangeResolution} display /><small>Resolución ideal de distancia [m]. B es el ancho de banda [Hz].</small></div>
+        <div className="equation" tabIndex={0}><Formula tex={FORMULAS.velocityResolution} display /><small>Resolución de velocidad [m/s]. M símbolos observados de duración Tsym, incluido el prefijo.</small></div>
+        <div className="equation" tabIndex={0}><Formula tex={FORMULAS.delayAndDoppler} display /><small>Retardo [s] y Doppler [Hz] para la geometría monostática.</small></div>
+        <p>Usamos <Formula tex={FORMULAS.speedOfLight} />, <Formula tex={FORMULAS.bandwidthSpacing} /> y <Formula tex={FORMULAS.symbolDuration} />. La tasa bruta QPSK es <Formula tex={FORMULAS.qpskRate} />. Los controles mantienen el objetivo dentro del retardo admitido por el prefijo y del intervalo Doppler no ambiguo.</p>
         <h3>Cómo se construiría el mapa Rango-Doppler</h3><p>En el modelo de baja variación durante cada símbolo, el eco normalizado tiene una fase que depende del índice de subportadora k y del índice de símbolo m.</p>
-        <div className="equation"><span>H[k,m] = α exp(−j2πkΔfτ) exp(j2πf<sub>D</sub>mT<sub>sym</sub>)</span><small>Respuesta ideal de un objetivo después de compensar los símbolos transmitidos.</small></div>
+        <div className="equation" tabIndex={0}><Formula tex={FORMULAS.echoResponse} display /><small>Respuesta ideal de un objetivo después de compensar los símbolos transmitidos.</small></div>
         <p>Con esta convención, aplicamos una IFFT sobre las subportadoras para obtener retardo y una FFT sobre los símbolos para obtener Doppler. El valor absoluto al cuadrado produce el mapa. La distancia y la velocidad se obtienen convirtiendo los ejes a unidades físicas.</p>
       </> },
       { id: "validacion", title: "De la predicción a la simulación", content: <>
@@ -172,7 +174,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
     headline: "Un vocabulario para seguir la señal.",
     introduction: "Consulta las siglas, sus unidades y un ejemplo concreto. Al final encontrarás las lecturas iniciales que acompañan el proyecto.",
     sections: [
-      { id: "conceptos", title: "Glosario esencial", content: <Glossary /> },
+      { id: "conceptos", title: "Glosario esencial", content: <LazyGlossary /> },
       { id: "referencias", title: "Lecturas de referencia", content: <>
         <p>Conservamos las cuatro entradas de la guía. Las fichas sin identificación bibliográfica confirmada se muestran como pendientes.</p>
         <ol className="reference-list">
