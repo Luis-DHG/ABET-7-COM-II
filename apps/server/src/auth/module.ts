@@ -134,9 +134,9 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
       return { status: "PENDING_VERIFICATION" };
     },
 
-    async verifyEmail(token: string): Promise<void> {
+    async verifyEmail(token: string): Promise<AuthSession> {
       const tokenHash = hashOpaqueToken(token);
-      await db.transaction(async (tx) => {
+      return db.transaction(async (tx) => {
         const [record] = await tx.select().from(accountTokens)
           .where(and(
             eq(accountTokens.tokenHash, tokenHash),
@@ -149,7 +149,23 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
         }
         const now = new Date();
         await tx.update(accountTokens).set({ consumedAt: now }).where(eq(accountTokens.id, record.id));
-        await tx.update(users).set({ emailVerifiedAt: now, updatedAt: now }).where(eq(users.id, record.userId));
+        const [user] = await tx.update(users).set({ emailVerifiedAt: now, updatedAt: now })
+          .where(eq(users.id, record.userId)).returning();
+        if (!user) throw new Error("No se pudo verificar el usuario");
+        const refreshToken = createOpaqueToken();
+        await tx.insert(refreshTokens).values({
+          id: randomUUID(),
+          userId: user.id,
+          familyId: randomUUID(),
+          tokenHash: hashOpaqueToken(refreshToken),
+          expiresAt: new Date(now.getTime() + REFRESH_TOKEN_LIFETIME_MS),
+          createdAt: now,
+        });
+        return {
+          user: toPublicUser(user),
+          accessToken: await signAccessToken(toAccessClaims(user), config.jwtAccessSecret),
+          refreshToken,
+        };
       });
     },
 

@@ -29,8 +29,9 @@ export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
 
   router.post("/verify-email", async (request, response) => {
     const { token } = parseWith(tokenSchema, request.body);
-    await auth.verifyEmail(token);
-    response.json({ data: { status: "VERIFIED" } });
+    const session = await auth.verifyEmail(token);
+    setSessionCookies(response, session, config.cookieSecure);
+    response.json({ data: { user: session.user } });
   });
 
   router.post("/resend-verification", async (request, response) => {
@@ -59,6 +60,10 @@ export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
 
   router.get("/session", async (request, response) => {
     const user = await auth.getSession(readCookie(request, ACCESS_COOKIE));
+    if (!user && readCookie(request, REFRESH_COOKIE)) {
+      response.status(401).json({ error: { code: "ACCESS_EXPIRED", message: "La sesión requiere renovación." } });
+      return;
+    }
     response.json({ data: { user } });
   });
 
