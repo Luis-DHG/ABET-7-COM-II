@@ -7,6 +7,7 @@ import { api, ApiError } from "@/lib/http";
 import { formatDateTime } from "@/lib/format";
 import { StatusNotice } from "@/components/StatusNotice";
 import { ConfirmDialog } from "@/pages/admin/ConfirmDialog";
+import { invalidateForumCache } from "@/pages/forum/forumCache";
 
 interface AdminComment {
   id: string;
@@ -77,6 +78,7 @@ export default function AdminCommentsPage() {
     setActionError(null);
     try {
       await api(`/api/admin/comments/${selected.id}`, { method: "PATCH" });
+      invalidateForumCache();
       setComments((current) =>
         current.map((comment) => (comment.id === selected.id ? { ...comment, isRemoved: true } : comment)),
       );

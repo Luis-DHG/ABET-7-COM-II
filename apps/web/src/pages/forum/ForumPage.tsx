@@ -8,31 +8,20 @@ import { useSession } from "@/session/SessionProvider";
 import { StatusNotice } from "@/components/StatusNotice";
 import { CommentComposer } from "@/pages/forum/CommentComposer";
 import { CommentItem } from "@/pages/forum/CommentItem";
+import { appendForumPage, isForumCacheStale, readForumCache, refreshForumCache } from "@/pages/forum/forumCache";
 
 const PAGE_SIZE = 10;
 
-function insertReply(roots: PublicComment[], reply: PublicComment): PublicComment[] {
-  // La respuesta solo se inserta si su padre es visible hoy; si no, la vista
-  // enlaza a la conversación completa (hasDeepConversation).
-  return roots.map((root) => {
-    if (reply.parentId === root.id) {
-      return { ...root, replies: [...root.replies, reply] };
-    }
-    if (root.id === reply.rootId && reply.depth >= 3) {
-      return { ...root, hasDeepConversation: true };
-    }
-    return root;
-  });
-}
-
 export default function ForumPage() {
-  const { status, user } = useSession();
-  const [comments, setComments] = useState<PublicComment[]>([]);
-  const [nextCursor, setNextCursor] = useState<string | null>(null);
-  const [initialLoading, setInitialLoading] = useState(true);
+  const { status, user, online } = useSession();
+  const [comments, setComments] = useState<PublicComment[]>(() => readForumCache().comments);
+  const [nextCursor, setNextCursor] = useState<string | null>(() => readForumCache().nextCursor);
+  const [initialLoading, setInitialLoading] = useState(() => readForumCache().pageCount === 0 && readForumCache().comments.length === 0);
+  const [refreshing, setRefreshing] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [retry, setRetry] = useState(0);
 
   const loadPage = useCallback(async (cursor: string | null, signal?: AbortSignal) => {
     const query = cursor ? `?limit=${PAGE_SIZE}&cursor=${encodeURIComponent(cursor)}` : `?limit=${PAGE_SIZE}`;
@@ -40,29 +29,48 @@ export default function ForumPage() {
   }, []);
 
   useEffect(() => {
+    if (retry === 0 && !isForumCacheStale()) return;
     const controller = new AbortController();
-    setInitialLoading(true);
-    loadPage(null, controller.signal)
-      .then(({ data, meta }) => {
-        setComments(data);
-        setNextCursor(meta?.nextCursor ?? null);
+    let active = true;
+    setRefreshing(true);
+    refreshForumCache(loadPage, controller.signal)
+      .then((cached) => {
+        if (!active) return;
+        setComments(cached.comments);
+        setNextCursor(cached.nextCursor);
         setError(null);
       })
       .catch((err: unknown) => {
+        if (!active) return;
         if (err instanceof DOMException && err.name === "AbortError") return;
         setError(err instanceof ApiError ? err.message : "No se pudieron cargar los comentarios.");
       })
-      .finally(() => setInitialLoading(false));
-    return () => controller.abort();
-  }, [loadPage]);
+      .finally(() => {
+        if (!active) return;
+        setInitialLoading(false);
+        setRefreshing(false);
+      });
+    return () => {
+      active = false;
+      controller.abort();
+    };
+  }, [loadPage, retry]);
+
+  useEffect(() => {
+    const retryOnline = () => setRetry((current) => current + 1);
+    window.addEventListener("online", retryOnline);
+    return () => window.removeEventListener("online", retryOnline);
+  }, []);
 
   async function loadMore() {
-    if (!nextCursor || loadingMore) return;
+    if (!nextCursor || loadingMore || refreshing) return;
     setLoadingMore(true);
     try {
       const { data, meta } = await loadPage(nextCursor);
-      setComments((current) => [...current, ...data]);
-      setNextCursor(meta?.nextCursor ?? null);
+      const cached = appendForumPage(data, meta?.nextCursor ?? null);
+      setComments(cached.comments);
+      setNextCursor(cached.nextCursor);
+      setError(null);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "No se pudieron cargar más comentarios.");
     } finally {
@@ -71,11 +79,19 @@ export default function ForumPage() {
   }
 
   const handlePublished = useCallback((comment: PublicComment) => {
+    const cached = readForumCache();
+    setComments(cached.comments);
+    setNextCursor(cached.nextCursor);
+    setError(null);
+    if (cached.pageCount === 0) {
+      setInitialLoading(false);
+    }
+    if (isForumCacheStale()) {
+      setRetry((current) => current + 1);
+    }
     if (comment.depth === 1) {
-      setComments((current) => [comment, ...current]);
       setNotice("Tu comentario fue publicado.");
     } else {
-      setComments((current) => insertReply(current, comment));
       if (comment.depth >= 3) {
         setNotice("Tu respuesta fue publicada en la conversación completa.");
       } else {
@@ -84,7 +100,7 @@ export default function ForumPage() {
     }
   }, []);
 
-  const canPublish = status === "authenticated" && Boolean(user?.emailVerified) && !user?.isBanned;
+  const canPublish = status === "authenticated" && Boolean(user?.emailVerified) && !user?.isBanned && online;
 
   return (
     <div className="space-y-8">
@@ -101,7 +117,20 @@ export default function ForumPage() {
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <section aria-label="Comentarios" className="space-y-6 min-w-0">
-          <ParticipationBox canPublish={canPublish} onPublished={handlePublished} />
+          <ParticipationBox canPublish={canPublish} disabled={Boolean(error)} onPublished={handlePublished} />
+
+          {refreshing && comments.length > 0 ? (
+            <p role="status" className="text-sm text-muted-foreground">Actualizando comentarios…</p>
+          ) : null}
+
+          {error && comments.length > 0 ? (
+            <StatusNotice tone="warning" title="Lectura sin actualizar">
+              {error} Los comentarios mostrados siguen disponibles.{" "}
+              <Button variant="outline" size="sm" className="ml-2" onClick={() => setRetry((current) => current + 1)}>
+                Reintentar
+              </Button>
+            </StatusNotice>
+          ) : null}
 
           {initialLoading ? (
             <div className="space-y-4" aria-label="Cargando comentarios">
@@ -112,7 +141,7 @@ export default function ForumPage() {
           ) : error && comments.length === 0 ? (
             <StatusNotice tone="destructive" title="No se pudieron cargar los comentarios">
               {error}{" "}
-              <Button variant="outline" size="sm" className="ml-2" onClick={() => window.location.reload()}>
+              <Button variant="outline" size="sm" className="ml-2" onClick={() => setRetry((current) => current + 1)}>
                 Reintentar
               </Button>
             </StatusNotice>
@@ -127,14 +156,14 @@ export default function ForumPage() {
               <ol className="divide-y divide-border rounded-lg border bg-card">
                 {comments.map((comment) => (
                   <div key={comment.id} className="px-4 sm:px-6">
-                    <CommentItem comment={comment} canReply={canPublish} onReplyPublished={handlePublished} />
+                    <CommentItem comment={comment} canReply={canPublish && !error} onReplyPublished={handlePublished} />
                   </div>
                 ))}
               </ol>
 
               {nextCursor ? (
                 <div className="text-center">
-                  <Button variant="outline" onClick={() => void loadMore()} disabled={loadingMore}>
+                  <Button variant="outline" onClick={() => void loadMore()} disabled={loadingMore || refreshing}>
                     {loadingMore ? "Cargando…" : "Cargar más"}
                   </Button>
                 </div>
@@ -167,9 +196,11 @@ export default function ForumPage() {
 
 function ParticipationBox({
   canPublish,
+  disabled,
   onPublished,
 }: {
   canPublish: boolean;
+  disabled: boolean;
   onPublished: (comment: PublicComment) => void;
 }) {
   const { status, user, online } = useSession();
@@ -249,7 +280,7 @@ function ParticipationBox({
 
   return (
     <div className="rounded-lg border bg-card p-6">
-      <CommentComposer onPublished={onPublished} />
+      <CommentComposer disabled={disabled} onPublished={onPublished} />
     </div>
   );
 }

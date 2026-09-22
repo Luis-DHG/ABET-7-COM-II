@@ -98,6 +98,7 @@ export const CommentItem = memo(function CommentItem({
             <CommentComposer
               parentId={comment.id}
               autoFocus
+              disabled={!canReply}
               onCancel={() => setReplying(false)}
               onPublished={(published) => {
                 setReplying(false);

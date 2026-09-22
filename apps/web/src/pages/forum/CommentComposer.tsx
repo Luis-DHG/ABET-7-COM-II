@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { api, ApiError } from "@/lib/http";
+import { publishForumComment } from "@/pages/forum/forumCache";
 
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 2000;
@@ -13,11 +14,13 @@ let composerCounter = 0;
 export function CommentComposer({
   parentId,
   autoFocus = false,
+  disabled = false,
   onPublished,
   onCancel,
 }: {
   parentId?: string;
   autoFocus?: boolean;
+  disabled?: boolean;
   onPublished: (comment: PublicComment) => void;
   onCancel?: () => void;
 }) {
@@ -38,6 +41,7 @@ export function CommentComposer({
   }, [cooldown]);
 
   async function publish() {
+    if (disabled) return;
     setError(null);
     setPending(true);
     try {
@@ -46,6 +50,7 @@ export function CommentComposer({
         body: { body, ...(parentId ? { parentId } : {}) },
       });
       setBody("");
+      publishForumComment(data);
       onPublished(data);
       announcementRef.current?.focus();
     } catch (error_) {
@@ -98,7 +103,7 @@ export function CommentComposer({
       ) : null}
 
       <div className="flex items-center gap-2">
-        <Button onClick={() => void publish()} disabled={pending || !valid || cooldown > 0}>
+        <Button onClick={() => void publish()} disabled={disabled || pending || !valid || cooldown > 0}>
           {pending ? "Publicando…" : parentId ? "Publicar respuesta" : "Publicar comentario"}
         </Button>
         {onCancel ? (
