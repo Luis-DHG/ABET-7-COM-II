@@ -1,0 +1,23 @@
+{
+  "name": "blogdpc",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @blogdpc/contracts build && pnpm --filter @blogdpc/server build",
+    "check": "pnpm --filter @blogdpc/contracts check && pnpm --filter @blogdpc/contracts build && pnpm --filter @blogdpc/server check",
+    "dev": "pnpm --filter @blogdpc/contracts build && pnpm --filter @blogdpc/server dev",
+    "start": "pnpm --filter @blogdpc/server start",
+    "test": "pnpm --filter @blogdpc/contracts build && pnpm --filter @blogdpc/server test",
+    "db:audit": "pnpm --filter @blogdpc/server db:audit",
+    "db:cleanup": "pnpm --filter @blogdpc/server db:cleanup",
+    "db:generate": "pnpm --filter @blogdpc/server db:generate",
+    "db:migrate": "pnpm --filter @blogdpc/server db:migrate",
+    "db:provision-role": "pnpm --filter @blogdpc/server db:provision-role",
+    "db:verify": "pnpm --filter @blogdpc/server db:verify",
+    "admin:create": "pnpm --filter @blogdpc/server admin:create"
+  }
+}

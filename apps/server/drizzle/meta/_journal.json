@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790020663533,
+      "tag": "0000_black_molly_hayes",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790022759710,
+      "tag": "0001_database_plan_hardening",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790023996733,
+      "tag": "0002_restrict_backend_inserts",
+      "breakpoints": true
+    }
+  ]
+}
