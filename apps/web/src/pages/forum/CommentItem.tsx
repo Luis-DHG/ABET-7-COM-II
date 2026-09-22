@@ -1,6 +1,7 @@
 import { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
+import { MAX_COMMENT_DEPTH } from "@blogdpc/contracts/constants";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,8 @@ export const CommentItem = memo(function CommentItem({
 
   return (
     <li
+      id={`comment-${comment.id}`}
+      tabIndex={-1}
       className={cn(comment.depth > 1 && "border-l-2 border-border pl-4", "list-none")}
       style={comment.depth > 1 ? { marginLeft: `${depthIndent * 0.75}rem` } : undefined}
     >
@@ -72,7 +75,7 @@ export const CommentItem = memo(function CommentItem({
         </p>
 
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          {canReply && !comment.isRemoved ? (
+          {canReply && !comment.isRemoved && comment.depth < MAX_COMMENT_DEPTH ? (
             <Button
               variant="ghost"
               size="sm"

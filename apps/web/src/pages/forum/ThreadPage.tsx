@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,6 +10,7 @@ import { CommentItem } from "@/pages/forum/CommentItem";
 
 export default function ThreadPage() {
   const { rootId } = useParams();
+  const { hash } = useLocation();
   const { status, user } = useSession();
   const [thread, setThread] = useState<PublicComment | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,15 @@ export default function ThreadPage() {
   }, [rootId]);
 
   const canReply = status === "authenticated" && Boolean(user?.emailVerified) && !user?.isBanned;
+  const threadId = thread?.id;
+
+  useEffect(() => {
+    if (!threadId || !hash.startsWith("#comment-")) return;
+    const element = document.getElementById(hash.slice(1));
+    if (!element) return;
+    element.scrollIntoView({ block: "center" });
+    element.focus();
+  }, [threadId, hash]);
 
   const handleReplyPublished = useCallback((_comment: PublicComment) => {
     // Releer el hilo para reflejar el árbol definitivo del servidor.

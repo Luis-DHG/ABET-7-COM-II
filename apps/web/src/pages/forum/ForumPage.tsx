@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,6 +14,7 @@ const PAGE_SIZE = 10;
 
 export default function ForumPage() {
   const { status, user, online } = useSession();
+  const navigate = useNavigate();
   const [comments, setComments] = useState<PublicComment[]>(() => readForumCache().comments);
   const [nextCursor, setNextCursor] = useState<string | null>(() => readForumCache().nextCursor);
   const [initialLoading, setInitialLoading] = useState(() => readForumCache().pageCount === 0 && readForumCache().comments.length === 0);
@@ -91,14 +92,12 @@ export default function ForumPage() {
     }
     if (comment.depth === 1) {
       setNotice("Tu comentario fue publicado.");
+    } else if (comment.depth >= 3) {
+      navigate(`/retroalimentacion/${comment.rootId}#comment-${comment.id}`);
     } else {
-      if (comment.depth >= 3) {
-        setNotice("Tu respuesta fue publicada en la conversación completa.");
-      } else {
-        setNotice("Tu respuesta fue publicada.");
-      }
+      setNotice("Tu respuesta fue publicada.");
     }
-  }, []);
+  }, [navigate]);
 
   const canPublish = status === "authenticated" && Boolean(user?.emailVerified) && !user?.isBanned && online;
 

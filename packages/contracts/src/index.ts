@@ -22,6 +22,8 @@ export const resetPasswordSchema = tokenSchema.extend({
   password,
 }).strict();
 
+export { MAX_COMMENT_DEPTH } from "./constants.js";
+
 export const createCommentSchema = z.object({
   body: z.string().max(4000),
   parentId: z.string().uuid().optional(),

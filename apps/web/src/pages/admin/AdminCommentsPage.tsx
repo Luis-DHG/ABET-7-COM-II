@@ -13,12 +13,16 @@ interface AdminComment {
   id: string;
   rootId: string;
   parentId: string | null;
+  depth: number;
   body: string;
   isRemoved: boolean;
   createdAt: string;
   authorId: string;
   authorName: string;
   authorEmail: string;
+  parentAuthorName: string | null;
+  parentExcerpt: string | null;
+  parentIsRemoved: boolean | null;
 }
 
 type StatusFilter = "ALL" | "ACTIVE" | "REMOVED";
@@ -145,15 +149,31 @@ export default function AdminCommentsPage() {
                 <time dateTime={comment.createdAt} className="text-xs text-muted-foreground">
                   {formatDateTime(comment.createdAt)}
                 </time>
+                {comment.depth === 1 ? (
+                  <Badge variant="outline">Principal</Badge>
+                ) : (
+                  <Badge variant="secondary">Respuesta · nivel {comment.depth}</Badge>
+                )}
                 {comment.isRemoved ? <Badge variant="secondary">Retirado</Badge> : <Badge>Activo</Badge>}
               </div>
+              {comment.depth > 1 ? (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Responde a {comment.parentAuthorName ?? "otro usuario"}: “{comment.parentExcerpt}”
+                  {comment.parentIsRemoved ? " · comentario retirado" : ""}
+                </p>
+              ) : null}
               <p className="mt-2 max-w-prose whitespace-pre-line text-sm leading-relaxed">
                 {comment.body.length > 240 ? `${comment.body.slice(0, 240)}…` : comment.body}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Button asChild variant="outline" size="sm">
-                  <Link to={`/retroalimentacion/${comment.rootId}`}>Ver en contexto</Link>
+                  <Link to={`/retroalimentacion/${comment.rootId}#comment-${comment.id}`}>Ver hilo</Link>
                 </Button>
+                {comment.parentId ? (
+                  <Button asChild variant="outline" size="sm">
+                    <Link to={`/retroalimentacion/${comment.rootId}#comment-${comment.parentId}`}>Ver padre</Link>
+                  </Button>
+                ) : null}
                 {!comment.isRemoved ? (
                   <Button variant="destructive" size="sm" onClick={() => setSelected(comment)}>
                     Retirar comentario

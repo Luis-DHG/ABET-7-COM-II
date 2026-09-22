@@ -1,9 +1,14 @@
-import { and, desc, eq, ilike, isNull, lt, or } from "drizzle-orm";
+import { and, desc, eq, ilike, isNull, lt, or, sql } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import type { AdminCommentsQuery, AdminUsersQuery } from "@blogdpc/contracts";
 import type { Database } from "../db/client.js";
 import { comments, users } from "../db/schema.js";
 import { decodeCursor, encodeCursor } from "../http/cursor.js";
 import { AppError } from "../http/errors.js";
+
+// Contexto del padre para moderación (plan.md §Sprint 2): join único, sin árbol.
+const parentComments = alias(comments, "parent_comment");
+const parentAuthors = alias(users, "parent_author");
 
 async function ensureAdmin(db: Database, actorId: string): Promise<void> {
   const [actor] = await db.select({ role: users.role }).from(users).where(eq(users.id, actorId)).limit(1);
@@ -32,14 +37,20 @@ export function createAdminModule(db: Database) {
         id: comments.id,
         rootId: comments.rootId,
         parentId: comments.parentId,
+        depth: sql<number>`extensions.nlevel(${comments.path})`.mapWith(Number),
         body: comments.body,
         isRemoved: comments.isRemoved,
         createdAt: comments.createdAt,
         authorId: users.id,
         authorName: users.displayName,
         authorEmail: users.email,
+        parentAuthorName: parentAuthors.displayName,
+        parentBody: parentComments.body,
+        parentIsRemoved: parentComments.isRemoved,
       }).from(comments)
         .innerJoin(users, eq(comments.authorId, users.id))
+        .leftJoin(parentComments, eq(comments.parentId, parentComments.id))
+        .leftJoin(parentAuthors, eq(parentComments.authorId, parentAuthors.id))
         .where(and(cursorCondition, statusCondition))
         .orderBy(desc(comments.createdAt), desc(comments.id))
         .limit(query.limit + 1);
@@ -47,7 +58,11 @@ export function createAdminModule(db: Database) {
       const page = hasMore ? rows.slice(0, query.limit) : rows;
       const last = page.at(-1);
       return {
-        comments: page.map((row) => ({ ...row, createdAt: row.createdAt.toISOString() })),
+        comments: page.map(({ parentBody, ...row }) => ({
+          ...row,
+          parentExcerpt: parentBody === null ? null : parentBody.slice(0, 120),
+          createdAt: row.createdAt.toISOString(),
+        })),
         nextCursor: hasMore && last ? encodeCursor({ createdAt: last.createdAt, id: last.id }) : null,
       };
     },

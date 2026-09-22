@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { and, asc, desc, eq, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import type { CommentsQuery, CreateCommentInput, PublicComment } from "@blogdpc/contracts";
+import { MAX_COMMENT_DEPTH } from "@blogdpc/contracts";
 import type { Database } from "../db/client.js";
 import { comments, users } from "../db/schema.js";
 import { decodeCursor, encodeCursor } from "../http/cursor.js";
@@ -156,7 +157,7 @@ export function createForumModule(db: Database) {
           const [parent] = await tx.select().from(comments)
             .where(eq(comments.id, input.parentId)).limit(1).for("update");
           if (!parent) throw new AppError(404, "PARENT_NOT_FOUND", "El comentario al que respondes no existe.");
-          if (depthOf(parent.path) >= 6) {
+          if (depthOf(parent.path) >= MAX_COMMENT_DEPTH) {
             throw new AppError(409, "MAX_THREAD_DEPTH", "La conversación alcanzó el máximo de seis niveles.");
           }
           parentId = parent.id;
