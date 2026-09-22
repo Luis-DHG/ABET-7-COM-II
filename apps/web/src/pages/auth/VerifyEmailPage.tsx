@@ -1,37 +1,54 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import type { PublicUser } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
 import { api, ApiError } from "@/lib/http";
 import { StatusNotice } from "@/components/StatusNotice";
 import { AuthShell } from "@/pages/auth/LoginPage";
+import { useSession } from "@/session/SessionProvider";
 
 type State = "processing" | "verified" | "invalid" | "network";
 
 export default function VerifyEmailPage() {
   const [params] = useSearchParams();
+  const [token] = useState(() => params.get("token") ?? "");
+  const { setUser, user } = useSession();
   const [state, setState] = useState<State>("processing");
-  const attempted = useRef(false);
 
   useEffect(() => {
     // El token se captura una vez y se retira de la URL visible (plan §7.5).
-    const token = params.get("token") ?? "";
     window.history.replaceState(null, "", "/verificar-correo");
     if (!token) {
       setState("invalid");
       return;
     }
-    if (attempted.current) return;
-    attempted.current = true;
 
     const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
+    let disposed = false;
     api("/api/auth/verify-email", { method: "POST", body: { token }, signal: controller.signal })
-      .then(() => setState("verified"))
+      .then(() => {
+        setState("verified");
+        void api<{ user: PublicUser | null }>("/api/auth/session")
+          .then(({ data }) => {
+            if (data.user) setUser(data.user);
+          })
+          .catch(() => undefined);
+      })
       .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === "AbortError") return;
+        if (error instanceof DOMException && error.name === "AbortError") {
+          if (!disposed) setState("network");
+          return;
+        }
         setState(error instanceof ApiError && error.isNetwork ? "network" : "invalid");
-      });
-    return () => controller.abort();
-  }, [params]);
+      })
+      .finally(() => window.clearTimeout(timeout));
+    return () => {
+      disposed = true;
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, [setUser, token]);
 
   return (
     <AuthShell title="Verificación de correo">
@@ -43,10 +60,21 @@ export default function VerifyEmailPage() {
 
       {state === "verified" ? (
         <StatusNotice tone="success" title="Correo verificado">
-          Tu cuenta quedó verificada. Ya puedes publicar en la retroalimentación.{" "}
-          <Link to="/retroalimentacion" className="text-primary underline underline-offset-4">
-            Ir a la retroalimentación
-          </Link>
+          {user ? (
+            <>
+              Tu cuenta quedó verificada. Ya puedes publicar en la retroalimentación.{" "}
+              <Link to="/retroalimentacion" className="text-primary underline underline-offset-4">
+                Ir a la retroalimentación
+              </Link>
+            </>
+          ) : (
+            <>
+              Tu cuenta quedó verificada. Ahora ingresa para participar.{" "}
+              <Link to="/login" className="text-primary underline underline-offset-4">
+                Ir a ingresar
+              </Link>
+            </>
+          )}
         </StatusNotice>
       ) : null}
 

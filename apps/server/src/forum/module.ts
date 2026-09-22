@@ -134,8 +134,7 @@ export function createForumModule(db: Database) {
         if (!author.emailVerifiedAt) throw new AppError(403, "EMAIL_NOT_VERIFIED", "Verifica tu correo antes de publicar.");
         if (author.isBanned) throw new AppError(403, "USER_BANNED", "Tu cuenta está suspendida para publicar.");
 
-        const clock = await tx.execute<{ now: Date }>(sql`select now() as now`);
-        const now = clock[0]?.now ?? new Date();
+        const now = new Date();
         const [latest] = await tx.select({ createdAt: comments.createdAt }).from(comments)
           .where(eq(comments.authorId, authorId))
           .orderBy(desc(comments.createdAt)).limit(1);
