@@ -1,0 +1,70 @@
+name: blogdpc
+
+# Despliegue local aislado: `docker compose up --build`
+# Página disponible en http://localhost:3000 (el server sirve apps/web/dist).
+# Bandeja de correos de prueba (Mailpit UI): http://localhost:8025
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: blogdpc
+      POSTGRES_PASSWORD: blogdpc
+      POSTGRES_DB: blogdpc
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blogdpc -d blogdpc"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    # Valores por defecto para local; se pueden sobrescribir con un archivo `.env`
+    # en la raíz (ver `.env.example`). `env_file` es opcional.
+    env_file:
+      - path: ./.env
+        required: false
+    environment:
+      PORT: "3000"
+      APP_ORIGIN: "http://localhost:3000"
+      DATABASE_URL: "postgresql://blogdpc:blogdpc@postgres:5432/blogdpc"
+      DATABASE_SSL: "false"
+      DATABASE_PREPARE: "true"
+      DB_MAX_CONNECTIONS: "5"
+      JWT_ACCESS_SECRET: "dev-local-secret-cambiar-minimo-32-chars-123456"
+      COOKIE_SECURE: "false"
+      TRUST_PROXY_HOPS: "1"
+      SMTP_HOST: "mailpit"
+      SMTP_PORT: "1025"
+      SMTP_USER: "dev@local.test"
+      SMTP_APP_PASSWORD: "devpassword"
+      MAIL_FROM: "BlogDPC ISAC <dev@local.test>"
+      GOOGLE_CLIENT_ID: "local-dev"
+      GOOGLE_CLIENT_SECRET: "local-dev"
+      GOOGLE_REDIRECT_URI: "http://localhost:3000/api/auth/google/callback"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health/live').then((r)=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  pgdata:
