@@ -1,17 +1,15 @@
-# Graph Report - Blog  (2026-09-29)
+# Graph Report - Blog  (2026-10-05)
 
 ## Corpus Check
-- 120 files · ~39,401 words
-- Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 5 file(s) not represented in the graph (top: (none) 4, .css 1)
+- cluster-only mode — file stats not available
 
 ## Summary
-- 752 nodes · 1632 edges · 48 communities (41 shown, 7 thin omitted)
+- 795 nodes · 1686 edges · 51 communities (45 shown, 6 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 32 edges (avg confidence: 0.77)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3c638654`
+- Built from commit: `00320e8e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,14 +19,14 @@
 - verify-session.db.test.ts
 - sprint0-baseline.ts
 - auth/module.ts
-- app.ts
-- config.ts
+- auth/routes.ts
+- BibliometricMap.tsx
 - AppShell.tsx
 - src/index.ts
-- provision-role.ts
+- migrate.ts
 - components.json
 - compilerOptions
-- scripts
+- Requirement: Contenido editorial y recursos implementados en los siete módulos
 - contracts/package.json
 - server/package.json
 - web/package.json
@@ -52,30 +50,33 @@
 - BlogDPC — Sensing & Communications (ISAC)
 - .oxlintrc.json
 - web/tsconfig.json
-- ref_node_path
+- postgres
 - Plantilla React + TypeScript + Vite
-- schema.ts
+- AppError
 - drizzle-kit
 - OpenSpec schema: spec-driven
 - Regla de idioma: artefactos en español
 - allowBuilds: esbuild
 - nodeLinker: hoisted
-- verify.ts
-- OfdmExplorer.tsx
+- app.ts
+- Proposal
 - start-dev.ps1
-- createSessionGate
+- Design
+- provision-role.ts
+- ref_node_path
+- Tasks
 
 ## God Nodes (most connected - your core abstractions)
-1. `Button()` - 40 edges
-2. `react` - 35 edges
+1. `Button()` - 42 edges
+2. `react` - 37 edges
 3. `api()` - 33 edges
 4. `StatusNotice()` - 29 edges
 5. `AppError` - 22 edges
-6. `react-router-dom` - 19 edges
-7. `App()` - 19 edges
+6. `App()` - 19 edges
+7. `react-router-dom` - 19 edges
 8. `compilerOptions` - 19 edges
 9. `Header()` - 17 edges
-10. `scripts` - 15 edges
+10. `ApiError` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Despliegue` --references--> `BlogDPC — Sensing & Communications (ISAC)`  [INFERRED]
@@ -97,47 +98,47 @@
 - **Renovación y contención de la sesión del navegador** — openspec_specs_autenticacion_rotacion_de_refresh_con_revocacion_de_familia, openspec_specs_sesion_web_renovacion_unica_ante_401, openspec_specs_autenticacion_cookies_seguras_y_origen_verificado [INFERRED 0.75]
 - **Flujo de moderación y estado de usuarios del foro** — openspec_specs_foro_retroalimentacion_suspension_preserva_la_lectura, openspec_specs_moderacion_administracion_gestion_de_usuarios, openspec_specs_moderacion_administracion_acceso_restringido_por_rol [INFERRED 0.85]
 
-## Communities (48 total, 7 thin omitted)
+## Communities (51 total, 6 thin omitted)
 
 ### Community 0 - "App.tsx"
-Cohesion: 0.07
-Nodes (82): AdminCommentsPage, AdminFallback(), AdminUsersPage, App(), RouteErrorBoundary(), FieldError(), ICONS, StatusNotice() (+74 more)
+Cohesion: 0.06
+Nodes (86): AdminCommentsPage, AdminFallback(), AdminUsersPage, App(), RouteErrorBoundary(), FieldError(), ICONS, StatusNotice() (+78 more)
 
 ### Community 1 - "moduleContent.tsx"
-Cohesion: 0.08
-Nodes (35): EditorialNote(), ForumInvitation(), Formula(), Glossary(), normalize(), terms, Glossary, LazyGlossary() (+27 more)
+Cohesion: 0.09
+Nodes (25): EditorialNote(), ForumInvitation(), Formula(), Glossary(), normalize(), terms, Glossary, LazyGlossary() (+17 more)
 
 ### Community 2 - "verify-session.db.test.ts"
-Cohesion: 0.24
-Nodes (10): config, Fixture, startApp(), createDatabase(), Database, requirePostgresUrl(), ref_node_assert, ref_node_http (+2 more)
+Cohesion: 0.13
+Nodes (19): config, Fixture, startApp(), createDatabase(), accountTokens, appRole, appSchema, comments (+11 more)
 
 ### Community 3 - "sprint0-baseline.ts"
-Cohesion: 0.12
-Nodes (13): client, currentDirectory, databaseUrl, isLocal, migrationsFolder, client, databaseUrl, isLocal (+5 more)
+Cohesion: 0.20
+Nodes (7): client, databaseUrl, isLocal, result, SectionResult, startedAt, ref_node_fs
 
 ### Community 4 - "auth/module.ts"
-Cohesion: 0.15
-Nodes (26): AccessClaims, accessClaimsSchema, createOpaqueToken(), deriveKey(), GoogleState, googleStateSchema, hashOpaqueToken(), hashPassword() (+18 more)
+Cohesion: 0.17
+Nodes (24): AccessClaims, accessClaimsSchema, createOpaqueToken(), deriveKey(), GoogleState, googleStateSchema, hashOpaqueToken(), hashPassword() (+16 more)
 
-### Community 5 - "app.ts"
-Cohesion: 0.09
-Nodes (44): AdminModule, createAdminModule(), ensureAdmin(), parentAuthors, parentComments, createAdminRouter(), uuidSchema, createApp() (+36 more)
+### Community 5 - "auth/routes.ts"
+Cohesion: 0.14
+Nodes (25): createAdminRouter(), uuidSchema, AuthModule, createAuthRouter(), createForumRouter(), ACCESS_COOKIE, clearSessionCookies(), GOOGLE_STATE_COOKIE (+17 more)
 
-### Community 6 - "config.ts"
+### Community 6 - "BibliometricMap.tsx"
 Cohesion: 0.15
-Nodes (12): AppConfig, booleanFromEnv, envSchema, loadConfig(), createMailer(), escapeHtml(), renderAuthEmail(), app (+4 more)
+Nodes (12): BibliometricMap(), CLUSTER_NOTES, COLORS, MapTerm, number(), VOSItem, VOSLink, VOSNetwork (+4 more)
 
 ### Community 7 - "AppShell.tsx"
-Cohesion: 0.20
-Nodes (20): AppShell(), Footer(), Header(), OfflineBanner(), DropdownMenu(), DropdownMenuContent(), DropdownMenuItem(), DropdownMenuLabel() (+12 more)
+Cohesion: 0.11
+Nodes (35): AppShell(), Footer(), Header(), OfflineBanner(), ModuleLayout(), ModuleProgress(), PreviousNext(), useIsDesktop() (+27 more)
 
 ### Community 8 - "src/index.ts"
 Cohesion: 0.09
 Nodes (22): MAX_COMMENT_DEPTH, AdminCommentsQuery, adminCommentsQuerySchema, AdminUsersQuery, adminUsersQuerySchema, CommentsQuery, commentsQuerySchema, CreateCommentInput (+14 more)
 
-### Community 9 - "provision-role.ts"
-Cohesion: 0.14
-Nodes (11): client, databaseUrl, isLocal, client, databaseUrl, isLocal, client, databaseUrl (+3 more)
+### Community 9 - "migrate.ts"
+Cohesion: 0.29
+Nodes (6): client, currentDirectory, databaseUrl, isLocal, migrationsFolder, ref_node_url
 
 ### Community 10 - "components.json"
 Cohesion: 0.09
@@ -147,25 +148,25 @@ Nodes (21): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent 
 Cohesion: 0.10
 Nodes (20): compilerOptions, allowArbitraryExtensions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection (+12 more)
 
-### Community 12 - "scripts"
-Cohesion: 0.10
-Nodes (20): engines, node, name, packageManager, private, scripts, admin:create, build (+12 more)
+### Community 12 - "Requirement: Contenido editorial y recursos implementados en los siete módulos"
+Cohesion: 0.09
+Nodes (21): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Contenido editorial y recursos implementados en los siete módulos, Requirement: Contenido reservado hasta aprobación, Requirement: El mini-caso evalúa el trade-off OFDM-DFRC, Requirement: Navegación secuencial de los siete módulos, Scenario: El estado del arte enlaza aplicaciones y fundamentos técnicos (+13 more)
 
 ### Community 13 - "contracts/package.json"
 Cohesion: 0.10
 Nodes (20): import, types, dependencies, zod, devDependencies, typescript, exports, ./constants (+12 more)
 
 ### Community 14 - "server/package.json"
-Cohesion: 0.12
-Nodes (16): @blogdpc/contracts, @types/node, typescript, zod, main, name, private, type (+8 more)
+Cohesion: 0.11
+Nodes (17): @blogdpc/contracts, @types/node, typescript, zod, main, name, private, type (+9 more)
 
 ### Community 15 - "web/package.json"
-Cohesion: 0.10
-Nodes (19): @blogdpc/contracts, @types/node, typescript, name, private, type, version, @fontsource-variable/inter (+11 more)
+Cohesion: 0.11
+Nodes (18): @blogdpc/contracts, @types/node, typescript, name, private, type, version, @fontsource-variable/inter (+10 more)
 
 ### Community 16 - "dependencies"
-Cohesion: 0.12
-Nodes (17): dependencies, @blogdpc/contracts, class-variance-authority, cn, @fontsource-variable/inter, katex, lucide-react, @radix-ui/react-avatar (+9 more)
+Cohesion: 0.11
+Nodes (19): dependencies, @blogdpc/contracts, class-variance-authority, cn, @fontsource-variable/inter, graphology, katex, lucide-react (+11 more)
 
 ### Community 17 - "compilerOptions"
 Cohesion: 0.12
@@ -176,8 +177,8 @@ Cohesion: 0.13
 Nodes (15): scripts, admin:create, build, check, db:audit, db:cleanup, db:generate, db:migrate (+7 more)
 
 ### Community 19 - "forum/module.ts"
-Cohesion: 0.21
-Nodes (11): CommentRow, createForumModule(), depthOf(), normalizeCommentBody(), publicSelection, toPublic(), buildCommentTree(), FlatPublicComment (+3 more)
+Cohesion: 0.20
+Nodes (11): CommentRow, depthOf(), ForumModule, normalizeCommentBody(), publicSelection, toPublic(), buildCommentTree(), FlatPublicComment (+3 more)
 
 ### Community 20 - "dependencies"
 Cohesion: 0.17
@@ -243,45 +244,61 @@ Nodes (5): plugins, rules, react/only-export-components, react/rules-of-hooks, $
 Cohesion: 0.40
 Nodes (4): compilerOptions, paths, files, references
 
-### Community 36 - "ref_node_path"
-Cohesion: 0.40
-Nodes (4): ref_node_path, @tailwindcss/vite, vite, @vitejs/plugin-react
+### Community 36 - "postgres"
+Cohesion: 0.22
+Nodes (7): client, databaseUrl, isLocal, client, databaseUrl, isLocal, postgres
 
 ### Community 37 - "Plantilla React + TypeScript + Vite"
 Cohesion: 0.67
 Nodes (3): Configuración de Oxlint, Plantilla React + TypeScript + Vite, React Compiler
 
-### Community 38 - "schema.ts"
-Cohesion: 0.18
-Nodes (11): accountTokens, appRole, appSchema, comments, ltree, refreshTokens, users, database (+3 more)
+### Community 38 - "AppError"
+Cohesion: 0.14
+Nodes (21): AdminModule, createAdminModule(), ensureAdmin(), parentAuthors, parentComments, createApp(), createForumModule(), Cursor (+13 more)
 
-### Community 44 - "verify.ts"
-Cohesion: 0.18
-Nodes (6): createdUserIds, database, databaseUrl, isLocal, migrationsFolder, Mailer
+### Community 44 - "app.ts"
+Cohesion: 0.10
+Nodes (20): AppConfig, booleanFromEnv, envSchema, loadConfig(), Database, createdUserIds, database, databaseUrl (+12 more)
 
-### Community 45 - "OfdmExplorer.tsx"
-Cohesion: 0.46
-Nodes (5): controls, number(), OfdmExplorer(), OFDM_DEFAULTS, ofdmMetrics()
+### Community 45 - "Proposal"
+Cohesion: 0.25
+Nodes (7): Capabilities, Impact, Modified Capabilities, New Capabilities, Proposal, What Changes, Why
+
+### Community 47 - "Design"
+Cohesion: 0.33
+Nodes (5): Context, Decisions, Design, Goals / Non-Goals, Risks / Trade-offs
+
+### Community 48 - "provision-role.ts"
+Cohesion: 0.40
+Nodes (4): client, databaseUrl, input, isLocal
+
+### Community 49 - "ref_node_path"
+Cohesion: 0.40
+Nodes (4): ref_node_path, @tailwindcss/vite, vite, @vitejs/plugin-react
+
+### Community 50 - "Tasks"
+Cohesion: 0.50
+Nodes (3): 1. Verificación de la base y el alcance, 2. Validación y sincronización OpenSpec, Tasks
 
 ## Knowledge Gaps
-- **316 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+311 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 363 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **331 isolated node(s):** `Tone`, `ApiOptions`, `ApiResult`, `SessionInvalidListener`, `AdminComment` (+326 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 385 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `App.tsx` to `moduleContent.tsx`, `AppShell.tsx`, `OfdmExplorer.tsx`, `web/package.json`, `dialog.tsx`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
-- **Why does `drizzle-orm` connect `schema.ts` to `verify-session.db.test.ts`, `sprint0-baseline.ts`, `auth/module.ts`, `app.ts`, `verify.ts`, `server/package.json`, `forum/module.ts`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
+- **Why does `react` connect `App.tsx` to `moduleContent.tsx`, `BibliometricMap.tsx`, `AppShell.tsx`, `web/package.json`, `dialog.tsx`?**
+  _High betweenness centrality (0.075) - this node is a cross-community bridge._
+- **Why does `drizzle-orm` connect `app.ts` to `verify-session.db.test.ts`, `auth/module.ts`, `AppError`, `migrate.ts`, `server/package.json`, `forum/module.ts`?**
+  _High betweenness centrality (0.043) - this node is a cross-community bridge._
 - **Why does `react-router-dom` connect `App.tsx` to `moduleContent.tsx`, `AppShell.tsx`, `web/package.json`?**
-  _High betweenness centrality (0.033) - this node is a cross-community bridge._
-- **What connects `name`, `version`, `private` to the rest of the system?**
-  _316 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
+- **What connects `Tone`, `ApiOptions`, `ApiResult` to the rest of the system?**
+  _331 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.06616563513115237 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06058221872541306 - nodes in this community are weakly interconnected._
 - **Should `moduleContent.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.08392156862745098 - nodes in this community are weakly interconnected._
-- **Should `sprint0-baseline.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08780487804878048 - nodes in this community are weakly interconnected._
+- **Should `verify-session.db.test.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.1282051282051282 - nodes in this community are weakly interconnected._

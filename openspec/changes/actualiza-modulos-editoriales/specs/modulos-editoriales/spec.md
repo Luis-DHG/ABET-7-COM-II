@@ -1,28 +1,6 @@
-# Módulos editoriales Specification
+# Spec Delta
 
-## Purpose
-
-Siete módulos editoriales estáticos y secuenciales que divulgan los fundamentos, aplicaciones y tecnologías de ISAC y las redes perceptivas 6G mediante contenido y recursos visuales e interactivos. Los módulos ya presentan contenido editorial; el video de divulgación y la documentación de la experiencia grupal siguen pendientes.
-
-## Requirements
-
-### Requirement: Navegación secuencial de los siete módulos
-El sistema SHALL exponer siete rutas editoriales en orden fijo: `/planeacion`, `/analisis`, `/tendencias`, `/mini-caso`, `/divulgacion`, `/bitacora` y `/glosario`. Los enlaces de módulo anterior y siguiente SHALL recorrer únicamente ese conjunto. Como no existe un módulo editorial siguiente a `/glosario`, la paginación SHALL mostrar en la posición visual del módulo siguiente el enlace «A continuación» / «Retroalimentación — sección independiente» hacia `/retroalimentacion`; el cuerpo de `/glosario` SHALL ofrecer además el CTA «Compartir en el foro» hacia la misma ruta. Estos enlaces SHALL mantener al foro como sección independiente y no SHALL crear un octavo módulo.
-
-#### Scenario: Recorrido completo
-- **WHEN** un visitante avanza con el enlace siguiente desde `/planeacion`
-- **THEN** recorre los siete módulos en orden y termina en `/glosario`
-
-#### Scenario: El foro queda fuera del recorrido
-- **WHEN** el visitante llega a `/glosario`
-- **THEN** no existe un siguiente módulo editorial, la navegación anterior vuelve a `/bitacora`, la posición visual del siguiente en la paginación enlaza a `/retroalimentacion` con la etiqueta «A continuación» / «Retroalimentación — sección independiente» y el CTA del cuerpo «Compartir en el foro» enlaza a la misma ruta, sin convertirla en módulo ocho
-
-### Requirement: La raíz redirige al primer módulo
-La ruta `/` SHALL redirigir a `/planeacion`.
-
-#### Scenario: Entrada por la raíz
-- **WHEN** un visitante abre `/`
-- **THEN** termina en `/planeacion`
+## ADDED Requirements
 
 ### Requirement: Contenido editorial y recursos implementados en los siete módulos
 Las páginas editoriales SHALL presentar el contenido y los recursos que ya están implementados, sin tratar el conjunto como siete espacios vacíos. El recorrido SHALL cubrir: (1) fundamentos de ISAC, capacidades de sensado, pregunta guía, alcance ABET SO7 e índice del recorrido; (2) método bibliométrico desde la búsqueda hasta la interpretación, con la red de coocurrencia VOSviewer; (3) aplicaciones, tecnologías, niveles de integración, redes perceptivas, beneficio mutuo, procesamiento en el borde, estado industrial y desafíos; (4) el mini-caso OFDM-DFRC descrito en el requisito correspondiente; (5) una síntesis de cinco ideas y el estado pendiente del video; (6) decisiones y estrategias de aprendizaje con preguntas de reflexión, sin presentar experiencias grupales aún no documentadas; y (7) glosario consultable y lecturas de referencia.
@@ -59,6 +37,19 @@ Las explicaciones y recursos visuales SHALL conservar su carácter divulgativo y
 - **WHEN** un visitante abre `/glosario`
 - **THEN** puede buscar términos y abrir sus definiciones y ejemplos, incluidos los casos que muestran fórmulas, y encuentra la lista de lecturas de referencia
 
+## MODIFIED Requirements
+
+### Requirement: Navegación secuencial de los siete módulos
+El sistema SHALL exponer siete rutas editoriales en orden fijo: `/planeacion`, `/analisis`, `/tendencias`, `/mini-caso`, `/divulgacion`, `/bitacora` y `/glosario`. Los enlaces de módulo anterior y siguiente SHALL recorrer únicamente ese conjunto. Como no existe un módulo editorial siguiente a `/glosario`, la paginación SHALL mostrar en la posición visual del módulo siguiente el enlace «A continuación» / «Retroalimentación — sección independiente» hacia `/retroalimentacion`; el cuerpo de `/glosario` SHALL ofrecer además el CTA «Compartir en el foro» hacia la misma ruta. Estos enlaces SHALL mantener al foro como sección independiente y no SHALL crear un octavo módulo.
+
+#### Scenario: Recorrido completo
+- **WHEN** un visitante avanza con el enlace siguiente desde `/planeacion`
+- **THEN** recorre los siete módulos en orden y termina en `/glosario`
+
+#### Scenario: El foro queda fuera del recorrido
+- **WHEN** el visitante llega a `/glosario`
+- **THEN** no existe un siguiente módulo editorial, la navegación anterior vuelve a `/bitacora`, la posición visual del siguiente en la paginación enlaza a `/retroalimentacion` con la etiqueta «A continuación» / «Retroalimentación — sección independiente» y el CTA del cuerpo «Compartir en el foro» enlaza a la misma ruta, sin convertirla en módulo ocho
+
 ### Requirement: El mini-caso evalúa el trade-off OFDM-DFRC
 El módulo mini-caso SHALL centrarse en la evaluación del trade-off de una forma de onda OFDM-DFRC (opción A de la guía de estructura) mediante un escenario monostático e ideal. SHALL explicar el eco a partir de retardo y Doppler, la resolución de rango dependiente del ancho de banda, la resolución de velocidad dependiente del tiempo de observación y el modelo teórico de reparto de potencia α entre comunicación y sensing, con sus ecuaciones y supuestos simplificadores.
 
@@ -75,3 +66,16 @@ El explorador interactivo SHALL permitir variar ancho de banda, cantidad de sím
 #### Scenario: El explorador declara sus límites
 - **WHEN** un visitante consulta la explicación del explorador
 - **THEN** se informa que la interacción no muestra una curva frente a α ni simula ruido, canal real o detección de objetivos
+
+## REMOVED Requirements
+
+### Requirement: Contenido reservado hasta aprobación
+Cada módulo SHALL mantener layout, navegación, estados y espacios reservados. El contenido editorial SHALL incorporarse solo a partir de texto aprobado.
+
+#### Scenario: Módulo sin contenido aprobado
+- **WHEN** un módulo carece de texto aprobado
+- **THEN** la página muestra su estructura con espacios reservados, sin contenido editorial inventado
+
+**Reason**: El código actual contiene contenido editorial, mapas, diagramas, fórmulas, referencias e interacciones para los siete módulos; mantener este requisito afirmaría que las páginas están vacías y contradiría el comportamiento visible.
+
+**Migration**: Usar `Contenido editorial y recursos implementados en los siete módulos` para describir la estructura actual y conservar los estados pendientes de video y experiencia grupal. No se requiere migración de rutas ni de contenido de la aplicación.
