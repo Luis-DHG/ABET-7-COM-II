@@ -164,8 +164,6 @@ settings:
 
 importers:
 
-  .: {}
-
   apps/server:
     dependencies:
       '@blogdpc/contracts':

@@ -89,6 +89,10 @@
 .editorial-caption { font-size: .8125rem; line-height: 1.65; color: var(--muted-foreground); }
 .signal-figure { margin: .5rem 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); color: var(--primary); }
 .signal-figure svg { width: 100%; height: auto; }
+.signal-figure img { display: block; width: 100%; height: auto; background: var(--secondary); }
+.figure-source { display: block; margin-top: .375rem; font-size: .75rem; color: var(--muted-foreground); }
+.figure-placeholder { margin: .5rem 0; padding: 1.25rem 1.5rem; border: 2px dashed var(--border); border-radius: var(--radius); background: var(--secondary); }
+.figure-placeholder p { font-size: .875rem; line-height: 1.65; color: var(--muted-foreground); max-width: 72ch; }
 .signal-mobile { display: none; }
 .signal-figure figcaption { color: var(--muted-foreground); font-size: .8125rem; line-height: 1.6; padding: 1rem 1.25rem; border-top: 1px solid var(--border); }
 .concept-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
