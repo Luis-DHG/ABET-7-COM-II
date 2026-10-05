@@ -10,6 +10,7 @@ import { Formula } from "@/components/Formula";
 import { LazyGlossary } from "@/components/LazyGlossary";
 import { ReferenceFigure } from "@/components/ReferenceFigure";
 import { LazyBibliometricMap } from "@/components/LazyBibliometricMap";
+import { LazyBibliometricFindings } from "@/components/LazyBibliometricFindings";
 import { MODULES } from "@/lib/manifest";
 import { FORMULAS } from "@/lib/formulas";
 
@@ -298,19 +299,20 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
     sections: [
       { id: "metodo", title: "De la búsqueda a la interpretación", content: <>
         <p>La pregunta de partida fue amplia: ¿qué se está investigando alrededor de Integrated Sensing and Communications? El proceso documentado por el equipo parte de Scopus, depura los términos y utiliza VOSviewer para construir una red de coocurrencia. Así pasamos de una búsqueda extensa a una estructura que podemos explorar y luego contrastar con los artículos.</p>
-        <ol className="editorial-steps"><li><h3>Buscar</h3><p>El informe registra una búsqueda inicial de 17.661 documentos y 2.552 palabras clave.</p></li><li><h3>Depurar y organizar</h3><p>Con VOSviewer se trabajó con 541 términos distribuidos en ocho agrupaciones temáticas. El mapa que sigue conserva sus coordenadas, enlaces, pesos y clústeres.</p></li><li><h3>Interpretar y conectar</h3><p>Las agrupaciones son pistas para orientar la lectura, no conclusiones por sí solas. El Módulo 3 examina qué significan técnicamente algunas de esas líneas.</p></li></ol>
+        <ol className="editorial-steps"><li><h3>Buscar</h3><p>El informe registra una búsqueda inicial de 17.661 documentos y 2.552 palabras clave.</p></li><li><h3>Depurar y organizar</h3><p>Con VOSviewer se trabajó con 541 términos distribuidos en ocho agrupaciones temáticas. El mapa que sigue conserva sus coordenadas, enlaces, pesos y clústeres.</p></li><li><h3>Interpretar y conectar</h3><p>Las agrupaciones son pistas para orientar la lectura, no conclusiones por sí solas. Después de observar sus relaciones, podremos examinar qué significan técnicamente.</p></li></ol>
       </> },
       { id: "mapa", title: "Explora la red de coocurrencia", content: <>
         <p>La red completa reúne cientos de términos. Explórala por clúster o busca una palabra para ver sus enlaces y métricas. El propósito no es sustituir la lectura de las publicaciones: es encontrar relaciones que merecen una pregunta mejor.</p>
         <LazyBibliometricMap />
         <p className="editorial-caption">Fuente: red exportada desde VOSviewer. Se conservan las posiciones y relaciones del análisis original.</p>
       </> },
-      { id: "lectura", title: "¿Qué aprendimos al observar esta red?", content: <>
-        <p>Los términos frecuentes apuntan a agrupaciones diversas: ISAC y antenas; fotónica; sensores y salud; asignación de recursos e IoT; dispositivos vestibles; procesamiento y sensado remoto; aprendizaje automático; y materiales electromagnéticos. Son rótulos exploratorios derivados de las palabras más frecuentes de cada grupo, no las denominaciones oficiales del informe ni una taxonomía definitiva de ISAC.</p>
-        <div className="example-block"><h3>Leer también lo inesperado</h3><p>Algunos términos de salud, materiales o comunicaciones ópticas pueden reflejar conexiones amplias de la consulta o ruido residual. Reconocer esa posibilidad forma parte de evaluar la evidencia: la agrupación sugiere dónde mirar, pero los documentos y los criterios de búsqueda determinan qué podemos afirmar.</p></div>
-        <p>Un nodo representa un término; una línea, una coocurrencia en los documentos; el tamaño, su número de ocurrencias; y el color, el clúster asignado por VOSviewer. La proximidad visual no implica causalidad y compartir clúster no vuelve equivalentes a dos conceptos.</p>
-        <blockquote>En M2 preguntamos: ¿qué encontramos? En M3: ¿qué significa técnicamente?</blockquote>
-        <p>Entre las líneas observadas hay preguntas sobre formas de onda, recursos, potencia, procesamiento y optimización. El mini-caso toma un problema concreto de compromiso comunicación–sensing y lo estudia cuantitativamente bajo un escenario simplificado; no es una extensión del mapa.</p>
+      { id: "resultados", title: "¿Qué relaciones encontramos?", content: <>
+        <p>La frecuencia muestra qué términos aparecen reiteradamente; el número de enlaces cuenta cuántos vecinos tiene cada término; la fuerza total suma los pesos de sus enlaces. Para interpretar la red, miramos también parejas concretas y distinguimos relaciones dentro de un clúster de puentes entre grupos.</p>
+        <LazyBibliometricFindings />
+        <div className="example-block"><h3>De las relaciones a la lectura técnica</h3><p>El grupo más directamente ligado a ISAC incluye integración, antenas, beamforming y aprendizaje profundo; otros reúnen fotónica, recursos de red, sensado vestible o términos biomédicos y experimentales. Los pesos ayudan a decidir por dónde continuar, pero la coocurrencia no demuestra causalidad ni convierte a un clúster en una categoría definitiva.</p></div>
+        <p>En el siguiente recorrido examinaremos qué implican técnicamente algunas de estas líneas: cómo se comparten recursos, qué tecnologías y arquitecturas intervienen, qué aplicaciones se proponen y qué desafíos siguen abiertos.</p>
+        <p><Link to="/tendencias">Continuar: interpretar técnicamente las tendencias de ISAC <ArrowUpRight aria-hidden /></Link></p>
+        <p>Más adelante, el mini-caso estudia cuantitativamente un compromiso concreto entre comunicación y sensing bajo un escenario simplificado; es una aplicación acotada, no una extensión del mapa.</p>
       </> },
     ],
   },

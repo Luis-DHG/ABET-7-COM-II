@@ -289,7 +289,7 @@
 .bibliometric-suggestions button:hover { background: var(--secondary); }
 .bibliometric-suggestions button span { color: var(--muted-foreground); font-size: .75rem; white-space: nowrap; }
 .bibliometric-explorer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem); min-height: 34rem; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
-.bibliometric-plot { min-width: 0; min-height: 34rem; background: radial-gradient(ellipse at center, var(--card) 0%, var(--muted) 100%); touch-action: none; }
+.bibliometric-plot { min-width: 0; min-height: 34rem; background: var(--card); touch-action: none; }
 .bibliometric-detail { display: flex; flex-direction: column; gap: .75rem; padding: 1.25rem; border-left: 1px solid var(--border); background: var(--card); }
 .bibliometric-detail h3 { font-size: 1.125rem; line-height: 1.4; overflow-wrap: anywhere; }
 .bibliometric-detail > p { font-size: .875rem; line-height: 1.65; }
@@ -302,13 +302,34 @@
 .bibliometric-legend span { display: inline-flex; align-items: center; gap: .375rem; }
 .bibliometric-legend i { width: .75rem; height: .75rem; border-radius: 50%; }
 .bibliometric-legend p { flex-basis: 100%; color: var(--muted-foreground); line-height: 1.6; }
+.bibliometric-findings { display: flex; flex-direction: column; gap: 1.5rem; }
+.bibliometric-stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
+.bibliometric-stat-grid article { min-width: 0; display: flex; flex-direction: column; gap: .45rem; border-top: 2px solid var(--primary); padding: .85rem .25rem .5rem; }
+.bibliometric-stat-grid article > span { color: var(--muted-foreground); font-size: .75rem; line-height: 1.5; }
+.bibliometric-stat-grid article > strong { font-size: .9375rem; line-height: 1.45; overflow-wrap: anywhere; }
+.bibliometric-stat-grid article > p { color: var(--muted-foreground); font-size: .8125rem; line-height: 1.5; }
+.bibliometric-observation { padding: 1rem 1.25rem; border-left: 3px solid var(--primary); border-radius: 0 var(--radius) var(--radius) 0; background: var(--secondary); font-size: .875rem; line-height: 1.7; }
+.bibliometric-findings .editorial-table-wrap table { min-width: 680px; }
+.bibliometric-cluster-results { display: flex; flex-direction: column; gap: .875rem; }
+.bibliometric-cluster-results > p { max-width: 72ch; font-size: .875rem; }
+.bibliometric-cluster-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .625rem; }
+.bibliometric-cluster-card { min-width: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+.bibliometric-cluster-card summary { display: flex; min-height: 3rem; align-items: center; justify-content: space-between; gap: 1rem; padding: .625rem .875rem; cursor: pointer; font-size: .875rem; font-weight: 600; }
+.bibliometric-cluster-card summary span:last-child { color: var(--muted-foreground); font-size: .75rem; font-weight: 400; white-space: nowrap; }
+.bibliometric-cluster-content { display: flex; flex-direction: column; gap: .75rem; border-top: 1px solid var(--border); padding: .875rem; }
+.bibliometric-cluster-content p { font-size: .8125rem; line-height: 1.65; }
+.bibliometric-method-references > p { font-size: .875rem; line-height: 1.65; }
+.bibliometric-method-references ul { display: flex; flex-direction: column; gap: .5rem; padding: 0 0 1rem; font-size: .8125rem; }
 
 @media (max-width: 800px) {
   .bibliometric-explorer { grid-template-columns: 1fr; }
   .bibliometric-plot { min-height: 30rem; }
   .bibliometric-detail { border-left: 0; border-top: 1px solid var(--border); }
+  .bibliometric-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 540px) {
   .bibliometric-plot { min-height: 24rem; }
   .bibliometric-controls > [data-slot="button"] { width: 100%; }
+  .bibliometric-cluster-list { grid-template-columns: 1fr; }
 }
+

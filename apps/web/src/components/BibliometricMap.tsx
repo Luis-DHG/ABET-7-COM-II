@@ -19,16 +19,9 @@ type VOSNetwork = { network: { items: VOSItem[]; links: VOSLink[] } };
 type MapTerm = VOSItem & { occurrences: number; links: number; linkStrength: number };
 
 const COLORS = ["#2463a6", "#a54b42", "#4d8065", "#9a6c1c", "#765a9e", "#25858b", "#bd657f", "#647386"];
-const CLUSTER_NOTES: Record<number, string> = {
-  1: "ISAC, antenas, aprendizaje profundo y vehículos aéreos no tripulados.",
-  2: "Comunicación óptica, fotónica y dispositivos integrados.",
-  3: "Diagnóstico, biosensado y términos de salud; conviene revisar su relación con el foco ISAC.",
-  4: "IoT, asignación de recursos, energía y comunicaciones satelitales.",
-  5: "Sensores vestibles, electrónica flexible e interacción multimodal.",
-  6: "Ancho de banda, procesamiento de señales, sensado remoto y estudios experimentales.",
-  7: "Aprendizaje automático, algoritmos, privacidad y sistemas de aprendizaje.",
-  8: "Materiales, electromagnetismo, absorción y técnicas de caracterización.",
-};
+const MAX_VISIBLE_LINKS = 1000;
+const rgb = (hex: string) => hex.match(/[\da-f]{2}/gi)?.map((part) => Number.parseInt(part, 16)).join(", ") ?? "89, 105, 123";
+const DEFAULT_EDGE_COLOR = "rgba(76, 90, 106, 0.46)";
 const number = (value: number) => value.toLocaleString("es-CO", { maximumFractionDigits: 2 });
 
 export function BibliometricMap() {
@@ -69,13 +62,22 @@ export function BibliometricMap() {
             occurrences: item.occurrences,
           });
         }
+        const strongestLinkIndexes = new Set(network.links
+          .map((link, index) => ({ index, strength: link.strength }))
+          .sort((first, second) => second.strength - first.strength)
+          .slice(0, MAX_VISIBLE_LINKS)
+          .map(({ index }) => index));
         for (const [index, link] of network.links.entries()) {
           const source = String(link.source_id);
           const target = String(link.target_id);
           if (!graph.hasNode(source) || !graph.hasNode(target) || graph.hasEdge(source, target)) continue;
+          const strengthScale = Math.min(1, Math.log2(link.strength + 1) / 5);
+          const defaultVisible = strongestLinkIndexes.has(index);
           graph.addEdgeWithKey(`link-${index}`, source, target, {
-            size: Math.max(0.15, Math.min(1.6, Math.log2(link.strength + 1) * 0.35)),
-            color: "rgba(105, 119, 137, 0.16)",
+            size: defaultVisible ? 0.18 + strengthScale * 0.95 : 0,
+            color: defaultVisible ? DEFAULT_EDGE_COLOR : "rgba(76, 90, 106, 0)",
+            hidden: !defaultVisible,
+            defaultVisible,
             strength: link.strength,
           });
         }
@@ -86,7 +88,7 @@ export function BibliometricMap() {
           labelRenderedSizeThreshold: 4,
           labelFont: "Inter Variable, Inter, sans-serif",
           labelSize: 12,
-          defaultEdgeColor: "rgba(105, 119, 137, 0.16)",
+          defaultEdgeColor: DEFAULT_EDGE_COLOR,
           allowInvalidContainer: false,
         });
         sigmaRef.current = renderer;
@@ -108,19 +110,50 @@ export function BibliometricMap() {
     const graph = graphRef.current;
     const renderer = sigmaRef.current;
     if (!graph || !renderer) return;
-    const neighbors = selected ? new Set(graph.neighbors(selected)) : new Set<string>();
+    const focusedEdges = new Set<string>();
+    const focusedNodes = new Set<string>();
+    let focusColor: string | null = null;
+
+    if (selected !== "") {
+      const clusterId = graph.getNodeAttribute(selected, "cluster") as number;
+      focusColor = COLORS[(clusterId - 1) % COLORS.length];
+      focusedNodes.add(selected);
+      graph.edges(selected)
+        .sort((first, second) => (graph.getEdgeAttribute(second, "strength") as number) - (graph.getEdgeAttribute(first, "strength") as number))
+        .slice(0, MAX_VISIBLE_LINKS)
+        .forEach((edge) => {
+          focusedEdges.add(edge);
+          graph.extremities(edge).forEach((node) => focusedNodes.add(node));
+        });
+    } else if (cluster !== "") {
+      const clusterNodes: string[] = [];
+      graph.forEachNode((node, attributes) => {
+        if (Number(attributes.cluster) === Number(cluster)) {
+          clusterNodes.push(node);
+          focusedNodes.add(node);
+        }
+      });
+      focusColor = COLORS[(Number(cluster) - 1) % COLORS.length];
+      [...new Set(clusterNodes.flatMap((node) => graph.edges(node)))]
+        .sort((first, second) => (graph.getEdgeAttribute(second, "strength") as number) - (graph.getEdgeAttribute(first, "strength") as number))
+        .slice(0, MAX_VISIBLE_LINKS)
+        .forEach((edge) => {
+          focusedEdges.add(edge);
+          graph.extremities(edge).forEach((node) => focusedNodes.add(node));
+        });
+    }
     renderer.setSetting("nodeReducer", (node, attributes) => {
-      const dimByCluster = cluster !== "" && String(attributes.cluster) !== cluster;
-      const dimBySelection = selected !== "" && node !== selected && !neighbors.has(node);
-      const dim = dimByCluster || dimBySelection;
+      const dim = (selected !== "" || cluster !== "") && !focusedNodes.has(node);
       return { ...attributes, color: dim ? "#c8cdd3" : attributes.color, size: node === selected ? attributes.size * 1.65 : attributes.size };
     });
     renderer.setSetting("edgeReducer", (edge, attributes) => {
-      const [source, target] = graph.extremities(edge);
-      const byCluster = cluster !== "" && graph.getNodeAttribute(source, "cluster") === Number(cluster) && graph.getNodeAttribute(target, "cluster") === Number(cluster);
-      const bySelection = selected !== "" && (source === selected || target === selected);
-      const dim = selected ? !bySelection : cluster !== "" ? !byCluster : false;
-      return { ...attributes, color: dim ? "rgba(145, 153, 163, 0.035)" : selected || cluster ? "rgba(64, 90, 119, 0.58)" : attributes.color, size: dim ? 0.05 : attributes.size };
+      const visible = selected !== "" || cluster !== "" ? focusedEdges.has(edge) : attributes.defaultVisible === true;
+      if (!visible) return { ...attributes, hidden: true, size: 0 };
+      return {
+        ...attributes,
+        hidden: false,
+        color: focusColor ? `rgba(${rgb(focusColor)}, 0.86)` : DEFAULT_EDGE_COLOR,
+      };
     });
     renderer.refresh();
   }, [cluster, selected, terms]);
@@ -132,7 +165,7 @@ export function BibliometricMap() {
     return terms.filter((term) => term.label.toLocaleLowerCase("es").includes(normalized)).slice(0, 6);
   }, [query, terms]);
   const selectedTerm = terms.find((term) => String(term.id) === selected);
-  const clusterTerms = cluster ? terms.filter((term) => term.cluster === Number(cluster)) : [];
+  const clusterTerms = cluster ? terms.filter((term) => term.cluster === Number(cluster)).sort((a, b) => b.occurrences - a.occurrences) : [];
 
   function chooseCluster(value: string) {
     setCluster(value);
@@ -178,8 +211,8 @@ export function BibliometricMap() {
             <p className="editorial-caption">Se resaltan este término y los nodos conectados directamente en la red.</p>
           </> : cluster ? <>
             <p className="bibliometric-eyebrow">Agrupación temática observada</p><h3>Clúster {cluster}</h3>
-            <p>{CLUSTER_NOTES[Number(cluster)]}</p>
-            <p className="editorial-caption">Lectura exploratoria a partir de los términos con más ocurrencias del archivo VOSviewer; debe contrastarse con las publicaciones y el informe del estudio.</p>
+            <p><strong>Términos más frecuentes:</strong> {clusterTerms.slice(0, 3).map((term) => `${term.label} (${number(term.occurrences)})`).join(" · ")}.</p>
+            <p className="editorial-caption">Datos observados en la exportación de VOSviewer; la interpretación de los ocho grupos aparece después del mapa.</p>
             <p><strong>{number(clusterTerms.length)}</strong> términos en esta agrupación.</p>
           </> : <>
             <p className="bibliometric-eyebrow">Red completa</p><h3>{terms.length ? `${number(terms.length)} términos · ${clusters.length} clústeres` : error ? "Mapa no disponible" : "Cargando la red…"}</h3>
@@ -189,7 +222,7 @@ export function BibliometricMap() {
       </div>
       <div className="bibliometric-legend" aria-label="Leyenda del mapa">
         {clusters.map((id) => <span key={id}><i style={{ backgroundColor: COLORS[(id - 1) % COLORS.length] }} aria-hidden />Clúster {id}</span>)}
-        <p>El tamaño del nodo representa ocurrencias; las líneas representan coocurrencias y su grosor refleja la fuerza del enlace.</p>
+        <p>El color del nodo identifica su clúster y el grosor de cada línea representa la fuerza del vínculo. Se muestran los 1.000 enlaces más fuertes; al seleccionar un nodo o clúster, se ocultan los demás para destacar sus conexiones.</p>
       </div>
     </div>
   );
