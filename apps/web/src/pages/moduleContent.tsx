@@ -8,9 +8,11 @@ import { ODDMDiagram } from "@/components/ODDMDiagram";
 import { OfdmExplorer } from "@/components/OfdmExplorer";
 import { Formula } from "@/components/Formula";
 import { LazyGlossary } from "@/components/LazyGlossary";
-import { FigurePlaceholder, ReferenceFigure } from "@/components/ReferenceFigure";
+import { ReferenceFigure } from "@/components/ReferenceFigure";
+import { LazyBibliometricMap } from "@/components/LazyBibliometricMap";
 import { MODULES } from "@/lib/manifest";
 import { FORMULAS } from "@/lib/formulas";
+
 
 export interface EditorialModule {
   headline: string;
@@ -90,7 +92,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         auxiliar: se posiciona un dispositivo, se estima un canal, se
         ajusta un haz. La propuesta de ISAC es más profunda: que la
         percepción sea una <strong>capacidad nativa de la red</strong>,
-        ofrecida como un servicio básico a millones de usuarios [1]. Con
+        ofrecida como un servicio de la infraestructura inalámbrica [1]. Con
         ella, la infraestructura celular «abre los ojos» y se convierte en
         lo que la literatura llama una <em>red perceptiva</em>: un tejido
         de estaciones base y dispositivos que observa el entorno de forma
@@ -166,24 +168,35 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         <li>La <strong>amplitud y la microestructura</strong> del eco revelan tamaño, material y hasta gestos, respiración o parpadeos [1], [4].</li>
         </ul>
 
+        <p>
+        La figura sitúa la resolución en los tres parámetros que el
+        receptor estima: retardo, Doppler y ángulo.
+        </p>
+
         <ReferenceFigure
           src="/images/isac/liu-jsac-2022/fig06-radar-sensing.avif"
           alt="Celda de resolución en tres dimensiones: retardo, Doppler y ángulo"
-          caption="La «celda de resolución»: el tamaño del píxel con el que la red mira el mundo físico. Se define en tres dimensiones —retardo, Doppler y ángulo— y en cada celda el sistema distingue, a lo sumo, un objetivo: si dos objetos caen en la misma celda, se ven como uno."
+          caption="La celda de resolución en retardo, Doppler y ángulo: dos objetivos próximos pueden resultar difíciles de separar si sus respuestas caen dentro de la misma celda. La figura resume el límite que imponen esas dimensiones; no fija por sí sola el desempeño de un sistema concreto."
           source="Fig. 6 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
 
         <p>
-        Qué tan «fina» es esa mirada es una cuestión de recursos físicos, y
-        la industria ya la mide con números concretos. La localización en
-        5G NR (Release 17) exige hasta 0,2 m de precisión horizontal en
-        escenarios industriales; el reconocimiento de actividad humana en
-        interiores pide resoluciones del orden de 1 cm, y los robots en
-        fábrica, de unos 5 mm [1]. En el otro extremo, el proyecto Soli de
-        Google demostró que una señal de radar puede leer gestos a entre
-        100 y 10 000 cuadros por segundo [1]. A diferencia de una cámara,
-        la percepción con radio funciona de día y de noche, con lluvia o
-        niebla, y resulta menos intrusiva para el entorno observado [1].
+        La resolución depende del ancho de banda, la geometría de antenas
+        y el tiempo de observación; no hay una cifra única que describa
+        todas las aplicaciones. Release 17 de 5G NR incluyó mejoras y
+        requisitos de posicionamiento; para IIoT, 3GPP fijó como objetivo
+        una precisión horizontal inferior a 0,2 m para el 90 % de los
+        equipos. Es un requisito de posicionamiento, antecedente
+        relacionado, no una medida de resolución de sensing ni una
+        especificación completa de ISAC (véase el <a href="https://portal.3gpp.org/DesktopModules/CRs/CrDetails.aspx?CrId=482202" target="_blank" rel="noreferrer">requisito 3GPP de Release 17</a>). Como ejemplo
+        distinto de percepción radar integrada en un dispositivo, Google
+        Soli combina un radar milimétrico compacto con algoritmos de
+        aprendizaje automático para reconocer gestos; el artículo reporta
+        seguimiento a más de 10 000 cuadros por segundo en hardware
+        embebido, un resultado de Soli que no debe generalizarse a ISAC.
+        Soli es tecnología de radar/sensing, no un sistema ISAC [10].
+        Los resultados dependen del sensor, el escenario y el método de
+        evaluación.
         </p>
 
         <p>
@@ -279,23 +292,25 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
     ], 
   },
   2: {
-    headline: "Leer la investigación antes de dibujar sus tendencias.",
-    introduction: "La bibliometría nos ayuda a ordenar un campo amplio. Aquí explicamos cómo relacionar palabras clave, publicaciones y preguntas de ingeniería.",
-    status: "Búsqueda bibliométrica pendiente",
+    headline: "De la literatura al mapa de conocimiento.",
+    introduction: "Seguimos el rastro desde una pregunta sobre ISAC hasta una red de palabras clave: una forma de organizar la búsqueda y decidir qué conviene leer con más atención.",
+    status: "Exploración bibliométrica del equipo",
     sections: [
       { id: "metodo", title: "De la búsqueda a la interpretación", content: <>
-        <p>ISAC conecta comunicaciones, radar, antenas y procesamiento de señales. Un mapa bibliométrico puede mostrar qué términos aparecen juntos y orientar la lectura de artículos; la interpretación requiere volver a los documentos.</p>
-        <ol className="editorial-steps"><li><h3>Buscar</h3><p>Definir una consulta reproducible en Scopus e IEEE Xplore.</p></li><li><h3>Organizar</h3><p>Registrar términos, parámetros y criterios del análisis antes de crear el mapa.</p></li><li><h3>Interpretar</h3><p>Leer las publicaciones asociadas para explicar las relaciones encontradas.</p></li></ol>
+        <p>La pregunta de partida fue amplia: ¿qué se está investigando alrededor de Integrated Sensing and Communications? El proceso documentado por el equipo parte de Scopus, depura los términos y utiliza VOSviewer para construir una red de coocurrencia. Así pasamos de una búsqueda extensa a una estructura que podemos explorar y luego contrastar con los artículos.</p>
+        <ol className="editorial-steps"><li><h3>Buscar</h3><p>El informe registra una búsqueda inicial de 17.661 documentos y 2.552 palabras clave.</p></li><li><h3>Depurar y organizar</h3><p>Con VOSviewer se trabajó con 541 términos distribuidos en ocho agrupaciones temáticas. El mapa que sigue conserva sus coordenadas, enlaces, pesos y clústeres.</p></li><li><h3>Interpretar y conectar</h3><p>Las agrupaciones son pistas para orientar la lectura, no conclusiones por sí solas. El Módulo 3 examina qué significan técnicamente algunas de esas líneas.</p></li></ol>
       </> },
-      { id: "estado-busqueda", title: "Qué está definido", content: <>
-        <Note title="Todavía no hay resultados bibliométricos">Las cadenas, fechas, filtros y archivos de búsqueda están por definir. Publicaremos el mapa y sus conclusiones cuando el análisis sea reproducible.</Note>
-        <dl className="editorial-facts"><div><dt>Bases previstas</dt><dd>Scopus e IEEE Xplore</dd></div><div><dt>Cadena y fecha de búsqueda</dt><dd>Por definir</dd></div><div><dt>Periodo y filtros</dt><dd>Por definir</dd></div><div><dt>VOSviewer y parámetros</dt><dd>Versión y configuración por definir</dd></div><div><dt>Mapa y hallazgos</dt><dd>Pendientes del análisis</dd></div></dl>
+      { id: "mapa", title: "Explora la red de coocurrencia", content: <>
+        <p>La red completa reúne cientos de términos. Explórala por clúster o busca una palabra para ver sus enlaces y métricas. El propósito no es sustituir la lectura de las publicaciones: es encontrar relaciones que merecen una pregunta mejor.</p>
+        <LazyBibliometricMap />
+        <p className="editorial-caption">Fuente: red exportada desde VOSviewer. Se conservan las posiciones y relaciones del análisis original.</p>
       </> },
-      { id: "clusters", title: "Cómo leer un cluster", content: <>
-        <p>En una red de coocurrencia, los nodos representan términos y los enlaces expresan que aparecen juntos en los documentos. Un cluster agrupa términos según sus conexiones y el algoritmo utilizado.</p>
-        <div className="example-block"><h3>Un ejemplo conceptual</h3><p>Si OFDM, Doppler y estimación de distancia aparecen relacionados, podríamos explorar una línea de procesamiento de señales. Es una pregunta de lectura, no un resultado de nuestra búsqueda.</p></div>
-        <p>El color de un cluster no demuestra importancia científica, y la proximidad visual no prueba causalidad. Hay que revisar artículos, parámetros y cobertura de la base consultada.</p>
-        <details className="editorial-details"><summary>¿Qué significa “ZamoraCluster” en la guía?</summary><p>La guía menciona este nombre sin definir su procedimiento. Su significado académico está pendiente de aclaración. Por ahora explicamos el análisis de clusters en términos generales, sin atribuirle un teorema o resultados.</p></details>
+      { id: "lectura", title: "¿Qué aprendimos al observar esta red?", content: <>
+        <p>Los términos frecuentes apuntan a agrupaciones diversas: ISAC y antenas; fotónica; sensores y salud; asignación de recursos e IoT; dispositivos vestibles; procesamiento y sensado remoto; aprendizaje automático; y materiales electromagnéticos. Son rótulos exploratorios derivados de las palabras más frecuentes de cada grupo, no las denominaciones oficiales del informe ni una taxonomía definitiva de ISAC.</p>
+        <div className="example-block"><h3>Leer también lo inesperado</h3><p>Algunos términos de salud, materiales o comunicaciones ópticas pueden reflejar conexiones amplias de la consulta o ruido residual. Reconocer esa posibilidad forma parte de evaluar la evidencia: la agrupación sugiere dónde mirar, pero los documentos y los criterios de búsqueda determinan qué podemos afirmar.</p></div>
+        <p>Un nodo representa un término; una línea, una coocurrencia en los documentos; el tamaño, su número de ocurrencias; y el color, el clúster asignado por VOSviewer. La proximidad visual no implica causalidad y compartir clúster no vuelve equivalentes a dos conceptos.</p>
+        <blockquote>En M2 preguntamos: ¿qué encontramos? En M3: ¿qué significa técnicamente?</blockquote>
+        <p>Entre las líneas observadas hay preguntas sobre formas de onda, recursos, potencia, procesamiento y optimización. El mini-caso toma un problema concreto de compromiso comunicación–sensing y lo estudia cuantitativamente bajo un escenario simplificado; no es una extensión del mapa.</p>
       </> },
     ],
   },
@@ -331,9 +346,6 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           desde intrusos en un perímetro hasta pequeños componentes en un
           almacén.
           </p>
-          <span>
-          Datos: 0,2 m en escenarios industriales (5G NR); ~1 cm en interiores; ~5 mm para robots [1].
-          </span>
           </div>
 
           <div>
@@ -391,9 +403,10 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           <Radio aria-hidden />
           <h3>Entornos inteligentes e interacción</h3>
           <p>
-          Hogares y cabinas que reconocen presencia, caídas, respiración o
-          gestos con Wi-Fi y 5G; interacción sin contacto al estilo del
-          proyecto Soli [1].
+          Hogares y cabinas que investigan cómo reconocer presencia,
+          caídas, respiración o gestos mediante señales inalámbricas;
+          Soli es un ejemplo relacionado de radar compacto para gestos,
+          no una implementación ISAC [10].
           </p>
           <span>
           Pregunta: ¿cómo percibir personas sin cámaras?
@@ -402,12 +415,26 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         </div>
 
+        <p>
+        La siguiente figura reúne tres papeles posibles de los vehículos
+        aéreos no tripulados en redes perceptivas: objetivo observado,
+        usuario conectado y plataforma que incorpora el transceptor de
+        sensado.
+        </p>
+
         <ReferenceFigure
           src="/images/isac/liu-jsac-2022/fig21-ISAC-aerial.avif"
           alt="ISAC con vehículos aéreos no tripulados en tres roles: objetivo vigilado, usuario localizado y plataforma aérea de sensado"
           caption="Los drones ilustran la amplitud del campo: pueden ser objetivos que la red vigila en espacios aéreos bajos, usuarios que la red localiza mientras se comunican, o plataformas aéreas que perciben y conectan a demanda [1]."
           source="Fig. 21 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+
+        <p>
+        Las flechas discontinuas representan sensado y los haces verdes,
+        comunicación. La ilustración organiza escenarios posibles de
+        investigación entre nodos terrestres y aéreos; no documenta por
+        sí misma despliegues comerciales.
+        </p>
 
         <p>
         Estas ideas ya dejaron los artículos de visión: el{" "}
@@ -491,6 +518,12 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           Separación de subportadoras [Hz] y duración útil del símbolo [s].
           </small>
         </div>
+
+        <p>
+        La figura muestra cómo se separa la señal OFDM recibida en dos
+        caminos de procesamiento: recuperación de datos y estimación de
+        parámetros del eco.
+        </p>
 
         <ReferenceFigure
           src="/images/isac/liu-jsac-2022/fig11-ofdm-isac.avif"
@@ -616,10 +649,16 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         radio:
         </p>
 
+        <p>
+        El siguiente esquema ilustra esa división temporal: se alternan
+        intervalos de sensing y comunicación, y el objetivo se observa en
+        los intervalos reservados al radar.
+        </p>
+
         <ReferenceFigure
           src="/images/isac/liu-jsac-2022/fig08-target-time-division-manner.avif"
           alt="Reconocimiento de objetivos y comunicación alternados en el tiempo en un nodo ISAC"
-          caption="ISAC por división de tiempo: el nodo alterna sensado y comunicación en intervalos dedicados. Es el nivel más fácil de implementar —los estándares IEEE 802.11p y 802.11ad ya explotan sus campos de estimación de canal para radar— pero cada milisegundo asignado a una función es un milisegundo que la otra no usa [1]."
+          caption="División temporal de sensing y comunicación: los intervalos se asignan por turnos, de modo que cada función deja de transmitir mientras opera la otra. Se han publicado propuestas y demostraciones de radar que reutilizan campos de estimación de canal de IEEE 802.11p y 802.11ad; esas normas de comunicación no incorporan por ello una función ISAC nativa [1]."
           source="Fig. 8 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
 
@@ -686,12 +725,25 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         </dl>
 
+        <p>
+        La figura compara el sensado monostático, bistático y multiestático;
+        fíjate en la ubicación del receptor con respecto al transmisor y
+        en cuántos nodos aportan observaciones.
+        </p>
+
         <ReferenceFigure
           src="/images/isac/ericsson/sensing-topologies.avif"
           alt="Topologías de sensado de red: monostática, bistática y multiestática con estaciones base y dispositivos"
           caption="Topologías de sensado en una red móvil: dónde se coloca el receptor respecto del transmisor define qué se puede medir y con qué precisión."
           source="Ericsson, «Integrated Sensing and Communication (ISAC)», página 6G (ericsson.com/en/6g/isac). © Ericsson; utilizado como referencia."
         />
+
+        <p>
+        La posición relativa de transmisores y receptores determina la
+        geometría del eco: un mismo objetivo puede observarse desde un
+        nodo o desde varios. El esquema distingue las topologías antes de
+        discutir cómo se combinan sus señales.
+        </p>
 
         <p>
         La arquitectura C-RAN de 5G resulta ser un marco natural para
@@ -708,12 +760,25 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         [1].
         </p>
 
+        <p>
+        Huawei ilustra el uso de una apertura virtual en su prototipo de
+        imagen THz: un arreglo pequeño se desplaza y sus mediciones se
+        combinan en el procesamiento, como si se hubiera observado desde
+        una apertura mayor.
+        </p>
+
         <ReferenceFigure
           src="/images/isac/huawei/fig09-virtual-aperture.avif"
           alt="Apertura virtual MIMO: el movimiento de un arreglo pequeño crea una apertura equivalente mucho mayor"
           caption="Apertura virtual: mover y combinar arreglos pequeños en el tiempo y el espacio equivale a una antena mucho mayor. Con esta idea, el prototipo THz de Huawei logró imagen de resolución milimétrica a 140 GHz con un módulo portátil [8]."
           source="Fig. 9 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia."
         />
+
+        <p>
+        El esquema muestra el movimiento del arreglo y la combinación de
+        muestras para formar esa apertura virtual. El resultado milimétrico
+        citado corresponde al prototipo concreto descrito por Huawei [8].
+        </p>
 
       </> },
 
@@ -773,9 +838,18 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         </div>
 
-        <FigurePlaceholder>
-        comparación visual de esquemas de entrenamiento y seguimiento de haces: barrido exhaustivo con retroalimentación frente a predicción asistida por sensing, mostrando sobrecarga de pilotos y latencia.
-        </FigurePlaceholder>
+        <p>
+        La figura siguiente representa el escenario V2I: una estación de
+        carretera (RSU) usa la señal ISAC y el eco del vehículo para
+        seguirlo y predecir la dirección del haz.
+        </p>
+
+        <ReferenceFigure
+          src="/images/isac/liu-jsac-2022/fig17--isac--v2I.avif"
+          alt="Escenario V2I con vehículo en movimiento y una RSU que usa la señal ISAC para seguimiento y predicción del haz"
+          caption="La RSU recibe la comunicación del vehículo y procesa el eco de la señal ISAC para apoyar el seguimiento y la predicción del haz. El diagrama ilustra este flujo V2I; no presenta mediciones de desempeño."
+          source="Fig. 17 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        />
 
       </> },
 
@@ -784,10 +858,10 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         <p>
         Percibir es solo el primer eslabón. Los datos de sensado que
-        genera una red son masivos, llegan distribuidos desde cientos de
+        genera una red son masivos, llegan distribuidos entre distintos
         nodos y solo valen si se procesan a tiempo —un gesto, una falla
         de respiración, un intruso: todos son eventos que exigen
-        reacción en milisegundos [1]. De ahí dos movimientos
+        una respuesta oportuna [1]. De ahí dos movimientos
         complementarios:
         </p>
 
@@ -799,8 +873,9 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         borde.</strong> El procesamiento con IA se acerca al lugar donde
         nacen los datos —la propia estación base— para cumplir las latencias,
         y los dispositivos pueden entrenar modelos localmente y compartir
-        solo las actualizaciones: es el aprendizaje federado, que además
-        protege la privacidad de los datos locales [1]:
+        solo las actualizaciones: es una forma de aprendizaje federado.
+        Esto reduce el intercambio de datos brutos, aunque por sí solo no
+        garantiza la privacidad [1]. La figura resume este flujo:
         </p>
 
         <ReferenceFigure
@@ -809,6 +884,14 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="ISAC se encuentra con la inteligencia en el borde: cada dispositivo perceptivo entrena su modelo local y la red agrega las actualizaciones; el tráfico de modelos compite con el de datos y de sensado por el mismo espectro [1]."
           source="Fig. 19 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+
+        <p>
+        La figura anterior muestra dispositivos que comparten modelos
+        locales con un servidor de borde, donde se agregan para formar un
+        modelo global; después se distribuye el modelo actualizado.
+        Representa el flujo de aprendizaje federado aplicado al escenario
+        ISAC estudiado en el tutorial.
+        </p>
 
         <p>
         La integración introduce un compromiso adicional —el de{" "}
@@ -820,13 +903,12 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         </p>
 
         <p>
-        En el horizonte, dos tecnologías amplían el alcance de la
-        percepción. Las <strong>superficies reconfigurables (RIS)</strong>
-        añaden enlaces visibles donde no los hay —y su canal, a su vez,
-        puede estimarse con sensing— [1]. Las bandas{" "}
-        <strong>terahercio</strong> acercan la resolución milimétrica a
-        dispositivos portátiles, con aplicaciones de imagen, análisis
-        espectral y comunicación espacial [8]:
+        Una superficie inteligente reconfigurable (RIS) puede redirigir
+        la propagación para habilitar una trayectoria reflejada hacia un
+        objetivo o un dispositivo sin línea de vista directa. La figura
+        muestra dos RIS y trayectorias alternativas en torno a un
+        obstáculo; ilustra una arquitectura estudiada, no una garantía de
+        cobertura en cualquier entorno [1].
         </p>
 
         <ReferenceFigure
@@ -835,6 +917,14 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="ISAC servido por una superficie reconfigurable: el RIS crea líneas de vista donde no las hay y permite ver el objetivo desde otro ángulo; el sensado, a su vez, ayuda a estimar el canal del propio RIS [1]."
           source="Fig. 20 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+
+        <p>
+        En el dibujo, las trayectorias reflejadas por RIS 1 y RIS 2
+        ofrecen rutas adicionales entre el transceptor ISAC, los
+        objetivos y el equipo de usuario; el obstáculo bloquea la
+        trayectoria directa. A continuación se muestra por separado un
+        esquema de aplicaciones THz descrito por Huawei.
+        </p>
 
         <ReferenceFigure
           src="/images/isac/huawei/fig08-thz-isac.avif"
@@ -868,39 +958,49 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           <div>
           <dt>3GPP</dt>
           <dd>
-          El <Link to="/glosario#referencias">TR 22.837</Link> (Release 19)
-          estudia casos de uso y requisitos de ISAC para futuras redes
-          móviles [3]; desde Release 16, la señal de referencia de
-          posicionamiento (PRS) ya se diseñó con el ancho de banda y la
-          estructura que facilitan estimaciones finas [1].
+          <Link to="https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=4044" target="_blank" rel="noreferrer">TR 22.837</Link>
+          (Release 19) es un informe de estudio de casos de uso y
+          requisitos, no una especificación de implementación [3]. El
+          trabajo posterior separa etapas: <Link to="https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=4198" target="_blank" rel="noreferrer">TS 22.137</Link>
+          (Stage 1), <Link to="https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=5516" target="_blank" rel="noreferrer">TS 23.137</Link>
+          (Stage 2) y <Link to="https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=5533" target="_blank" rel="noreferrer">TS 29.545</Link>
+          (servicios de sensing, Stage 3; draft). En paralelo, RAN mantiene
+          un <Link to="https://portal.3gpp.org/desktopmodules/WorkItem/WorkItemDetails.aspx?workitemId=1080070" target="_blank" rel="noreferrer">estudio de ISAC para NR</Link> y un <Link to="https://portal.3gpp.org/desktopmodules/WorkItem/WorkItemDetails.aspx?workitemId=1020086" target="_blank" rel="noreferrer">estudio de modelado de canal</Link>.
+          Release 17 aporta
+          antecedentes de posicionamiento y requisitos relacionados; no
+          es una especificación completa de ISAC.
           </dd>
           </div>
 
           <div>
           <dt>IEEE</dt>
           <dd>
-          El grupo de tarea 802.11bf trabaja desde 2020 en añadir capacidad
-          de sensado a los estándares Wi-Fi: la misma red de área local
-          que conecta también percibe [1].
+          <Link to="https://standards.ieee.org/ieee/802.11bf/11574/" target="_blank" rel="noreferrer">IEEE 802.11bf-2025</Link>
+          estandariza sensing para WLAN. Esto es distinto de 802.11p y 802.11ad, cuyas señales de
+          comunicación se han reutilizado en propuestas y demostraciones
+          de radar mediante campos de estimación de canal o pilotos; esos
+          usos no significan que las normas originales definan ISAC [1].
           </dd>
           </div>
 
           <div>
           <dt>Huawei</dt>
           <dd>
-          Identificó el sensado armonizado como escenario nuevo de 5.5G en
-          2020, propone que la interfaz 6G comunique y perciba a la vez,
-          y demostró imagen de resolución milimétrica con un prototipo
-          ISAC-THz a 140 GHz con 8 GHz de ancho de banda [1], [8].
+          El artículo técnico citado presenta una propuesta de ISAC para
+          6G y un prototipo de imagen THz descrito por sus autores como
+          ISAC. El equipo opera a 140 GHz con 8 GHz de ancho de banda y
+          reporta resolución de imagen milimétrica; se trata de un
+          resultado de prototipo, no de una capacidad desplegada en red
+          comercial [8].
           </dd>
           </div>
 
           <div>
-          <dt>Ericsson y Nokia</dt>
+          <dt>Ericsson</dt>
           <dd>
-          Ericsson publica arquitectura, casos de uso y línea de tiempo de
-          ISAC hacia 6G [7]; Nokia presentó un sistema mmWave unificado
-          como referencia para ISAC en interiores [1].
+          Ericsson presenta su visión, casos de uso y arquitectura de ISAC
+          para 6G [7]; la fuente enlazada es una hoja de ruta y no evidencia
+          un prototipo desplegado.
           </dd>
           </div>
 
@@ -916,16 +1016,11 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         </dl>
 
         <p>
-        También hay evidencia experimental de que las señales de
-        comunicaciones sirven para percibir: con la estructura de trama de
-        5G NR, un campo de pruebas en banda milimétrica (28 GHz) logró
-        detección de objetivos aceptable manteniendo una tasa de datos
-        estable, en un escenario de conducción autónoma [1].
+        La literatura también recoge ensayos de investigación que
+        reutilizan estructuras de señal de redes móviles para sensing.
+        Estos resultados experimentales no equivalen a una función
+        normalizada ni a un despliegue comercial de ISAC [1].
         </p>
-
-        <FigurePlaceholder>
-        línea de tiempo de ISAC: IEEE 802.11bf (2020), 5.5G de Huawei (2020), TR 22.837 de 3GPP (Release 19), pruebas de campo en 28 GHz y hojas de ruta hacia 6G de los principales fabricantes.
-        </FigurePlaceholder>
 
       </> },
 
@@ -940,11 +1035,18 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         <ul>
         <li><strong>Compromisos de desempeño.</strong> Las métricas de comunicación y de sensado compiten por los mismos recursos en numerosos dominios: límites de teoría de la información, capa física, grados de libertad espaciales y diseño entre capas [1].</li>
         <li><strong>Hardware.</strong> El sensado acumula señales coherentemente durante mucho tiempo, así que es más sensible que la comunicación al ruido de fase, los desajustes de I/Q y las no linealidades del amplificador; y el radar monostático exige aislamiento de dúplex completo [8].</li>
-        <li><strong>Sincronización.</strong> Entre dispositivos no sincronizados por cable, un reloj con 20 ppm de error acumula 20 ns en 1 ms: 6 m de error en la medición de distancia [1].</li>
+        <li><strong>Sincronización.</strong> Entre dispositivos no sincronizados por cable, un reloj con 20 ppm de error acumula 20 ns en 1 ms: ese desfase equivale a 6 m de recorrido de la señal, o aproximadamente 3 m de error de distancia en una medición monostática de ida y vuelta [1].</li>
         <li><strong>Planificación de recursos.</strong> El eco de un objetivo aparece cuando el objetivo quiere: es un «atípico» que los planificadores de red, diseñados para dispositivos controlables, no sabían manejar [1].</li>
         <li><strong>Métricas y cotas.</strong> Todavía no hay una forma establecida de medir la ganancia de integración, ni una cota de Pareto que diga hasta dónde puede llegar el compromiso entre ambas eficiencias [1].</li>
         <li><strong>Privacidad y regulación.</strong> Una red que percibe es una red que observa: los requisitos de ISAC se estudian junto con sus implicaciones regulatorias [3].</li>
         </ul>
+
+        <p>
+        Para ver cómo aparecen esos errores, la figura de Huawei recorre
+        una cadena de transmisión y recepción con ruido de fase,
+        desviaciones de frecuencia y muestreo, no linealidades e
+        interferencia entre transmisor y receptor.
+        </p>
 
         <ReferenceFigure
           src="/images/isac/huawei/fig18-hardware-impairments.avif"
@@ -1441,7 +1543,8 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           <li><span>[6]</span><div><h3>Integrated Sensing and Communication (ISAC) in 6G</h3><p>Qualcomm · documento técnico.</p><a href="https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/6G-ISAC.pdf">Descargar el PDF</a><p className="editorial-caption">Documento técnico con casos de uso y principios de diseño; complementa la referencia [5].</p></div></li>
           <li><span>[7]</span><div><h3>Integrated Sensing and Communication (ISAC)</h3><p>Ericsson · página 6G.</p><a href="https://www.ericsson.com/en/6g/isac">ericsson.com/en/6g/isac</a><p className="editorial-caption">Qué es ISAC, por qué importa, casos de uso, arquitectura y línea de tiempo hacia 6G.</p></div></li>
           <li><span>[8]</span><div><h3>Integrated Sensing and Communication (ISAC) — From Concept to Practice</h3><p>A. Bayesteh, J. He, Y. Chen, P. Zhu, J. Ma, A. W. Shaban, Z. Yu, Y. Zhang, Z. Zhou y G. Wang (equipo de investigación 6G de Huawei). HuaweiTech, 2022.</p><a href="https://www.huawei.com/en/huaweitech/future-technologies/integrated-sensing-communication-concept-practice">Consultar el artículo en HuaweiTech</a><p className="editorial-caption">Niveles de integración de sensing y comunicación, casos de uso y dos estudios de caso (localización e imagen milimétrica).</p></div></li>
-          <li><span>[9]</span><div><h3>Qualcomm sees 6G ISAC as both a network efficiency tool and a new service platform</h3><p>RCR Wireless News · contenido patrocinado, abril de 2026.</p><a href="https://www.rcrwireless.com/20260423/sponsored/qualcomm-6g-isac">Consultar la nota en RCR Wireless</a><p className="editorial-caption">Perspectiva divulgativa sobre el papel de ISAC en 6G: eficiencia de red y nuevos servicios.</p></div></li>
+          <li><span>[9]</span><div><h3>Qualcomm sees 6G ISAC as both a network efficiency tool and a new service platform</h3><p>RCR Wireless News · contenido patrocinado, abril de 2026.</p><a href="https://www.rcrwireless.com/20260423/sponsored/qualcomm-6g-isac">Consultar la nota en RCR Wireless</a><p className="editorial-caption">Contenido patrocinado que presenta la perspectiva de Qualcomm sobre posibles aplicaciones de ISAC en 6G; no es evidencia de un despliegue.</p></div></li>
+          <li><span>[10]</span><div><h3>Soli: Ubiquitous Gesture Sensing with Millimeter Wave Radar</h3><p>J. Lien, N. Gillian, M. E. Karagozler, P. Amihood, C. Schwesig, E. Olson, H. Raja e I. Poupyrev. <em>ACM Transactions on Graphics</em>, vol. 35, n.º 4, artículo 142, 2016.</p><a href="https://doi.org/10.1145/2897824.2925953">DOI: 10.1145/2897824.2925953</a><p className="editorial-caption">Sistema de sensing por radar milimétrico para reconocimiento de gestos; ejemplo relacionado, no sistema ISAC.</p></div></li>
         </ol>
       </> },
       { id: "conversacion", title: "Conversemos sobre lo aprendido", content: <ForumInvitation /> },

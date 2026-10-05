@@ -9,7 +9,15 @@ interface ReferenceFigureProps {
 export function ReferenceFigure({ src, alt, caption, source }: ReferenceFigureProps) {
   return (
     <figure className="signal-figure">
-      <img src={src} alt={alt} loading="lazy" className="signal-image" />
+      <a
+        className="signal-image-link"
+        href={src}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Ampliar figura: ${alt}`}
+      >
+        <img src={src} alt={alt} loading="lazy" className="signal-image" />
+      </a>
       <figcaption>
         {caption}
         {source ? <span className="figure-source">{source}</span> : null}

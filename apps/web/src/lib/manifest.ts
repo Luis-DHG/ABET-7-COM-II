@@ -16,7 +16,7 @@ export const MODULES: ModuleInfo[] = [
     number: 2,
     path: "/analisis",
     title: "Inteligencia bibliométrica",
-    scope: "Cómo leer la investigación en ISAC. Búsqueda en Scopus e IEEE Xplore pendiente de realizar.",
+    scope: "Cómo el equipo pasó de una búsqueda bibliográfica a una red de coocurrencia para orientar la lectura técnica de ISAC.",
   },
   {
     number: 3,
