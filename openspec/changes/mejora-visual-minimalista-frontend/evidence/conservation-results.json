@@ -1,0 +1,40 @@
+{
+  "status": "GREEN",
+  "checks": [
+    {
+      "route": "/planeacion",
+      "sections": 6,
+      "differences": []
+    },
+    {
+      "route": "/analisis",
+      "sections": 3,
+      "differences": []
+    },
+    {
+      "route": "/tendencias",
+      "sections": 8,
+      "differences": []
+    },
+    {
+      "route": "/mini-caso",
+      "sections": 9,
+      "differences": []
+    },
+    {
+      "route": "/divulgacion",
+      "sections": 3,
+      "differences": []
+    },
+    {
+      "route": "/bitacora",
+      "sections": 3,
+      "differences": []
+    },
+    {
+      "route": "/glosario",
+      "sections": 3,
+      "differences": []
+    }
+  ]
+}

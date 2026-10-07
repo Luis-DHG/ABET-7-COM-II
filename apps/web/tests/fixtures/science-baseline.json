@@ -1,0 +1,498 @@
+{
+  "provenance": "Baseline anterior a cambios frontend; golden de conservación, no redefinición científica",
+  "dataset": {
+    "path": "public/data/isac/vosviewer-cooccurrence-network.json",
+    "bytes": 1082020,
+    "sha256": "d9537537367e9ad6bac7072ffd13abd475b6e6133dbe0877f8bdcadfe037f846",
+    "items": 541,
+    "links": 10523,
+    "clusters": {
+      "1": 113,
+      "2": 96,
+      "3": 94,
+      "4": 62,
+      "5": 62,
+      "6": 57,
+      "7": 35,
+      "8": 22
+    },
+    "itemsSha256": "e508da4eeaf669a60d2b07d7eb5f32868c75ddec426280f362b2ae18ff9144dc",
+    "linksSha256": "a1fb70035bfc95ae3b60000514e80c25d0be2754a18787662cfa715a154c8e50",
+    "globalStrongest1000Sha256": "45dedfee488a22622ac097c0d3a7f2de6c9bd7d56ff3b4a2b4ff7d8cf5f3c1b8",
+    "networkWeight": 13328
+  },
+  "assets": [
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig01-use-cases.avif",
+      "bytes": 61447,
+      "sha256": "8183bf700ab2e3635acb301342e4f16de3f215f2c4f64c0cf069dc320ce4e276"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig03-framework.avif",
+      "bytes": 56538,
+      "sha256": "3cf67c894f9f5209507be8d2ae9f640f0266d10b144e491afad2bd6e1c57e470"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig06-radar-sensing.avif",
+      "bytes": 30103,
+      "sha256": "463c1523ea75a08ab55529f59ddde20b4730a4b168fbc74ca2d31ff7759e1351"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig08-target-time-division-manner.avif",
+      "bytes": 9847,
+      "sha256": "3f139a1d777ddcfec211d705ab0f1ea599b7dfdaed0db80777b1ed129392522b"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig11-ofdm-isac.avif",
+      "bytes": 12055,
+      "sha256": "15711c71d061aebdb1ebf822bc98d525fab9b3f17606e11520a5fe7fba15de86"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig17--isac--v2I.avif",
+      "bytes": 13100,
+      "sha256": "468da2146d30d15b6b3b299c87db3e00922471beca7d3342dcd4b1efe6a6ea0a"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig19-ISAC-edge-ai.avif",
+      "bytes": 35408,
+      "sha256": "3899b979323d48facb0e5c55a26c329b75fcd5246b6f9edd569dcb8a4283d8fb"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig20-ISAC.avif",
+      "bytes": 17038,
+      "sha256": "28440b0bb1757a1fd94251d2a0d0ef5423c72a401b885a13a19fb4cec826660d"
+    },
+    {
+      "path": "public/images/isac/liu-jsac-2022/fig21-ISAC-aerial.avif",
+      "bytes": 19148,
+      "sha256": "6fa29a449e27591101d84eb3557e52855a530833562a30f3920547df04242567"
+    },
+    {
+      "path": "public/images/isac/ericsson/sensing-topologies.avif",
+      "bytes": 8680,
+      "sha256": "73ff249f8e5b1ce2d2c2e20a64ad9a33b353b00b50adf08a5e247f3812216eb5"
+    },
+    {
+      "path": "public/images/isac/huawei/fig08-thz-isac.avif",
+      "bytes": 12840,
+      "sha256": "73ff6f1a580a6e3b8e955f78344f94a56217d4f936344b7352b40702b6f9a76a"
+    },
+    {
+      "path": "public/images/isac/huawei/fig09-virtual-aperture.avif",
+      "bytes": 22663,
+      "sha256": "1794e3ca1dfc0e8a71546f6b7e776d8514ee42c5431f14a450d38a32b83936c9"
+    },
+    {
+      "path": "public/images/isac/huawei/fig10-hardware.avif",
+      "bytes": 18019,
+      "sha256": "5545e1f1c896934a7f47c385447f3adc4512ee45bfcb6c78cb6260994e0b22e6"
+    },
+    {
+      "path": "public/images/isac/huawei/fig18-hardware-impairments.avif",
+      "bytes": 23442,
+      "sha256": "7f4b13e4fdd4eca120a74cf3fae3cb40ce6955ef1298dbbf2c94fb88298f300f"
+    }
+  ],
+  "unresolvedAsset": {
+    "referenced": "public/images/oddm-isac-paper.png",
+    "status": "ausente por borrado previo del usuario; NO aprobado como baseline válida",
+    "unreferencedReplacement": "public/images/oddm-isac-paper.avif",
+    "replacementSha256": "cbfc98de22e44574c0aebaecf13f15c183c58c222c11971c2b1fe945e7054427",
+    "source": "src/components/ODDMDiagram.tsx:6",
+    "license": null
+  },
+  "ofdm": {
+    "defaults": {
+      "bandwidthMHz": 20,
+      "symbols": 256,
+      "range": 80,
+      "velocity": 15
+    },
+    "outputs": {
+      "rangeResolution": 7.49481145,
+      "velocityResolution": 1.5506677556442001,
+      "observationMs": 16.384,
+      "delayUs": 0.5337025523170433,
+      "dopplerHz": 590.4084485007292,
+      "rawRateMbps": 32,
+      "prefixRange": 1918.6717311999998,
+      "unambiguousVelocity": 198.48547272245762,
+      "spacingKHz": 19.53125
+    },
+    "corners": [
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 64,
+          "range": 10,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 64,
+          "range": 10,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 64,
+          "range": 200,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 64,
+          "range": 200,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 512,
+          "range": 10,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 0.38766693891105003,
+          "observationMs": 65.536,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 512,
+          "range": 10,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 0.38766693891105003,
+          "observationMs": 65.536,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 512,
+          "range": 200,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 0.38766693891105003,
+          "observationMs": 65.536,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 10,
+          "symbols": 512,
+          "range": 200,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 14.9896229,
+          "velocityResolution": 0.38766693891105003,
+          "observationMs": 65.536,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 16,
+          "prefixRange": 3837.3434623999997,
+          "unambiguousVelocity": 99.24273636122881,
+          "spacingKHz": 9.765625
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 64,
+          "range": 10,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 24.810684090307202,
+          "observationMs": 1.024,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 64,
+          "range": 10,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 24.810684090307202,
+          "observationMs": 1.024,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 64,
+          "range": 200,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 24.810684090307202,
+          "observationMs": 1.024,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 64,
+          "range": 200,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 24.810684090307202,
+          "observationMs": 1.024,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 512,
+          "range": 10,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 512,
+          "range": 10,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 0.06671281903963042,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 512,
+          "range": 200,
+          "velocity": -30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": -1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      },
+      {
+        "parameters": {
+          "bandwidthMHz": 80,
+          "symbols": 512,
+          "range": 200,
+          "velocity": 30
+        },
+        "outputs": {
+          "rangeResolution": 1.8737028625,
+          "velocityResolution": 3.1013355112884002,
+          "observationMs": 8.192,
+          "delayUs": 1.3342563807926082,
+          "dopplerHz": 1180.8168970014583,
+          "rawRateMbps": 128,
+          "prefixRange": 479.66793279999996,
+          "unambiguousVelocity": 793.9418908898305,
+          "spacingKHz": 78.125
+        }
+      }
+    ],
+    "controls": [
+      {
+        "key": "bandwidthMHz",
+        "min": 10,
+        "max": 80,
+        "step": 10,
+        "unit": "MHz"
+      },
+      {
+        "key": "symbols",
+        "min": 64,
+        "max": 512,
+        "step": 64,
+        "unit": "símbolos"
+      },
+      {
+        "key": "range",
+        "min": 10,
+        "max": 200,
+        "step": 5,
+        "unit": "m"
+      },
+      {
+        "key": "velocity",
+        "min": -30,
+        "max": 30,
+        "step": 1,
+        "unit": "m/s"
+      }
+    ],
+    "locale": "es-CO",
+    "maximumFractionDigits": {
+      "metrics": 2,
+      "delayUs": 3
+    },
+    "formulas": {
+      "subcarrierSpacing": "\\Delta f = \\frac{1}{T_u}",
+      "rangeResolution": "\\Delta R = \\frac{c}{2B}",
+      "velocityResolution": "\\Delta v = \\frac{c}{2f_cMT_{\\mathrm{sym}}}",
+      "delayAndDoppler": "\\tau = \\frac{2R}{c}\\qquad f_D = \\frac{2vf_c}{c}",
+      "echoResponse": "H[k,m] = \\beta\\,\\exp(-j2\\pi k\\Delta f\\tau)\\,\\exp(j2\\pi f_DmT_{\\mathrm{sym}})",
+      "speedOfLight": "c = 299\\,792\\,458\\;\\mathrm{m/s}",
+      "bandwidthSpacing": "\\Delta f = \\frac{B}{N}",
+      "symbolDuration": "T_{\\mathrm{sym}} = \\frac{1{,}25}{\\Delta f}",
+      "qpskRate": "R_{\\mathrm{QPSK}} = \\frac{2N}{T_{\\mathrm{sym}}}\\;\\mathrm{bit/s}",
+      "wavelength": "\\lambda = \\frac{c}{f_c}\\;[\\mathrm{m}]",
+      "doppler": "f_D = \\frac{2vf_c}{c}\\;[\\mathrm{Hz}]",
+      "ber": "\\mathrm{BER} = \\frac{\\text{bits erróneos}}{\\text{bits transmitidos}}",
+      "snr": "\\mathrm{SNR}_{\\mathrm{dB}} = 10\\log_{10}\\!\\left(\\frac{P_{\\text{señal}}}{P_{\\text{ruido}}}\\right)\\;[\\mathrm{dB}]",
+      "detectionProbability": "P_d = P(\\text{declarar objetivo}\\mid\\text{objetivo presente})",
+      "crlb": "\\operatorname{Var}(\\hat{R}) \\ge \\operatorname{CRLB}_{R}\\;[\\mathrm{m}^2]",
+      "powerSplit": "P_c = \\alpha P_{\\mathrm{total}}, \\qquad P_s = (1-\\alpha)\\,P_{\\mathrm{total}}, \\qquad 0 \\le \\alpha \\le 1",
+      "shannonCapacity": "R = B\\,\\log_2\\!\\left(1 + \\mathrm{SNR}_{\\mathrm{com}}\\right) \\;[\\mathrm{bit/s}]",
+      "commSnr": "\\mathrm{SNR}_{\\mathrm{com}} = \\frac{|h|^2\\,P_c}{k\\,T_0\\,B\\,F}",
+      "radarSnr": "\\mathrm{SNR}_{\\mathrm{radar}} = \\frac{P_s\\,G^2\\lambda^2\\,\\sigma}{(4\\pi)^3\\,R^4\\,k\\,T_0\\,B\\,F}"
+    }
+  },
+  "bibliographyRules": {
+    "nodeSize": "max(1.3, sqrt(Occurrences) * 1.55)",
+    "selectedMultiplier": 1.65,
+    "globalEdgeSize": "0.18 + min(1, log2(strength + 1) / 5) * 0.95",
+    "maxLinks": 1000,
+    "nodeAndClusterEdges": "adyacentes, fuerza descendente; slice(0,1000), misma deduplicación y desempate estable",
+    "associationStrength": "2 * sum(unique edge strengths) * edge.strength / (totalStrengthA * totalStrengthB); 0 si denominador no positivo",
+    "sources": [
+      "BibliometricMap.tsx:54-82,117-157",
+      "BibliometricFindings.tsx:54-100"
+    ],
+    "coverageLimit": "Reglas identificadas por lectura; este golden no ejecuta Sigma/reducers ni sustituye su ciclo futuro"
+  }
+}

@@ -21,6 +21,7 @@ type MapTerm = VOSItem & { occurrences: number; links: number; linkStrength: num
 const COLORS = ["#2463a6", "#a54b42", "#4d8065", "#9a6c1c", "#765a9e", "#25858b", "#bd657f", "#647386"];
 const MAX_VISIBLE_LINKS = 1000;
 const rgb = (hex: string) => hex.match(/[\da-f]{2}/gi)?.map((part) => Number.parseInt(part, 16)).join(", ") ?? "89, 105, 123";
+const edgeSize = (strength: number) => 0.18 + Math.min(1, Math.log2(strength + 1) / 5) * 0.95;
 const DEFAULT_EDGE_COLOR = "rgba(76, 90, 106, 0.46)";
 const number = (value: number) => value.toLocaleString("es-CO", { maximumFractionDigits: 2 });
 
@@ -71,10 +72,9 @@ export function BibliometricMap() {
           const source = String(link.source_id);
           const target = String(link.target_id);
           if (!graph.hasNode(source) || !graph.hasNode(target) || graph.hasEdge(source, target)) continue;
-          const strengthScale = Math.min(1, Math.log2(link.strength + 1) / 5);
           const defaultVisible = strongestLinkIndexes.has(index);
           graph.addEdgeWithKey(`link-${index}`, source, target, {
-            size: defaultVisible ? 0.18 + strengthScale * 0.95 : 0,
+            size: defaultVisible ? edgeSize(link.strength) : 0,
             color: defaultVisible ? DEFAULT_EDGE_COLOR : "rgba(76, 90, 106, 0)",
             hidden: !defaultVisible,
             defaultVisible,
@@ -85,7 +85,7 @@ export function BibliometricMap() {
         setTerms(parsed);
         renderer = new Sigma(graph, host.current, {
           renderLabels: true,
-          labelRenderedSizeThreshold: 4,
+          labelRenderedSizeThreshold: 6,
           labelFont: "Inter Variable, Inter, sans-serif",
           labelSize: 12,
           defaultEdgeColor: DEFAULT_EDGE_COLOR,
@@ -152,6 +152,7 @@ export function BibliometricMap() {
       return {
         ...attributes,
         hidden: false,
+        size: edgeSize(attributes.strength as number),
         color: focusColor ? `rgba(${rgb(focusColor)}, 0.86)` : DEFAULT_EDGE_COLOR,
       };
     });

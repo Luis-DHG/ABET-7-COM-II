@@ -4,7 +4,7 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { EditorialModule } from "@/pages/moduleContent";
 import { FORUM_PATH, MODULES, previousOf, nextOf, type ModuleInfo } from "@/lib/manifest";
-import { cn } from "@/lib/utils";
+import { cn, scrollHorizontallyWithArrowKeys } from "@/lib/utils";
 
 // En escritorio el índice siempre está abierto; en móvil es colapsable.
 function useIsDesktop() {
@@ -63,7 +63,15 @@ export function ModuleLayout({ module, content }: { module: ModuleInfo; content:
           {module.number !== 7 ? <Link className="glossary-shortcut" to="/glosario"><BookOpen aria-hidden /> Consultar glosario <ArrowUpRight aria-hidden /></Link> : null}
           <p className="editorial-caption">Divulgación para estudiantes de ingeniería.</p>
         </aside>
-        <div className="editorial-body">{content.sections.map((section) => (
+        <div
+          className="editorial-body"
+          onKeyDown={(event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) return;
+            const scrollRegion = target.closest<HTMLElement>(".equation, .editorial-table-wrap");
+            if (scrollRegion) scrollHorizontallyWithArrowKeys(event, scrollRegion);
+          }}
+        >{content.sections.map((section) => (
           <section key={section.id} id={section.id} tabIndex={-1} aria-labelledby={`${section.id}-title`} className="editorial-section">
             <h2 id={`${section.id}-title`}>{section.title}</h2>
             {section.content}
@@ -78,19 +86,17 @@ export function ModuleLayout({ module, content }: { module: ModuleInfo; content:
 
 export function ModuleProgress({ module }: { module: ModuleInfo }) {
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col gap-2">
       <p className="text-sm font-medium text-muted-foreground">
         Módulo {module.number} de {MODULES.length}
       </p>
-      <ol className="flex items-end gap-1.5" aria-hidden>
+      <ol className="flex w-56 max-w-full gap-2" aria-hidden>
         {MODULES.map(({ number: n }) => (
           <li
             key={n}
             className={cn(
-              "w-[7px] rounded-[2px]",
-              n < module.number && "h-3.5 bg-primary/40",
-              n === module.number && "h-6 bg-primary",
-              n > module.number && "h-3.5 border border-border bg-transparent",
+              "h-1.5 flex-1 rounded-full",
+              n === module.number ? "bg-primary" : "bg-border",
             )}
           />
         ))}

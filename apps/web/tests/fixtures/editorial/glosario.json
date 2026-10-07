@@ -1,0 +1,326 @@
+{
+  "route": "/glosario",
+  "headline": "Un vocabulario para seguir la señal.",
+  "subject": "Glosario y referencias",
+  "introduction": "Consulta las siglas, sus unidades y un ejemplo concreto. Al final encontrarás las lecturas iniciales que acompañan el proyecto.",
+  "metadata": "Universidad Industrial de SantanderGuía de lectura",
+  "index": [
+    {
+      "text": "Glosario esencial",
+      "href": "#conceptos",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Lecturas de referencia",
+      "href": "#referencias",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Conversemos sobre lo aprendido",
+      "href": "#conversacion",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "pagination": [
+    {
+      "text": "Índice completo",
+      "href": "/planeacion#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "← Módulo anterior6. Bitácora metacognitiva",
+      "href": "/bitacora",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "A continuaciónRetroalimentación — sección independiente",
+      "href": "/retroalimentacion",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "sections": [
+    {
+      "id": "conceptos",
+      "title": "Glosario esencial",
+      "text": "Glosario esencialBuscar un concepto o una sigla28 de 28 conceptos. Abre un término para ver su definición y ejemplo.ISACIntegrated Sensing and CommunicationsIntegra comunicación y percepción del entorno mediante recursos compartidos: espectro, infraestructura o señales. El grado de integración depende del diseño.Ejemplo. Una estación base transmite datos y analiza ecos para localizar un vehículo.JCSJoint Communication and SensingDenominación cercana a ISAC que destaca el diseño conjunto de las funciones de comunicación y sensing.Ejemplo. Un receptor procesa información del enlace y parámetros del entorno.DFRCDual-Function Radar-CommunicationSistema que utiliza una forma de onda con funciones de radar y comunicación. Su diseño considera simultáneamente el transporte de datos y la estimación de parámetros del objetivo.Ejemplo. La señal OFDM del mini-caso permite estudiar retardo y Doppler mientras transporta símbolos QPSK.OFDMOrthogonal Frequency Division MultiplexingDistribuye símbolos entre subportadoras ortogonales. En condiciones ideales, su separación Δf es el inverso de la duración útil Tu del símbolo.Δf=1Tu\\Delta f = \\frac{1}{T_u}Ejemplo. 1024 subportadoras en 20 MHz dan Δf = 19,53125 kHz.FMCWFrequency-Modulated Continuous WaveEmite una onda continua cuya frecuencia varía durante un barrido. El retardo del eco genera una frecuencia de batido relacionada con la distancia; el movimiento también influye en ella.Ejemplo. Un radar usa varios chirps para estimar distancia y velocidad. Es una alternativa a OFDM.ClutterEcos del entornoRespuestas de elementos que no son el objetivo de interés. No es equivalente al ruido térmico: puede tener estructura espacial y temporal.Ejemplo. Una pared produce un eco fuerte que puede ocultar a una persona.OTFSOrthogonal Time Frequency SpaceUbica los símbolos de información en el dominio retardo-Doppler y los transforma para su transmisión. Se investiga, entre otros motivos, por su comportamiento en canales con movilidad.Ejemplo. Un enlace con vehículos rápidos puede estudiarse en retardo-Doppler para representar los caminos de propagación.MIMOMultiple-Input Multiple-OutputEmplea varias antenas transmisoras y receptoras para aprovechar la dimensión espacial. Puede aportar multiplexación, diversidad o información angular según el diseño.Ejemplo. Un arreglo de antenas ayuda a distinguir la dirección de llegada de dos ecos.BeamformingConformación de hacesAjusta amplitudes y fases de las señales de un arreglo para orientar la transmisión o recepción hacia determinadas direcciones.Ejemplo. Un nodo concentra energía hacia un usuario y una región de interés para sensing.mmWaveOndas milimétricasEn sentido físico, corresponde a frecuencias entre 30 y 300 GHz, con longitudes de onda de 10 a 1 mm. En comunicaciones, el término también se usa para bandas próximas, como 28 GHz.λ=cfc [m]\\lambda = \\frac{c}{f_c}\\;[\\mathrm{m}]Ejemplo. A 60 GHz, la longitud de onda es aproximadamente 5 mm.Sub-THzBandas subterahercioDenominación usada para bandas por debajo de 1 THz, frecuentemente en el entorno de 100–300 GHz. Sus límites varían entre publicaciones y deben declararse.Ejemplo. Un estudio a 140 GHz puede analizar canales con gran ancho de banda.DopplerDesplazamiento de frecuenciaCambio de frecuencia asociado con el movimiento relativo. En el modelo monostático del blog depende de la velocidad radial v y de la portadora fc.fD=2vfcc [Hz]f_D = \\frac{2vf_c}{c}\\;[\\mathrm{Hz}]Ejemplo. A 5,9 GHz, un objetivo acercándose a 15 m/s produce unos 590,4 Hz.Rango-DopplerMapa de distancia y movimientoRepresentación de la respuesta procesada según distancia y frecuencia Doppler. Un máximo puede corresponder a un objetivo; hace falta una regla de detección para declararlo.Ejemplo. Un pico puede indicar un vehículo a 80 m con una velocidad radial determinada.BERBit Error RateFracción de bits recibidos incorrectamente respecto al total transmitido. Es adimensional y debe acompañarse del canal, la modulación y la cantidad de bits evaluados.BER=bits erroˊneosbits transmitidos\\mathrm{BER} = \\frac{\\text{bits erróneos}}{\\text{bits transmitidos}}Ejemplo. 10 errores en 100 000 bits dan una BER de 0,0001.Capacidad de ShannonTasa máxima ideal de un canalCota superior de la tasa de datos sin errores alcanzable en un canal de ancho de banda B con una SNR dada, bajo ruido gaussiano y codificación ideal. Es una referencia teórica, no la tasa de un equipo real.R=B log⁡2 ⁣(1+SNRcom) [bit/s]R = B\\,\\log_2\\!\\left(1 + \\mathrm{SNR}_{\\mathrm{com}}\\right) \\;[\\mathrm{bit/s}]Ejemplo. Un canal de 20 MHz con SNR de 20 dB (100 veces) tiene una capacidad de unos 133 Mbit/s.SNRSignal-to-Noise RatioRelación entre potencia de señal y ruido en un punto y ancho de banda definidos. Su valor en dB es una transformación logarítmica, no una unidad de potencia.SNRdB=10log⁡10 ⁣(Psen˜alPruido) [dB]\\mathrm{SNR}_{\\mathrm{dB}} = 10\\log_{10}\\!\\left(\\frac{P_{\\text{señal}}}{P_{\\text{ruido}}}\\right)\\;[\\mathrm{dB}]Ejemplo. Una señal con diez veces la potencia del ruido tiene SNR = 10 dB.Ecuación de radarSNR monostática del ecoRelación entre la potencia del eco y el ruido del receptor cuando el mismo nodo transmite y recibe. Incluye la sección recta del objetivo, la ganancia de antena al cuadrado (por el doble trayecto) y la caída con la cuarta potencia de la distancia. Es una simplificación del escenario del mini-caso, no un modelo universal de ISAC.SNRradar=Ps G2λ2 σ(4π)3 R4 k T0 B F\\mathrm{SNR}_{\\mathrm{radar}} = \\frac{P_s\\,G^2\\lambda^2\\,\\sigma}{(4\\pi)^3\\,R^4\\,k\\,T_0\\,B\\,F}Ejemplo. Duplicar la distancia al objetivo reduce la SNR del eco dieciséis veces (−12 dB).Reparto de potenciaFactor α entre comunicación y sensingFracción α de la potencia total asignada a comunicaciones; el resto, 1 − α, se destina al sensing. Permite recorrer el compromiso entre ambas funciones con una sola variable; su valor conveniente depende del escenario, no es una ley general.Pc=αPtotal,Ps=(1−α) Ptotal,0≤α≤1P_c = \\alpha P_{\\mathrm{total}}, \\qquad P_s = (1-\\alpha)\\,P_{\\mathrm{total}}, \\qquad 0 \\le \\alpha \\le 1Ejemplo. Con α = 0,8, el 80 % de la potencia transporta datos y el 20 % fortalece el eco.PdProbabilidad de detecciónProbabilidad de declarar un objetivo cuando está presente. Depende del detector, del umbral y del modelo estadístico; se interpreta junto a la probabilidad de falsa alarma.Pd=P(declarar objetivo∣objetivo presente)P_d = P(\\text{declarar objetivo}\\mid\\text{objetivo presente})Ejemplo. Detectar en 90 de 100 ensayos con objetivo da una estimación de 0,90.CRLBCramér-Rao Lower BoundCota inferior de la varianza de estimadores insesgados bajo condiciones de regularidad y un modelo estadístico especificado. No es el error medido de un algoritmo.Var⁡(R^)≥CRLB⁡R [m2]\\operatorname{Var}(\\hat{R}) \\ge \\operatorname{CRLB}_{R}\\;[\\mathrm{m}^2]Ejemplo. La raíz de una cota de 0,04 m² es 0,2 m, una cota de desviación estándar.NLOSNon-Line-of-SightEscenario sin una trayectoria directa despejada entre los puntos de interés. La señal puede llegar por reflexión o difracción, lo que complica la interpretación de retardos.Ejemplo. Un edificio bloquea el trayecto directo hacia un vehículo.V2XVehicle-to-EverythingIntercambio de información entre vehículos y otros actores: infraestructura, peatones, redes u otros vehículos.Ejemplo. Un vehículo comunica su velocidad a una intersección conectada.UAVUnmanned Aerial VehicleAeronave no tripulada. En ISAC puede ser un objetivo que se desea detectar o un nodo que participa en la comunicación y observación.Ejemplo. Varios nodos observan el movimiento de un dron.gNBEstación base de 5G NRNodo de acceso radio de 5G New Radio. Incorporar sensing exige funciones y capacidades específicas; no se supone que cualquier estación ya las tenga.Ejemplo. Una arquitectura de investigación estudia aprovechar la infraestructura celular para observar ecos.TSNTime-Sensitive NetworkingFamilia de mecanismos IEEE 802.1 para sincronización y transporte con comportamiento temporal controlado en redes Ethernet.Ejemplo. Una línea industrial necesita mensajes de control con latencia acotada.AGVAutomated Guided VehicleVehículo guiado automáticamente para tareas como transporte interno de materiales. Conectividad y localización son funciones importantes para su coordinación.Ejemplo. Un vehículo recorre una planta mientras intercambia órdenes con el sistema de control.3GPP3rd Generation Partnership ProjectColaboración de organizaciones que desarrolla especificaciones para telecomunicaciones móviles. Sus informes de estudio exploran requisitos y escenarios.Ejemplo. TR 22.837 estudia casos de uso de comunicación y sensing integrados.IEEE 802.11bfWLAN sensingTrabajo de estandarización de la familia IEEE 802.11 relacionado con sensing mediante redes inalámbricas de área local.Ejemplo. Estudiar cambios del canal Wi-Fi para obtener información del entorno.",
+      "ids": [
+        "conceptos-title",
+        "glossary-search"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [
+        {
+          "summary": "ISACIntegrated Sensing and Communications",
+          "open": false,
+          "text": "ISACIntegrated Sensing and CommunicationsIntegra comunicación y percepción del entorno mediante recursos compartidos: espectro, infraestructura o señales. El grado de integración depende del diseño.Ejemplo. Una estación base transmite datos y analiza ecos para localizar un vehículo."
+        },
+        {
+          "summary": "JCSJoint Communication and Sensing",
+          "open": false,
+          "text": "JCSJoint Communication and SensingDenominación cercana a ISAC que destaca el diseño conjunto de las funciones de comunicación y sensing.Ejemplo. Un receptor procesa información del enlace y parámetros del entorno."
+        },
+        {
+          "summary": "DFRCDual-Function Radar-Communication",
+          "open": false,
+          "text": "DFRCDual-Function Radar-CommunicationSistema que utiliza una forma de onda con funciones de radar y comunicación. Su diseño considera simultáneamente el transporte de datos y la estimación de parámetros del objetivo.Ejemplo. La señal OFDM del mini-caso permite estudiar retardo y Doppler mientras transporta símbolos QPSK."
+        },
+        {
+          "summary": "OFDMOrthogonal Frequency Division Multiplexing",
+          "open": false,
+          "text": "OFDMOrthogonal Frequency Division MultiplexingDistribuye símbolos entre subportadoras ortogonales. En condiciones ideales, su separación Δf es el inverso de la duración útil Tu del símbolo.Δf=1Tu\\Delta f = \\frac{1}{T_u}Ejemplo. 1024 subportadoras en 20 MHz dan Δf = 19,53125 kHz."
+        },
+        {
+          "summary": "FMCWFrequency-Modulated Continuous Wave",
+          "open": false,
+          "text": "FMCWFrequency-Modulated Continuous WaveEmite una onda continua cuya frecuencia varía durante un barrido. El retardo del eco genera una frecuencia de batido relacionada con la distancia; el movimiento también influye en ella.Ejemplo. Un radar usa varios chirps para estimar distancia y velocidad. Es una alternativa a OFDM."
+        },
+        {
+          "summary": "ClutterEcos del entorno",
+          "open": false,
+          "text": "ClutterEcos del entornoRespuestas de elementos que no son el objetivo de interés. No es equivalente al ruido térmico: puede tener estructura espacial y temporal.Ejemplo. Una pared produce un eco fuerte que puede ocultar a una persona."
+        },
+        {
+          "summary": "OTFSOrthogonal Time Frequency Space",
+          "open": false,
+          "text": "OTFSOrthogonal Time Frequency SpaceUbica los símbolos de información en el dominio retardo-Doppler y los transforma para su transmisión. Se investiga, entre otros motivos, por su comportamiento en canales con movilidad.Ejemplo. Un enlace con vehículos rápidos puede estudiarse en retardo-Doppler para representar los caminos de propagación."
+        },
+        {
+          "summary": "MIMOMultiple-Input Multiple-Output",
+          "open": false,
+          "text": "MIMOMultiple-Input Multiple-OutputEmplea varias antenas transmisoras y receptoras para aprovechar la dimensión espacial. Puede aportar multiplexación, diversidad o información angular según el diseño.Ejemplo. Un arreglo de antenas ayuda a distinguir la dirección de llegada de dos ecos."
+        },
+        {
+          "summary": "BeamformingConformación de haces",
+          "open": false,
+          "text": "BeamformingConformación de hacesAjusta amplitudes y fases de las señales de un arreglo para orientar la transmisión o recepción hacia determinadas direcciones.Ejemplo. Un nodo concentra energía hacia un usuario y una región de interés para sensing."
+        },
+        {
+          "summary": "mmWaveOndas milimétricas",
+          "open": false,
+          "text": "mmWaveOndas milimétricasEn sentido físico, corresponde a frecuencias entre 30 y 300 GHz, con longitudes de onda de 10 a 1 mm. En comunicaciones, el término también se usa para bandas próximas, como 28 GHz.λ=cfc [m]\\lambda = \\frac{c}{f_c}\\;[\\mathrm{m}]Ejemplo. A 60 GHz, la longitud de onda es aproximadamente 5 mm."
+        },
+        {
+          "summary": "Sub-THzBandas subterahercio",
+          "open": false,
+          "text": "Sub-THzBandas subterahercioDenominación usada para bandas por debajo de 1 THz, frecuentemente en el entorno de 100–300 GHz. Sus límites varían entre publicaciones y deben declararse.Ejemplo. Un estudio a 140 GHz puede analizar canales con gran ancho de banda."
+        },
+        {
+          "summary": "DopplerDesplazamiento de frecuencia",
+          "open": false,
+          "text": "DopplerDesplazamiento de frecuenciaCambio de frecuencia asociado con el movimiento relativo. En el modelo monostático del blog depende de la velocidad radial v y de la portadora fc.fD=2vfcc [Hz]f_D = \\frac{2vf_c}{c}\\;[\\mathrm{Hz}]Ejemplo. A 5,9 GHz, un objetivo acercándose a 15 m/s produce unos 590,4 Hz."
+        },
+        {
+          "summary": "Rango-DopplerMapa de distancia y movimiento",
+          "open": false,
+          "text": "Rango-DopplerMapa de distancia y movimientoRepresentación de la respuesta procesada según distancia y frecuencia Doppler. Un máximo puede corresponder a un objetivo; hace falta una regla de detección para declararlo.Ejemplo. Un pico puede indicar un vehículo a 80 m con una velocidad radial determinada."
+        },
+        {
+          "summary": "BERBit Error Rate",
+          "open": false,
+          "text": "BERBit Error RateFracción de bits recibidos incorrectamente respecto al total transmitido. Es adimensional y debe acompañarse del canal, la modulación y la cantidad de bits evaluados.BER=bits erroˊneosbits transmitidos\\mathrm{BER} = \\frac{\\text{bits erróneos}}{\\text{bits transmitidos}}Ejemplo. 10 errores en 100 000 bits dan una BER de 0,0001."
+        },
+        {
+          "summary": "Capacidad de ShannonTasa máxima ideal de un canal",
+          "open": false,
+          "text": "Capacidad de ShannonTasa máxima ideal de un canalCota superior de la tasa de datos sin errores alcanzable en un canal de ancho de banda B con una SNR dada, bajo ruido gaussiano y codificación ideal. Es una referencia teórica, no la tasa de un equipo real.R=B log⁡2 ⁣(1+SNRcom) [bit/s]R = B\\,\\log_2\\!\\left(1 + \\mathrm{SNR}_{\\mathrm{com}}\\right) \\;[\\mathrm{bit/s}]Ejemplo. Un canal de 20 MHz con SNR de 20 dB (100 veces) tiene una capacidad de unos 133 Mbit/s."
+        },
+        {
+          "summary": "SNRSignal-to-Noise Ratio",
+          "open": false,
+          "text": "SNRSignal-to-Noise RatioRelación entre potencia de señal y ruido en un punto y ancho de banda definidos. Su valor en dB es una transformación logarítmica, no una unidad de potencia.SNRdB=10log⁡10 ⁣(Psen˜alPruido) [dB]\\mathrm{SNR}_{\\mathrm{dB}} = 10\\log_{10}\\!\\left(\\frac{P_{\\text{señal}}}{P_{\\text{ruido}}}\\right)\\;[\\mathrm{dB}]Ejemplo. Una señal con diez veces la potencia del ruido tiene SNR = 10 dB."
+        },
+        {
+          "summary": "Ecuación de radarSNR monostática del eco",
+          "open": false,
+          "text": "Ecuación de radarSNR monostática del ecoRelación entre la potencia del eco y el ruido del receptor cuando el mismo nodo transmite y recibe. Incluye la sección recta del objetivo, la ganancia de antena al cuadrado (por el doble trayecto) y la caída con la cuarta potencia de la distancia. Es una simplificación del escenario del mini-caso, no un modelo universal de ISAC.SNRradar=Ps G2λ2 σ(4π)3 R4 k T0 B F\\mathrm{SNR}_{\\mathrm{radar}} = \\frac{P_s\\,G^2\\lambda^2\\,\\sigma}{(4\\pi)^3\\,R^4\\,k\\,T_0\\,B\\,F}Ejemplo. Duplicar la distancia al objetivo reduce la SNR del eco dieciséis veces (−12 dB)."
+        },
+        {
+          "summary": "Reparto de potenciaFactor α entre comunicación y sensing",
+          "open": false,
+          "text": "Reparto de potenciaFactor α entre comunicación y sensingFracción α de la potencia total asignada a comunicaciones; el resto, 1 − α, se destina al sensing. Permite recorrer el compromiso entre ambas funciones con una sola variable; su valor conveniente depende del escenario, no es una ley general.Pc=αPtotal,Ps=(1−α) Ptotal,0≤α≤1P_c = \\alpha P_{\\mathrm{total}}, \\qquad P_s = (1-\\alpha)\\,P_{\\mathrm{total}}, \\qquad 0 \\le \\alpha \\le 1Ejemplo. Con α = 0,8, el 80 % de la potencia transporta datos y el 20 % fortalece el eco."
+        },
+        {
+          "summary": "PdProbabilidad de detección",
+          "open": false,
+          "text": "PdProbabilidad de detecciónProbabilidad de declarar un objetivo cuando está presente. Depende del detector, del umbral y del modelo estadístico; se interpreta junto a la probabilidad de falsa alarma.Pd=P(declarar objetivo∣objetivo presente)P_d = P(\\text{declarar objetivo}\\mid\\text{objetivo presente})Ejemplo. Detectar en 90 de 100 ensayos con objetivo da una estimación de 0,90."
+        },
+        {
+          "summary": "CRLBCramér-Rao Lower Bound",
+          "open": false,
+          "text": "CRLBCramér-Rao Lower BoundCota inferior de la varianza de estimadores insesgados bajo condiciones de regularidad y un modelo estadístico especificado. No es el error medido de un algoritmo.Var⁡(R^)≥CRLB⁡R [m2]\\operatorname{Var}(\\hat{R}) \\ge \\operatorname{CRLB}_{R}\\;[\\mathrm{m}^2]Ejemplo. La raíz de una cota de 0,04 m² es 0,2 m, una cota de desviación estándar."
+        },
+        {
+          "summary": "NLOSNon-Line-of-Sight",
+          "open": false,
+          "text": "NLOSNon-Line-of-SightEscenario sin una trayectoria directa despejada entre los puntos de interés. La señal puede llegar por reflexión o difracción, lo que complica la interpretación de retardos.Ejemplo. Un edificio bloquea el trayecto directo hacia un vehículo."
+        },
+        {
+          "summary": "V2XVehicle-to-Everything",
+          "open": false,
+          "text": "V2XVehicle-to-EverythingIntercambio de información entre vehículos y otros actores: infraestructura, peatones, redes u otros vehículos.Ejemplo. Un vehículo comunica su velocidad a una intersección conectada."
+        },
+        {
+          "summary": "UAVUnmanned Aerial Vehicle",
+          "open": false,
+          "text": "UAVUnmanned Aerial VehicleAeronave no tripulada. En ISAC puede ser un objetivo que se desea detectar o un nodo que participa en la comunicación y observación.Ejemplo. Varios nodos observan el movimiento de un dron."
+        },
+        {
+          "summary": "gNBEstación base de 5G NR",
+          "open": false,
+          "text": "gNBEstación base de 5G NRNodo de acceso radio de 5G New Radio. Incorporar sensing exige funciones y capacidades específicas; no se supone que cualquier estación ya las tenga.Ejemplo. Una arquitectura de investigación estudia aprovechar la infraestructura celular para observar ecos."
+        },
+        {
+          "summary": "TSNTime-Sensitive Networking",
+          "open": false,
+          "text": "TSNTime-Sensitive NetworkingFamilia de mecanismos IEEE 802.1 para sincronización y transporte con comportamiento temporal controlado en redes Ethernet.Ejemplo. Una línea industrial necesita mensajes de control con latencia acotada."
+        },
+        {
+          "summary": "AGVAutomated Guided Vehicle",
+          "open": false,
+          "text": "AGVAutomated Guided VehicleVehículo guiado automáticamente para tareas como transporte interno de materiales. Conectividad y localización son funciones importantes para su coordinación.Ejemplo. Un vehículo recorre una planta mientras intercambia órdenes con el sistema de control."
+        },
+        {
+          "summary": "3GPP3rd Generation Partnership Project",
+          "open": false,
+          "text": "3GPP3rd Generation Partnership ProjectColaboración de organizaciones que desarrolla especificaciones para telecomunicaciones móviles. Sus informes de estudio exploran requisitos y escenarios.Ejemplo. TR 22.837 estudia casos de uso de comunicación y sensing integrados."
+        },
+        {
+          "summary": "IEEE 802.11bfWLAN sensing",
+          "open": false,
+          "text": "IEEE 802.11bfWLAN sensingTrabajo de estandarización de la familia IEEE 802.11 relacionado con sensing mediante redes inalámbricas de área local.Ejemplo. Estudiar cambios del canal Wi-Fi para obtener información del entorno."
+        }
+      ],
+      "formulas": [
+        "\\Delta f = \\frac{1}{T_u}",
+        "\\lambda = \\frac{c}{f_c}\\;[\\mathrm{m}]",
+        "f_D = \\frac{2vf_c}{c}\\;[\\mathrm{Hz}]",
+        "\\mathrm{BER} = \\frac{\\text{bits erróneos}}{\\text{bits transmitidos}}",
+        "R = B\\,\\log_2\\!\\left(1 + \\mathrm{SNR}_{\\mathrm{com}}\\right) \\;[\\mathrm{bit/s}]",
+        "\\mathrm{SNR}_{\\mathrm{dB}} = 10\\log_{10}\\!\\left(\\frac{P_{\\text{señal}}}{P_{\\text{ruido}}}\\right)\\;[\\mathrm{dB}]",
+        "\\mathrm{SNR}_{\\mathrm{radar}} = \\frac{P_s\\,G^2\\lambda^2\\,\\sigma}{(4\\pi)^3\\,R^4\\,k\\,T_0\\,B\\,F}",
+        "P_c = \\alpha P_{\\mathrm{total}}, \\qquad P_s = (1-\\alpha)\\,P_{\\mathrm{total}}, \\qquad 0 \\le \\alpha \\le 1",
+        "P_d = P(\\text{declarar objetivo}\\mid\\text{objetivo presente})",
+        "\\operatorname{Var}(\\hat{R}) \\ge \\operatorname{CRLB}_{R}\\;[\\mathrm{m}^2]"
+      ]
+    },
+    {
+      "id": "referencias",
+      "title": "Lecturas de referencia",
+      "text": "Lecturas de referenciaLas fichas académicas fueron verificadas contra los registros de DOI (Crossref) y las páginas de sus editores; corregimos las dos entradas cuyos autores o títulos no coincidían con la publicación real. Añadimos también las fuentes industriales citadas a lo largo de los módulos.[1]Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and BeyondF. Liu, Y. Cui, C. Masouros, J. Xu, T. X. Han, Y. C. Eldar y S. Buzzi. IEEE Journal on Selected Areas in Communications, vol. 40, n.º 6, pp. 1728–1767, 2022.DOI: 10.1109/JSAC.2022.3156632Ficha corregida: la guía atribuía el artículo a autores de otra publicación. Artículo de acceso abierto (CC BY 4.0 según sus metadatos), útil como tutorial del compromiso ISAC.[2]Enabling Joint Communication and Radar Sensing in Mobile Networks—A SurveyJ. A. Zhang, M. L. Rahman, K. Wu, X. Huang, Y. J. Guo, S. Chen y J. Yuan. IEEE Communications Surveys & Tutorials, vol. 24, n.º 1, pp. 306–345, 2022.DOI: 10.1109/COMST.2021.3122519Ficha corregida: la guía mezclaba un título distinto con una lista parcial de autores. Encuesta sobre OFDM-DFRC y detección con señales de redes móviles.[3]Study on Integrated Sensing and Communication3GPP · TR 22.837 · Release 19 (versión 19.4.0, 2024).Consultar el informe en 3GPPInforme técnico de estudio de casos de uso y requisitos; confirmado en el portal 3GPP (SA 1).[4]An Overview of Signal Processing Techniques for Joint Communication and Radar SensingJ. A. Zhang, F. Liu, C. Masouros, R. W. Heath, Z. Feng, L. Zheng y A. Petropulu. IEEE Journal of Selected Topics in Signal Processing, vol. 15, n.º 6, pp. 1295–1315, 2021.DOI: 10.1109/JSTSP.2021.3113120Ficha verificada; base de la formulación retardo-Doppler usada en el mini-caso.[5]6G ISAC insights for future mobile connectivityQualcomm Research · página de investigación.qualcomm.com/research/6g/isacVisión industrial de ISAC como capacidad de 6G: sensado con la misma infraestructura celular.[6]Integrated Sensing and Communication (ISAC) in 6GQualcomm · documento técnico.Descargar el PDFDocumento técnico con casos de uso y principios de diseño; complementa la referencia [5].[7]Integrated Sensing and Communication (ISAC)Ericsson · página 6G.ericsson.com/en/6g/isacQué es ISAC, por qué importa, casos de uso, arquitectura y línea de tiempo hacia 6G.[8]Integrated Sensing and Communication (ISAC) — From Concept to PracticeA. Bayesteh, J. He, Y. Chen, P. Zhu, J. Ma, A. W. Shaban, Z. Yu, Y. Zhang, Z. Zhou y G. Wang (equipo de investigación 6G de Huawei). HuaweiTech, 2022.Consultar el artículo en HuaweiTechNiveles de integración de sensing y comunicación, casos de uso y dos estudios de caso (localización e imagen milimétrica).[9]Qualcomm sees 6G ISAC as both a network efficiency tool and a new service platformRCR Wireless News · contenido patrocinado, abril de 2026.Consultar la nota en RCR WirelessContenido patrocinado que presenta la perspectiva de Qualcomm sobre posibles aplicaciones de ISAC en 6G; no es evidencia de un despliegue.[10]Soli: Ubiquitous Gesture Sensing with Millimeter Wave RadarJ. Lien, N. Gillian, M. E. Karagozler, P. Amihood, C. Schwesig, E. Olson, H. Raja e I. Poupyrev. ACM Transactions on Graphics, vol. 35, n.º 4, artículo 142, 2016.DOI: 10.1145/2897824.2925953Sistema de sensing por radar milimétrico para reconocimiento de gestos; ejemplo relacionado, no sistema ISAC.",
+      "ids": [
+        "referencias-title"
+      ],
+      "links": [
+        {
+          "text": "DOI: 10.1109/JSAC.2022.3156632",
+          "href": "https://doi.org/10.1109/JSAC.2022.3156632",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "DOI: 10.1109/COMST.2021.3122519",
+          "href": "https://doi.org/10.1109/COMST.2021.3122519",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "Consultar el informe en 3GPP",
+          "href": "https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=4044",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "DOI: 10.1109/JSTSP.2021.3113120",
+          "href": "https://doi.org/10.1109/JSTSP.2021.3113120",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "qualcomm.com/research/6g/isac",
+          "href": "https://www.qualcomm.com/research/6g/isac",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "Descargar el PDF",
+          "href": "https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/6G-ISAC.pdf",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "ericsson.com/en/6g/isac",
+          "href": "https://www.ericsson.com/en/6g/isac",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "Consultar el artículo en HuaweiTech",
+          "href": "https://www.huawei.com/en/huaweitech/future-technologies/integrated-sensing-communication-concept-practice",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "Consultar la nota en RCR Wireless",
+          "href": "https://www.rcrwireless.com/20260423/sponsored/qualcomm-6g-isac",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "DOI: 10.1145/2897824.2925953",
+          "href": "https://doi.org/10.1145/2897824.2925953",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "conversacion",
+      "title": "Conversemos sobre lo aprendido",
+      "text": "Conversemos sobre lo aprendidoLa siguiente pregunta puede ser tuya¿Qué concepto, aplicación o limitación de ISAC te gustaría que explicáramos con mayor claridad?Compartir en el foro",
+      "ids": [
+        "conversacion-title"
+      ],
+      "links": [
+        {
+          "text": "Compartir en el foro",
+          "href": "/retroalimentacion",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    }
+  ]
+}

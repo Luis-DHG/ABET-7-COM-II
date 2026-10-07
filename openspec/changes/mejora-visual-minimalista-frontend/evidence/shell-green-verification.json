@@ -1,0 +1,639 @@
+{
+  "status": "GREEN",
+  "checks": [
+    {
+      "name": "Inter-local",
+      "pass": true,
+      "actual": {
+        "family": "\"Inter Variable\", system-ui, sans-serif",
+        "loaded": true,
+        "files": [
+          {
+            "url": "http://127.0.0.1:5173/@fs/C:/Users/USER/Desktop/Blog/node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+            "local": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "footer-destinations",
+      "pass": true,
+      "actual": [
+        [
+          "Privacidad",
+          "/privacidad"
+        ],
+        [
+          "Términos",
+          "/terminos"
+        ],
+        [
+          "Contacto",
+          "mailto:chaconvargasfabiancamilo@gmail.com"
+        ]
+      ]
+    },
+    {
+      "name": "anonymous-no-admin",
+      "pass": true,
+      "actual": "sin controles administrativos"
+    },
+    {
+      "name": "skip-keyboard-visible",
+      "pass": true,
+      "actual": {
+        "text": "Saltar al contenido",
+        "label": null,
+        "tag": "A",
+        "visible": true,
+        "inDialog": false,
+        "outline": [
+          "solid",
+          "2px",
+          "rgb(0, 119, 182)"
+        ],
+        "highlighted": false,
+        "rect": {
+          "top": 8,
+          "left": 8,
+          "right": 180.859375,
+          "bottom": 48
+        },
+        "href": "#contenido"
+      }
+    },
+    {
+      "name": "skip-target",
+      "pass": true,
+      "actual": {
+        "url": "http://127.0.0.1:5173/planeacion#contenido",
+        "focus": {
+          "text": "Saltar al contenidoBlogDPC · ISACMódulosRetroalimentaciónIngresarMódulo 1 de 7Inicio y marco del retoComunicar también puede ser percibir.Una introducción a Integrated Sensing and Communications (ISAC): la visión de una infraestructura inalámbrica que no solo conecta dispositivos, sino que percibe el entorno, procesa esa información y la convierte en nuevos servicios y en mejores comunicaciones. Un recorrido para estudiantes de ingeniería, desde la visión completa de la tecnología hasta el compromiso técnico que estudiamos en el mini-caso.Universidad Industrial de SantanderGuía de lecturaEn este móduloUna señal, dos funcionesLa visión: una infraestructura que percibe y entiendeQué puede percibir una redLa pregunta que nos guíaUn recorrido en siete módulosHasta dónde llegamos Consultar glosario Divulgación para estudiantes de ingeniería.Una señal, dos funcionesDurante décadas, las redes de comunicaciones y los sistemas de percepción tipo radar se desarrollaron como mundos separados: infraestructura propia, espectros propios, formas de onda propias y métricas propias. Una red móvil se juzga por su tasa de datos y la calidad del enlace; un radar, por su capacidad de detectar objetivos y estimar su distancia y velocidad. ISAC (Integrated Sensing and Communications) estudia cómo integrar ambas capacidades en un mismo sistema, compartiendo recursos como el espectro, la infraestructura y, en determinados diseños, la misma forma de onda [1], [4].El cambio de paradigma es el siguiente: las señales que hoy solo transportan información pueden, al mismo tiempo, interactuar con los objetos del entorno. Una señal viaja hacia un usuario y una parte de ella regresa reflejada. Ese eco no es ruido que descartar: su retardo contiene información de distancia y los cambios de frecuencia permiten estimar movimiento mediante el efecto Doppler. La red no solo comunica; también percibe [1]. Esta visión de redes que «ven» su entorno aparece tanto en la literatura académica como en las hojas de ruta industriales hacia 6G de Qualcomm Research, Ericsson y Huawei, y el 3GPP ya la estudia en el informe técnico TR 22.837 [3].Por eso conviene definir ISAC con amplitud: no es solo «un radar añadido a la red», sino una metodología de diseño y un conjunto de tecnologías que integran sensado y comunicaciones para usar los recursos inalámbricos con eficiencia y para que ambas funciones se beneficien mutuamente [1]. En la práctica, eso significa una infraestructura que adquiere capacidad de percepción del mundo físico, que procesa esa información y que la convierte en inteligencia y servicios —incluidos servicios que hoy exigen sensores dedicados, como el radar o el LiDAR—.ISAC como tecnología para las redes inalámbricas futuras: la misma infraestructura que conecta vehículos, hogares, fábricas y ciudades también las percibe.Fig. 1 de F. Liu et al., «Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond», IEEE JSAC, 2022. Distribuido bajo licencia CC BY 4.0.ComunicarTransmitir y recuperar información entre dispositivos.Bits · tasa de datos · BER · calidad del enlacePercibirObtener información del entorno mediante señales inalámbricas.Distancia · velocidad · detección · DopplerLa visión: una infraestructura que percibe y entiendeEn las redes actuales el sensado es, como mucho, un método auxiliar: se posiciona un dispositivo, se estima un canal, se ajusta un haz. La propuesta de ISAC es más profunda: que la percepción sea una capacidad nativa de la red, ofrecida como un servicio de la infraestructura inalámbrica [1]. Con ella, la infraestructura celular «abre los ojos» y se convierte en lo que la literatura llama una red perceptiva: un tejido de estaciones base y dispositivos que observa el entorno de forma ubicua —tráfico urbano, condiciones del tiempo, actividad de las personas— y alimenta con esos datos a las aplicaciones y a la propia red [1].La cadena completa es la que da sentido a esta tecnología: percibir el entorno, procesar esa percepción y convertirla en inteligencia y servicios —desde un mapa del entorno en tiempo real hasta un gemelo digital de la fábrica o de la ciudad—. Y en cada eslabón aparecen las dos ganancias que organizan todo el campo [1]:Ganancia de integraciónLa que se obtiene al compartir espectro, infraestructura, hardware y hasta la misma forma de onda para ambos propósitos: se evita duplicar transmisiones, dispositivos y despliegues, y mejoran la eficiencia espectral y energética de todo el sistema.Ganancia de coordinaciónLa que surge cuando las dos funciones dejan de ser fines separados y se diseñan para ayudarse: la comunicación aporta señales y sincronización para percibir mejor, y la percepción aporta conocimiento del entorno para comunicar mejor [1], [8].Integrar tiene, además, un costo conceptual que atravesará el resto del recorrido: ambas funciones comparten recursos limitados. La misma potencia, el mismo ancho de banda y el mismo tiempo de transmisión deben repartirse entre comunicar y percibir. Aparecen así compromisos de diseño —trade-offs— que la ingeniería debe entender y cuantificar. Uno de ellos, el reparto de potencia entre ambas funciones, es precisamente el que estudiamos de forma cuantitativa en el mini-caso técnico, al final del recorrido.Qué puede percibir una red¿Y qué información puede extraer una red de sus propias señales? Las tareas de sensado se agrupan en tres familias [1]: detección (¿hay algo ahí?), estimación(¿a qué distancia, con qué velocidad, en qué dirección?) y reconocimiento (¿qué es, qué hace?). Todas se alimentan de las huellas que los objetos dejan en la señal:El retardo del eco revela la distancia.El Doppler revela la velocidad radial.La fase entre antenas de un arreglo revela la dirección de llegada.La amplitud y la microestructura del eco revelan tamaño, material y hasta gestos, respiración o parpadeos [1], [4].La figura sitúa la resolución en los tres parámetros que el receptor estima: retardo, Doppler y ángulo.La celda de resolución en retardo, Doppler y ángulo: dos objetivos próximos pueden resultar difíciles de separar si sus respuestas caen dentro de la misma celda. La figura resume el límite que imponen esas dimensiones; no fija por sí sola el desempeño de un sistema concreto.Fig. 6 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.La resolución depende del ancho de banda, la geometría de antenas y el tiempo de observación; no hay una cifra única que describa todas las aplicaciones. Release 17 de 5G NR incluyó mejoras y requisitos de posicionamiento; para IIoT, 3GPP fijó como objetivo una precisión horizontal inferior a 0,2 m para el 90 % de los equipos. Es un requisito de posicionamiento, antecedente relacionado, no una medida de resolución de sensing ni una especificación completa de ISAC (véase el requisito 3GPP de Release 17). Como ejemplo distinto de percepción radar integrada en un dispositivo, Google Soli combina un radar milimétrico compacto con algoritmos de aprendizaje automático para reconocer gestos; el artículo reporta seguimiento a más de 10 000 cuadros por segundo en hardware embebido, un resultado de Soli que no debe generalizarse a ISAC. Soli es tecnología de radar/sensing, no un sistema ISAC [10]. Los resultados dependen del sensor, el escenario y el método de evaluación.Detrás de esos números hay una regla simple que el mini-caso convertirá en ecuaciones: más ancho de banda da más detalle en distancia; más antenas, más detalle en dirección; más tiempo de observación, más detalle en velocidad. La percepción no es gratis: es una función que consume los mismos recursos que la comunicación.La pregunta que nos guía¿Cómo puede la infraestructura inalámbrica no solo conectar dispositivos, sino percibir el mundo físico, procesar esa información y convertirla en nuevos servicios y en mejores comunicaciones?Queremos divulgar los fundamentos de ISAC mediante explicaciones, ejemplos y métricas que conecten la comunicación inalámbrica, el procesamiento de señales y sus aplicaciones en ingeniería. Al terminar, podrás reconocer los conceptos principales, tecnologías relacionadas y líneas actuales de investigación.Entender por qué el sensado se convierte en una capacidad nativa de las redes hacia 6G.Reconocer qué puede percibir una red y con qué límites físicos.Identificar aplicaciones reales: localización, imagen del entorno, transporte, industria, monitoreo ambiental e interacción.Describir el mapa de tecnologías: formas de onda duales, procesamiento, antenas y hardware compartido.Distinguir la ganancia de integración (recursos compartidos) de la ganancia de coordinación (beneficio mutuo).Situar el papel de la fusión de sensores, el Edge AI y los gemelos digitales.Comprender el compromiso cuando ambas funciones comparten potencia y ancho de banda, y cuantificarlo en el mini-caso.Un recorrido en siete módulosExplora ISAC desde la visión completa de la tecnología hasta el compromiso técnico que da lugar al mini-caso: primero qué es y qué puede percibir una red; luego la literatura y el estado del arte —aplicaciones, tecnologías, redes perceptivas e inteligencia en el borde—; después el modelo cuantitativo y, al cierre, la divulgación, la bitácora y el glosario.01Inicio y marco del retoLa visión de ISAC: por qué importa, qué puede percibir una red y cómo se organiza el recorrido.02Inteligencia bibliométricaCómo el equipo pasó de una búsqueda bibliográfica a una red de coocurrencia para orientar la lectura técnica de ISAC.03Estado del arte y tendenciasAplicaciones, tecnologías, integración, redes perceptivas, beneficio mutuo, Edge AI, industria y desafíos.04Mini-caso técnico aplicadoExplora cómo el ancho de banda y el tiempo de observación cambian un escenario OFDM-DFRC ideal.05Divulgación multimediaLas ideas esenciales del proyecto y el recorrido del futuro video de divulgación.06Bitácora metacognitivaCómo organizamos el aprendizaje: decisiones del proyecto, estrategias y preguntas para reflexionar.07Glosario y referenciasConceptos, unidades, ejemplos y lecturas para acompañar tu recorrido por ISAC.Hasta dónde llegamosPresentamos una introducción a Integrated Sensing and Communications desde la perspectiva de las formas de onda y el procesamiento de señales. Exploramos sus principios, tecnologías asociadas y aplicaciones sin pretender desarrollar un sistema comercial completo.Aprender a aprenderRelacionamos este trabajo con ABET SO7: adquirir y aplicar nuevos conocimientos mediante estrategias de aprendizaje apropiadas. Revisar literatura científica, interpretar modelos técnicos y comprender sus supuestos forman parte del proceso de aprendizaje en ingeniería.Universidad Industrial de Santander (UIS).Declaración de divulgación públicaLa presente Divulgación Pública de la Ciencia tiene como propósito acercar conceptos relacionados con Integrated Sensing and Communications a estudiantes y público interesado en tecnologías inalámbricas emergentes mediante un formato digital educativo.Índice completoMódulo siguiente →2. Inteligencia bibliométricaPrivacidadTérminosContactoBlogDPC · ISAC — señales, radar y comunicaciones",
+          "label": null,
+          "tag": "BODY",
+          "visible": true,
+          "inDialog": false,
+          "outline": [
+            "none",
+            "3px",
+            "oklab(0.546381 -0.060247 -0.116673 / 0.5)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 0,
+            "left": 0,
+            "right": 1425,
+            "bottom": 6620.71875
+          },
+          "href": null
+        }
+      }
+    },
+    {
+      "name": "desktop-seven-destinations",
+      "pass": true,
+      "actual": [
+        "/planeacion",
+        "/analisis",
+        "/tendencias",
+        "/mini-caso",
+        "/divulgacion",
+        "/bitacora",
+        "/glosario"
+      ]
+    },
+    {
+      "name": "desktop-roving-focus",
+      "pass": true,
+      "actual": {
+        "text": "1. Inicio y marco del reto",
+        "label": null,
+        "tag": "A",
+        "visible": true,
+        "inDialog": false,
+        "outline": [
+          "none",
+          "2px",
+          "rgb(0, 119, 182)"
+        ],
+        "highlighted": true,
+        "rect": {
+          "top": 89.23433685302734,
+          "left": 243.7215576171875,
+          "right": 511.04547119140625,
+          "bottom": 131.24237060546875
+        },
+        "href": "/planeacion"
+      }
+    },
+    {
+      "name": "desktop-Escape-restore",
+      "pass": true,
+      "actual": {
+        "text": "Módulos",
+        "label": null,
+        "tag": "BUTTON",
+        "visible": true,
+        "inDialog": false,
+        "outline": [
+          "solid",
+          "2px",
+          "rgb(0, 119, 182)"
+        ],
+        "highlighted": false,
+        "rect": {
+          "top": 6,
+          "left": 233.6875,
+          "right": 335.53125,
+          "bottom": 50
+        },
+        "href": null
+      }
+    },
+    {
+      "name": "mobile-existing-destinations",
+      "pass": true,
+      "actual": [
+        "/planeacion",
+        "/analisis",
+        "/tendencias",
+        "/mini-caso",
+        "/divulgacion",
+        "/bitacora",
+        "/glosario",
+        "/retroalimentacion",
+        "/login",
+        "/privacidad",
+        "/terminos"
+      ]
+    },
+    {
+      "name": "mobile-focus-trap",
+      "pass": true,
+      "actual": [
+        {
+          "text": "1. Inicio y marco del reto",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 126,
+            "left": -10.317230224609375,
+            "right": 226.68276977539062,
+            "bottom": 170
+          },
+          "href": "/planeacion"
+        },
+        {
+          "text": "2. Inteligencia bibliométrica",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 174,
+            "left": -9.232925415039062,
+            "right": 227.76707458496094,
+            "bottom": 218
+          },
+          "href": "/analisis"
+        },
+        {
+          "text": "3. Estado del arte y tendencias",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 222,
+            "left": -9.232925415039062,
+            "right": 227.76707458496094,
+            "bottom": 266
+          },
+          "href": "/tendencias"
+        },
+        {
+          "text": "4. Mini-caso técnico aplicado",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 270,
+            "left": -7.428985595703125,
+            "right": 229.57101440429688,
+            "bottom": 314
+          },
+          "href": "/mini-caso"
+        },
+        {
+          "text": "5. Divulgación multimedia",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 318,
+            "left": -7.428985595703125,
+            "right": 229.57101440429688,
+            "bottom": 362
+          },
+          "href": "/divulgacion"
+        },
+        {
+          "text": "6. Bitácora metacognitiva",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 366,
+            "left": -4.644432067871094,
+            "right": 232.3555679321289,
+            "bottom": 410
+          },
+          "href": "/bitacora"
+        },
+        {
+          "text": "7. Glosario y referencias",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 414,
+            "left": -4.644432067871094,
+            "right": 232.3555679321289,
+            "bottom": 458
+          },
+          "href": "/glosario"
+        },
+        {
+          "text": "Retroalimentación",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 483,
+            "left": -1.1199188232421875,
+            "right": 235.8800811767578,
+            "bottom": 527
+          },
+          "href": "/retroalimentacion"
+        },
+        {
+          "text": "Ingresar",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 552,
+            "left": 2.4662246704101562,
+            "right": 239.46622467041016,
+            "bottom": 596
+          },
+          "href": "/login"
+        },
+        {
+          "text": "Privacidad",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 621,
+            "left": 13.567062377929688,
+            "right": 83.36393737792969,
+            "bottom": 665
+          },
+          "href": "/privacidad"
+        },
+        {
+          "text": "Términos",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 621,
+            "left": 101.79049682617188,
+            "right": 163.10299682617188,
+            "bottom": 665
+          },
+          "href": "/terminos"
+        },
+        {
+          "text": "Close",
+          "label": null,
+          "tag": "BUTTON",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 12,
+            "left": 204.99362182617188,
+            "right": 248.99362182617188,
+            "bottom": 56
+          },
+          "href": null
+        },
+        {
+          "text": "1. Inicio y marco del reto",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 126,
+            "left": 9.923110961914062,
+            "right": 246.92311096191406,
+            "bottom": 170
+          },
+          "href": "/planeacion"
+        },
+        {
+          "text": "2. Inteligencia bibliométrica",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 174,
+            "left": 11.42840576171875,
+            "right": 248.42840576171875,
+            "bottom": 218
+          },
+          "href": "/analisis"
+        },
+        {
+          "text": "3. Estado del arte y tendencias",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 222,
+            "left": 11.42840576171875,
+            "right": 248.42840576171875,
+            "bottom": 266
+          },
+          "href": "/tendencias"
+        },
+        {
+          "text": "4. Mini-caso técnico aplicado",
+          "label": null,
+          "tag": "A",
+          "visible": true,
+          "inDialog": true,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 270,
+            "left": 12.640518188476562,
+            "right": 249.64051818847656,
+            "bottom": 314
+          },
+          "href": "/mini-caso"
+        }
+      ]
+    },
+    {
+      "name": "mobile-Escape-restore",
+      "pass": true,
+      "actual": {
+        "text": "",
+        "label": "Abrir menú de navegación",
+        "tag": "BUTTON",
+        "visible": true,
+        "inDialog": false,
+        "outline": [
+          "solid",
+          "2px",
+          "rgb(0, 119, 182)"
+        ],
+        "highlighted": false,
+        "rect": {
+          "top": 6,
+          "left": 285,
+          "right": 329,
+          "bottom": 50
+        },
+        "href": null
+      }
+    },
+    {
+      "name": "mobile-selection-closes",
+      "pass": true,
+      "actual": {
+        "url": "http://127.0.0.1:5173/analisis",
+        "focus": {
+          "text": "",
+          "label": "Abrir menú de navegación",
+          "tag": "BUTTON",
+          "visible": true,
+          "inDialog": false,
+          "outline": [
+            "solid",
+            "2px",
+            "rgb(0, 119, 182)"
+          ],
+          "highlighted": false,
+          "rect": {
+            "top": 6,
+            "left": 285,
+            "right": 329,
+            "bottom": 50
+          },
+          "href": null
+        }
+      }
+    },
+    {
+      "name": "admin-actions-destinations",
+      "pass": true,
+      "actual": [
+        [
+          "Moderar comentarios",
+          "/admin/comentarios"
+        ],
+        [
+          "Gestionar usuarios",
+          "/admin/usuarios"
+        ]
+      ]
+    },
+    {
+      "name": "account-copy",
+      "pass": true,
+      "actual": "nombre/correo de fixture y Cerrar sesión existentes"
+    },
+    {
+      "name": "offline-copy-reading-account-retained",
+      "pass": true,
+      "actual": "Sin conexión. Puedes seguir leyendo el contenido ya cargado; no es posible publicar."
+    },
+    {
+      "name": "logout-public-action",
+      "pass": true,
+      "actual": [
+        {
+          "path": "/api/auth/logout",
+          "method": "POST",
+          "fixture": "admin"
+        }
+      ]
+    },
+    {
+      "name": "unverifiable-copy-reading",
+      "pass": true,
+      "actual": "No se puede verificar tu sesión en este momento. La lectura sigue disponible."
+    }
+  ],
+  "requests": [
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "anonymous"
+    },
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "anonymous"
+    },
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "anonymous"
+    },
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "anonymous"
+    },
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "admin"
+    },
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "admin"
+    },
+    {
+      "path": "/api/auth/logout",
+      "method": "POST",
+      "fixture": "admin"
+    },
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "unverifiable"
+    },
+    {
+      "path": "/api/auth/session",
+      "method": "GET",
+      "fixture": "unverifiable"
+    }
+  ],
+  "limits": [
+    "No cubre todos los estados/auth/admin ni moderación; solo shell y logout simulado",
+    "Trap/foco muestreados; no certifica exhaustivamente contraste AA ni lectores de pantalla"
+  ]
+}

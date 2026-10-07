@@ -1,0 +1,272 @@
+{
+  "route": "/planeacion",
+  "headline": "Comunicar también puede ser percibir.",
+  "subject": "Inicio y marco del reto",
+  "introduction": "Una introducción a Integrated Sensing and Communications (ISAC): la visión de una infraestructura inalámbrica que no solo conecta dispositivos, sino que percibe el entorno, procesa esa información y la convierte en nuevos servicios y en mejores comunicaciones. Un recorrido para estudiantes de ingeniería, desde la visión completa de la tecnología hasta el compromiso técnico que estudiamos en el mini-caso.",
+  "metadata": "Universidad Industrial de SantanderGuía de lectura",
+  "index": [
+    {
+      "text": "Una señal, dos funciones",
+      "href": "#que-es-isac",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "La visión: una infraestructura que percibe y entiende",
+      "href": "#vision",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Qué puede percibir una red",
+      "href": "#capacidades",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "La pregunta que nos guía",
+      "href": "#pregunta-guia",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Un recorrido en siete módulos",
+      "href": "#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Hasta dónde llegamos",
+      "href": "#alcance",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "pagination": [
+    {
+      "text": "Índice completo",
+      "href": "/planeacion#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Módulo siguiente →2. Inteligencia bibliométrica",
+      "href": "/analisis",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "sections": [
+    {
+      "id": "que-es-isac",
+      "title": "Una señal, dos funciones",
+      "text": "Una señal, dos funcionesDurante décadas, las redes de comunicaciones y los sistemas de percepción tipo radar se desarrollaron como mundos separados: infraestructura propia, espectros propios, formas de onda propias y métricas propias. Una red móvil se juzga por su tasa de datos y la calidad del enlace; un radar, por su capacidad de detectar objetivos y estimar su distancia y velocidad. ISAC (Integrated Sensing and Communications) estudia cómo integrar ambas capacidades en un mismo sistema, compartiendo recursos como el espectro, la infraestructura y, en determinados diseños, la misma forma de onda [1], [4].El cambio de paradigma es el siguiente: las señales que hoy solo transportan información pueden, al mismo tiempo, interactuar con los objetos del entorno. Una señal viaja hacia un usuario y una parte de ella regresa reflejada. Ese eco no es ruido que descartar: su retardo contiene información de distancia y los cambios de frecuencia permiten estimar movimiento mediante el efecto Doppler. La red no solo comunica; también percibe [1]. Esta visión de redes que «ven» su entorno aparece tanto en la literatura académica como en las hojas de ruta industriales hacia 6G de Qualcomm Research, Ericsson y Huawei, y el 3GPP ya la estudia en el informe técnico TR 22.837 [3].Por eso conviene definir ISAC con amplitud: no es solo «un radar añadido a la red», sino una metodología de diseño y un conjunto de tecnologías que integran sensado y comunicaciones para usar los recursos inalámbricos con eficiencia y para que ambas funciones se beneficien mutuamente [1]. En la práctica, eso significa una infraestructura que adquiere capacidad de percepción del mundo físico, que procesa esa información y que la convierte en inteligencia y servicios —incluidos servicios que hoy exigen sensores dedicados, como el radar o el LiDAR—.ISAC como tecnología para las redes inalámbricas futuras: la misma infraestructura que conecta vehículos, hogares, fábricas y ciudades también las percibe.Fig. 1 de F. Liu et al., «Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond», IEEE JSAC, 2022. Distribuido bajo licencia CC BY 4.0.ComunicarTransmitir y recuperar información entre dispositivos.Bits · tasa de datos · BER · calidad del enlacePercibirObtener información del entorno mediante señales inalámbricas.Distancia · velocidad · detección · Doppler",
+      "ids": [
+        "que-es-isac-title"
+      ],
+      "links": [
+        {
+          "text": "Qualcomm Research",
+          "href": "https://www.qualcomm.com/research/6g/isac",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "Ericsson",
+          "href": "https://www.ericsson.com/en/6g/isac",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "Huawei",
+          "href": "https://www.huawei.com/en/huaweitech/future-technologies/integrated-sensing-communication-concept-practice",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/liu-jsac-2022/fig01-use-cases.avif",
+          "alt": "Red inalámbrica futura con capacidad de sensado al servicio de vehículos, hogares, fábricas y ciudades",
+          "caption": "ISAC como tecnología para las redes inalámbricas futuras: la misma infraestructura que conecta vehículos, hogares, fábricas y ciudades también las percibe.Fig. 1 de F. Liu et al., «Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond», IEEE JSAC, 2022. Distribuido bajo licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 1 de F. Liu et al., «Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond», IEEE JSAC, 2022. Distribuido bajo licencia CC BY 4.0."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "ISAC como tecnología para las redes inalámbricas futuras: la misma infraestructura que conecta vehículos, hogares, fábricas y ciudades también las percibe.Fig. 1 de F. Liu et al., «Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond», IEEE JSAC, 2022. Distribuido bajo licencia CC BY 4.0.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "vision",
+      "title": "La visión: una infraestructura que percibe y entiende",
+      "text": "La visión: una infraestructura que percibe y entiendeEn las redes actuales el sensado es, como mucho, un método auxiliar: se posiciona un dispositivo, se estima un canal, se ajusta un haz. La propuesta de ISAC es más profunda: que la percepción sea una capacidad nativa de la red, ofrecida como un servicio de la infraestructura inalámbrica [1]. Con ella, la infraestructura celular «abre los ojos» y se convierte en lo que la literatura llama una red perceptiva: un tejido de estaciones base y dispositivos que observa el entorno de forma ubicua —tráfico urbano, condiciones del tiempo, actividad de las personas— y alimenta con esos datos a las aplicaciones y a la propia red [1].La cadena completa es la que da sentido a esta tecnología: percibir el entorno, procesar esa percepción y convertirla en inteligencia y servicios —desde un mapa del entorno en tiempo real hasta un gemelo digital de la fábrica o de la ciudad—. Y en cada eslabón aparecen las dos ganancias que organizan todo el campo [1]:Ganancia de integraciónLa que se obtiene al compartir espectro, infraestructura, hardware y hasta la misma forma de onda para ambos propósitos: se evita duplicar transmisiones, dispositivos y despliegues, y mejoran la eficiencia espectral y energética de todo el sistema.Ganancia de coordinaciónLa que surge cuando las dos funciones dejan de ser fines separados y se diseñan para ayudarse: la comunicación aporta señales y sincronización para percibir mejor, y la percepción aporta conocimiento del entorno para comunicar mejor [1], [8].Integrar tiene, además, un costo conceptual que atravesará el resto del recorrido: ambas funciones comparten recursos limitados. La misma potencia, el mismo ancho de banda y el mismo tiempo de transmisión deben repartirse entre comunicar y percibir. Aparecen así compromisos de diseño —trade-offs— que la ingeniería debe entender y cuantificar. Uno de ellos, el reparto de potencia entre ambas funciones, es precisamente el que estudiamos de forma cuantitativa en el mini-caso técnico, al final del recorrido.",
+      "ids": [
+        "vision-title"
+      ],
+      "links": [
+        {
+          "text": "mini-caso técnico",
+          "href": "/mini-caso",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "capacidades",
+      "title": "Qué puede percibir una red",
+      "text": "Qué puede percibir una red¿Y qué información puede extraer una red de sus propias señales? Las tareas de sensado se agrupan en tres familias [1]: detección (¿hay algo ahí?), estimación(¿a qué distancia, con qué velocidad, en qué dirección?) y reconocimiento (¿qué es, qué hace?). Todas se alimentan de las huellas que los objetos dejan en la señal:El retardo del eco revela la distancia.El Doppler revela la velocidad radial.La fase entre antenas de un arreglo revela la dirección de llegada.La amplitud y la microestructura del eco revelan tamaño, material y hasta gestos, respiración o parpadeos [1], [4].La figura sitúa la resolución en los tres parámetros que el receptor estima: retardo, Doppler y ángulo.La celda de resolución en retardo, Doppler y ángulo: dos objetivos próximos pueden resultar difíciles de separar si sus respuestas caen dentro de la misma celda. La figura resume el límite que imponen esas dimensiones; no fija por sí sola el desempeño de un sistema concreto.Fig. 6 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.La resolución depende del ancho de banda, la geometría de antenas y el tiempo de observación; no hay una cifra única que describa todas las aplicaciones. Release 17 de 5G NR incluyó mejoras y requisitos de posicionamiento; para IIoT, 3GPP fijó como objetivo una precisión horizontal inferior a 0,2 m para el 90 % de los equipos. Es un requisito de posicionamiento, antecedente relacionado, no una medida de resolución de sensing ni una especificación completa de ISAC (véase el requisito 3GPP de Release 17). Como ejemplo distinto de percepción radar integrada en un dispositivo, Google Soli combina un radar milimétrico compacto con algoritmos de aprendizaje automático para reconocer gestos; el artículo reporta seguimiento a más de 10 000 cuadros por segundo en hardware embebido, un resultado de Soli que no debe generalizarse a ISAC. Soli es tecnología de radar/sensing, no un sistema ISAC [10]. Los resultados dependen del sensor, el escenario y el método de evaluación.Detrás de esos números hay una regla simple que el mini-caso convertirá en ecuaciones: más ancho de banda da más detalle en distancia; más antenas, más detalle en dirección; más tiempo de observación, más detalle en velocidad. La percepción no es gratis: es una función que consume los mismos recursos que la comunicación.",
+      "ids": [
+        "capacidades-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig06-radar-sensing.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Celda de resolución en tres dimensiones: retardo, Doppler y ángulo"
+        },
+        {
+          "text": "requisito 3GPP de Release 17",
+          "href": "https://portal.3gpp.org/DesktopModules/CRs/CrDetails.aspx?CrId=482202",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/liu-jsac-2022/fig06-radar-sensing.avif",
+          "alt": "Celda de resolución en tres dimensiones: retardo, Doppler y ángulo",
+          "caption": "La celda de resolución en retardo, Doppler y ángulo: dos objetivos próximos pueden resultar difíciles de separar si sus respuestas caen dentro de la misma celda. La figura resume el límite que imponen esas dimensiones; no fija por sí sola el desempeño de un sistema concreto.Fig. 6 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 6 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "La celda de resolución en retardo, Doppler y ángulo: dos objetivos próximos pueden resultar difíciles de separar si sus respuestas caen dentro de la misma celda. La figura resume el límite que imponen esas dimensiones; no fija por sí sola el desempeño de un sistema concreto.Fig. 6 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "pregunta-guia",
+      "title": "La pregunta que nos guía",
+      "text": "La pregunta que nos guía¿Cómo puede la infraestructura inalámbrica no solo conectar dispositivos, sino percibir el mundo físico, procesar esa información y convertirla en nuevos servicios y en mejores comunicaciones?Queremos divulgar los fundamentos de ISAC mediante explicaciones, ejemplos y métricas que conecten la comunicación inalámbrica, el procesamiento de señales y sus aplicaciones en ingeniería. Al terminar, podrás reconocer los conceptos principales, tecnologías relacionadas y líneas actuales de investigación.Entender por qué el sensado se convierte en una capacidad nativa de las redes hacia 6G.Reconocer qué puede percibir una red y con qué límites físicos.Identificar aplicaciones reales: localización, imagen del entorno, transporte, industria, monitoreo ambiental e interacción.Describir el mapa de tecnologías: formas de onda duales, procesamiento, antenas y hardware compartido.Distinguir la ganancia de integración (recursos compartidos) de la ganancia de coordinación (beneficio mutuo).Situar el papel de la fusión de sensores, el Edge AI y los gemelos digitales.Comprender el compromiso cuando ambas funciones comparten potencia y ancho de banda, y cuantificarlo en el mini-caso.",
+      "ids": [
+        "pregunta-guia-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "recorrido",
+      "title": "Un recorrido en siete módulos",
+      "text": "Un recorrido en siete módulosExplora ISAC desde la visión completa de la tecnología hasta el compromiso técnico que da lugar al mini-caso: primero qué es y qué puede percibir una red; luego la literatura y el estado del arte —aplicaciones, tecnologías, redes perceptivas e inteligencia en el borde—; después el modelo cuantitativo y, al cierre, la divulgación, la bitácora y el glosario.01Inicio y marco del retoLa visión de ISAC: por qué importa, qué puede percibir una red y cómo se organiza el recorrido.02Inteligencia bibliométricaCómo el equipo pasó de una búsqueda bibliográfica a una red de coocurrencia para orientar la lectura técnica de ISAC.03Estado del arte y tendenciasAplicaciones, tecnologías, integración, redes perceptivas, beneficio mutuo, Edge AI, industria y desafíos.04Mini-caso técnico aplicadoExplora cómo el ancho de banda y el tiempo de observación cambian un escenario OFDM-DFRC ideal.05Divulgación multimediaLas ideas esenciales del proyecto y el recorrido del futuro video de divulgación.06Bitácora metacognitivaCómo organizamos el aprendizaje: decisiones del proyecto, estrategias y preguntas para reflexionar.07Glosario y referenciasConceptos, unidades, ejemplos y lecturas para acompañar tu recorrido por ISAC.",
+      "ids": [
+        "recorrido-title"
+      ],
+      "links": [
+        {
+          "text": "01Inicio y marco del retoLa visión de ISAC: por qué importa, qué puede percibir una red y cómo se organiza el recorrido.",
+          "href": "/planeacion",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "02Inteligencia bibliométricaCómo el equipo pasó de una búsqueda bibliográfica a una red de coocurrencia para orientar la lectura técnica de ISAC.",
+          "href": "/analisis",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "03Estado del arte y tendenciasAplicaciones, tecnologías, integración, redes perceptivas, beneficio mutuo, Edge AI, industria y desafíos.",
+          "href": "/tendencias",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "04Mini-caso técnico aplicadoExplora cómo el ancho de banda y el tiempo de observación cambian un escenario OFDM-DFRC ideal.",
+          "href": "/mini-caso",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "05Divulgación multimediaLas ideas esenciales del proyecto y el recorrido del futuro video de divulgación.",
+          "href": "/divulgacion",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "06Bitácora metacognitivaCómo organizamos el aprendizaje: decisiones del proyecto, estrategias y preguntas para reflexionar.",
+          "href": "/bitacora",
+          "rel": null,
+          "target": null,
+          "label": null
+        },
+        {
+          "text": "07Glosario y referenciasConceptos, unidades, ejemplos y lecturas para acompañar tu recorrido por ISAC.",
+          "href": "/glosario",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "alcance",
+      "title": "Hasta dónde llegamos",
+      "text": "Hasta dónde llegamosPresentamos una introducción a Integrated Sensing and Communications desde la perspectiva de las formas de onda y el procesamiento de señales. Exploramos sus principios, tecnologías asociadas y aplicaciones sin pretender desarrollar un sistema comercial completo.Aprender a aprenderRelacionamos este trabajo con ABET SO7: adquirir y aplicar nuevos conocimientos mediante estrategias de aprendizaje apropiadas. Revisar literatura científica, interpretar modelos técnicos y comprender sus supuestos forman parte del proceso de aprendizaje en ingeniería.Universidad Industrial de Santander (UIS).Declaración de divulgación públicaLa presente Divulgación Pública de la Ciencia tiene como propósito acercar conceptos relacionados con Integrated Sensing and Communications a estudiantes y público interesado en tecnologías inalámbricas emergentes mediante un formato digital educativo.",
+      "ids": [
+        "alcance-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [
+        {
+          "summary": "Declaración de divulgación pública",
+          "open": false,
+          "text": "Declaración de divulgación públicaLa presente Divulgación Pública de la Ciencia tiene como propósito acercar conceptos relacionados con Integrated Sensing and Communications a estudiantes y público interesado en tecnologías inalámbricas emergentes mediante un formato digital educativo."
+        }
+      ],
+      "formulas": []
+    }
+  ]
+}

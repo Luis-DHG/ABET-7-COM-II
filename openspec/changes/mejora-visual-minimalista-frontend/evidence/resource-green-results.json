@@ -1,0 +1,150 @@
+{
+  "status": "GREEN",
+  "checks": [
+    {
+      "name": "equation-keyboard-local-scroll",
+      "pass": true,
+      "actual": {
+        "width": 360,
+        "index": 1,
+        "before": {
+          "overflow": 156,
+          "tabIndex": 0
+        },
+        "right": 156,
+        "left": 0
+      },
+      "expected": "ArrowRight scrolls locally; ArrowLeft returns to origin"
+    },
+    {
+      "name": "equation-keyboard-local-scroll",
+      "pass": true,
+      "actual": {
+        "width": 360,
+        "index": 3,
+        "before": {
+          "overflow": 6,
+          "tabIndex": 0
+        },
+        "right": 6,
+        "left": 0
+      },
+      "expected": "ArrowRight scrolls locally; ArrowLeft returns to origin"
+    },
+    {
+      "name": "equation-keyboard-local-scroll",
+      "pass": true,
+      "actual": {
+        "width": 360,
+        "index": 4,
+        "before": {
+          "overflow": 187,
+          "tabIndex": 0
+        },
+        "right": 187,
+        "left": 0
+      },
+      "expected": "ArrowRight scrolls locally; ArrowLeft returns to origin"
+    },
+    {
+      "name": "equation-keyboard-local-scroll",
+      "pass": true,
+      "actual": {
+        "width": 360,
+        "index": 6,
+        "before": {
+          "overflow": 21,
+          "tabIndex": 0
+        },
+        "right": 21,
+        "left": 0
+      },
+      "expected": "ArrowRight scrolls locally; ArrowLeft returns to origin"
+    },
+    {
+      "name": "equation-no-global-overflow",
+      "pass": true,
+      "actual": {
+        "width": 360,
+        "overflow": 0
+      },
+      "expected": "<= 1 CSS px"
+    },
+    {
+      "name": "equation-keyboard-local-scroll",
+      "pass": true,
+      "actual": {
+        "width": 768,
+        "index": 4,
+        "before": {
+          "overflow": 3,
+          "tabIndex": 0
+        },
+        "right": 3,
+        "left": 0
+      },
+      "expected": "ArrowRight scrolls locally; ArrowLeft returns to origin"
+    },
+    {
+      "name": "equation-no-global-overflow",
+      "pass": true,
+      "actual": {
+        "width": 768,
+        "overflow": 0
+      },
+      "expected": "<= 1 CSS px"
+    },
+    {
+      "name": "renderer-full-network-conserved",
+      "pass": true,
+      "actual": [],
+      "expected": "same coordinates, nodes, links and global projection"
+    },
+    {
+      "name": "renderer-selected-edges-drawable",
+      "pass": true,
+      "actual": [],
+      "expected": "all selected connections have the expected visible size"
+    },
+    {
+      "name": "renderer-cluster-edges-drawable",
+      "pass": true,
+      "actual": [],
+      "expected": "top 1000 focused cluster connections retain rendered size"
+    },
+    {
+      "name": "renderer-reset-conserved",
+      "pass": true,
+      "actual": [],
+      "expected": "same full network after reset"
+    },
+    {
+      "name": "map-reflows-to-container-width",
+      "pass": true,
+      "actual": {
+        "region": {
+          "left": 376.5,
+          "right": 616.5,
+          "top": 584.71875,
+          "bottom": 1198.265625,
+          "width": 240
+        },
+        "plot": {
+          "left": 377.5,
+          "right": 615.5,
+          "top": 585.71875,
+          "bottom": 969.71875,
+          "width": 238
+        },
+        "detail": {
+          "left": 377.5,
+          "right": 615.5,
+          "top": 969.71875,
+          "bottom": 1197.265625,
+          "width": 238
+        }
+      },
+      "expected": "plot remains visible and detail stacks within 240px container"
+    }
+  ]
+}

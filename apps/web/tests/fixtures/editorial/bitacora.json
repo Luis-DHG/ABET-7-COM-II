@@ -1,0 +1,94 @@
+{
+  "route": "/bitacora",
+  "headline": "También observamos cómo aprendemos.",
+  "subject": "Bitácora metacognitiva",
+  "introduction": "Una bitácora grupal para conectar decisiones, estrategias y evidencias. Partimos del alcance acordado y dejamos espacio para documentar la experiencia real del equipo.",
+  "metadata": "Universidad Industrial de SantanderReflexión grupal en construcción",
+  "index": [
+    {
+      "text": "Nuestro punto de partida",
+      "href": "#decisiones",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Estrategias que vamos a aplicar",
+      "href": "#estrategias",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Preguntas para nuestra bitácora",
+      "href": "#reflexion",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "pagination": [
+    {
+      "text": "Índice completo",
+      "href": "/planeacion#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "← Módulo anterior5. Divulgación multimedia",
+      "href": "/divulgacion",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Módulo siguiente →7. Glosario y referencias",
+      "href": "/glosario",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "sections": [
+    {
+      "id": "decisiones",
+      "title": "Nuestro punto de partida",
+      "text": "Nuestro punto de partidaElegimos explicar ISAC para estudiantes de ingeniería, combinando lenguaje divulgativo con conceptos y métricas. Organizamos el recorrido en siete módulos y seleccionamos OFDM-DFRC como hilo técnico.Delimitar la preguntaQué es ISAC, para qué sirve y por qué se investiga.AcordadoElegir un caso técnicoEvaluar relaciones entre comunicación y sensing con una forma de onda OFDM-DFRC.AcordadoConstruir la evidenciaDocumentar la búsqueda bibliográfica y validar una simulación reproducible.PendienteExplicar y reflexionarCompletar el video y registrar aprendizajes a partir del trabajo y de la retroalimentación.PendienteEste recorrido muestra el estado del proyecto. Las fechas y las experiencias del grupo aún no están documentadas.",
+      "ids": [
+        "decisiones-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "estrategias",
+      "title": "Estrategias que vamos a aplicar",
+      "text": "Estrategias que vamos a aplicarDividir el tema en preguntas concretas antes de buscar información.Comparar definiciones y conservar la relación con su fuente.Acompañar las ecuaciones con variables, unidades y supuestos.Relacionar cada métrica con una decisión de ingeniería.Revisar las explicaciones desde la perspectiva de alguien que se acerca al tema por primera vez.Aprendizaje autónomo y SO7Identificar qué desconocemos, buscar fuentes pertinentes y aplicar lo aprendido en un modelo nos permite practicar el aprendizaje autónomo. La reflexión final debe apoyarse en decisiones y evidencias del equipo.",
+      "ids": [
+        "estrategias-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "reflexion",
+      "title": "Preguntas para nuestra bitácora",
+      "text": "Preguntas para nuestra bitácora¿Qué supuesto tuvimos que cambiar al contrastarlo con una fuente?¿Qué resultado no esperábamos y cómo comprobamos su causa?¿Qué explicación mejoró después de recibir retroalimentación?Vigilaremos tres confusiones: asumir que integrar siempre mejora todo, interpretar un cluster como prueba suficiente y presentar una predicción ideal como medición. Las respuestas se completarán con hechos del trabajo grupal.Reflexiones por documentarLas lecciones aprendidas, los errores y las fechas se incorporarán cuando el grupo aporte su experiencia. Las preguntas anteriores son una guía para registrarla.",
+      "ids": [
+        "reflexion-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    }
+  ]
+}

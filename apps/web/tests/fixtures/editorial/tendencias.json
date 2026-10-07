@@ -1,0 +1,495 @@
+{
+  "route": "/tendencias",
+  "headline": "Cuando toda la red se vuelve un sensor.",
+  "subject": "Estado del arte y tendencias",
+  "introduction": "El panorama de ISAC en ocho paradas: las aplicaciones que lo motivan, las tecnologías que lo hacen posible, qué significa integrar de verdad, la evolución de nodos individuales a redes perceptivas, el beneficio mutuo entre sensing y comunicaciones, el procesamiento y la IA en el borde, lo que la industria ya demuestra y los desafíos abiertos. La última parada nos deja en la puerta del mini-caso.",
+  "metadata": "Universidad Industrial de SantanderGuía de lectura",
+  "index": [
+    {
+      "text": "Dónde importaría percibir: las aplicaciones",
+      "href": "#aplicaciones",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "El mapa de tecnologías que lo hace posible",
+      "href": "#tecnologias",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Qué significa integrar: compartir recursos",
+      "href": "#integracion",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "De nodos individuales a redes perceptivas",
+      "href": "#redes-perceptivas",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Beneficio mutuo: cuando cada función ayuda a la otra",
+      "href": "#beneficio-mutuo",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Del eco a la inteligencia: fusión, Edge AI y gemelos digitales",
+      "href": "#procesamiento",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Lo que la industria ya está demostrando",
+      "href": "#industria",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Desafíos abiertos y por qué cuantificar el compromiso",
+      "href": "#desafios",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "pagination": [
+    {
+      "text": "Índice completo",
+      "href": "/planeacion#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "← Módulo anterior2. Inteligencia bibliométrica",
+      "href": "/analisis",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Módulo siguiente →4. Mini-caso técnico aplicado",
+      "href": "/mini-caso",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "sections": [
+    {
+      "id": "aplicaciones",
+      "title": "Dónde importaría percibir: las aplicaciones",
+      "text": "Dónde importaría percibir: las aplicacionesEl valor de ISAC no está en la señal compartida, sino en lo que la red puede hacer con ella. Si cada estación base y cada dispositivo ya emiten y reciben señales, la red celular entera puede actuar como un sensor desplegado a gran escala: lo que hoy hacen equipos dedicados —radar, LiDAR, cámaras térmicas— pasaría a ser un servicio de la propia infraestructura, el sensado como servicio [1]. Huawei organiza esos servicios futuros en cuatro categorías funcionales: localización y seguimiento de alta precisión; imagen, mapeo y localización simultáneos; sentidos humanos aumentados; y reconocimiento de gestos y actividades [8].Localización y seguimientoLocalizar y seguir objetos con o sin dispositivo conectado: desde intrusos en un perímetro hasta pequeños componentes en un almacén.Imagen y mapeo del entorno«Ver» el entorno con radio para construir mapas: SLAM vehicular, reconstrucción de espacios interiores, gemelos digitales.Pregunta: ¿puede la red mapear lo que la cámara no ve?Transporte inteligenteDetectar peatones y obstáculos más allá de la línea de vista del conductor, coordinar platoones y asistir la comunicación vehículo–infraestructura.Pregunta: ¿cómo extender la percepción de un vehículo?Industria inteligenteNavegación y coordinación de robots, alineación de módulos, control de procesos: percibir y comunicar con la misma red, con latencia mínima.Pregunta: ¿cómo unir comunicación y posición?Monitoreo ambientalLa propagación revela el medio: humedad, lluvia, contaminantes e insectos pueden monitorearse midiendo cómo cambian los enlaces de la red [1].Pregunta: ¿puede la red ser un observatorio atmosférico?Entornos inteligentes e interacciónHogares y cabinas que investigan cómo reconocer presencia, caídas, respiración o gestos mediante señales inalámbricas; Soli es un ejemplo relacionado de radar compacto para gestos, no una implementación ISAC [10].Pregunta: ¿cómo percibir personas sin cámaras?La siguiente figura reúne tres papeles posibles de los vehículos aéreos no tripulados en redes perceptivas: objetivo observado, usuario conectado y plataforma que incorpora el transceptor de sensado.Los drones ilustran la amplitud del campo: pueden ser objetivos que la red vigila en espacios aéreos bajos, usuarios que la red localiza mientras se comunican, o plataformas aéreas que perciben y conectan a demanda [1].Fig. 21 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.Las flechas discontinuas representan sensado y los haces verdes, comunicación. La ilustración organiza escenarios posibles de investigación entre nodos terrestres y aéreos; no documenta por sí misma despliegues comerciales.Estas ideas ya dejaron los artículos de visión: el informe 3GPP TR 22.837 convierte casos como la detección de intrusos, el seguimiento de drones o la monitorización de tráfico en escenarios de estudio con requisitos formales [3]. En la sección «industria» retomamos qué está demostrado y qué sigue en estudio.",
+      "ids": [
+        "aplicaciones-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig21-ISAC-aerial.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: ISAC con vehículos aéreos no tripulados en tres roles: objetivo vigilado, usuario localizado y plataforma aérea de sensado"
+        },
+        {
+          "text": "informe 3GPP TR 22.837",
+          "href": "/glosario#referencias",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/liu-jsac-2022/fig21-ISAC-aerial.avif",
+          "alt": "ISAC con vehículos aéreos no tripulados en tres roles: objetivo vigilado, usuario localizado y plataforma aérea de sensado",
+          "caption": "Los drones ilustran la amplitud del campo: pueden ser objetivos que la red vigila en espacios aéreos bajos, usuarios que la red localiza mientras se comunican, o plataformas aéreas que perciben y conectan a demanda [1].Fig. 21 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 21 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "Los drones ilustran la amplitud del campo: pueden ser objetivos que la red vigila en espacios aéreos bajos, usuarios que la red localiza mientras se comunican, o plataformas aéreas que perciben y conectan a demanda [1].Fig. 21 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "tecnologias",
+      "title": "El mapa de tecnologías que lo hace posible",
+      "text": "El mapa de tecnologías que lo hace posibleISAC es posible porque comunicaciones y radar evolucionaron hacia el mismo punto: ambos suben en frecuencia, usan arreglos de antenas cada vez mayores y comparten arquitectura de hardware, características de canal y técnicas de procesamiento [1], [4]. El tutorial de Liu et al. organiza todo el campo en un marco que va de las aplicaciones y sus ganancias al diseño de formas de onda, la recepción y las redes perceptivas:El marco de las tecnologías ISAC: arriba, las aplicaciones y las dos ganancias que las motivan; debajo, los pilares técnicos —compromisos de desempeño, diseño de forma de onda, procesamiento en recepción y redes perceptivas— que sostienen el campo [1].Fig. 3 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.El corazón técnico es la forma de onda dual: una señal capaz de transportar datos y de servir de referencia para percibir. Hay tres filosofías de diseño [1], [4]:Sensado-céntricaSe parte de una señal de radar —por ejemplo, un chirp— y se incrustan datos en ella. Primero percibir; comunicar, sin degradar esa función.Comunicación-céntricaSe parte de la señal de la red —OFDM, la de 4G y 5G— y se le añade procesamiento de radar. Es el enfoque DFRC(Dual-Function Radar-Communication) que sigue este proyecto.Diseño conjuntoLa señal se optimiza desde el inicio para ambas métricas a la vez; es el diseño más ambicioso y el que promete la mayor integración [1].En sistemas OFDM, los datos se distribuyen en subportadoras ortogonales: la misma estructura que permite transmitir información permite, con transformadas adecuadas, separar las huellas de retardo y Doppler de los objetos del entorno [1], [2], [4].Δf=1Tu\\Delta f = \\frac{1}{T_u}Separación de subportadoras [Hz] y duración útil del símbolo [s].La figura muestra cómo se separa la señal OFDM recibida en dos caminos de procesamiento: recuperación de datos y estimación de parámetros del eco.Un mismo OFDM, dos lecturas: la señal recibida se demodula para recuperar datos y, en paralelo, se procesa con transformadas para estimar retardo y Doppler. No se transmite nada «extra»: el sensado aprovecha la señal que ya viaja [1].Fig. 11 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.Para escenarios con alta movilidad se estudian además formas de onda en el dominio retardo–Doppler, como ODDM, que buscan robustez frente al desvanecimiento rápido del canal:Diseño de forma de onda ODDM-ISAC y optimización conjunta para comunicación y sensado.Completan el mapa dos piezas transversales: los arreglos MIMO y el beamforming, que concentran la energía en haces espaciales útiles para transmitir y para iluminar objetivos, y el co-diseño de hardware, que integra baseband y RF de ambas funciones en un solo equipo para reducir tamaño, consumo y latencia [1], [8]:Hardware compartido en la práctica: arquitectura del prototipo ISAC de Huawei, con arreglos MIMO de transmisión y recepción integrados en un mismo módulo [8].Fig. 10 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.Cada línea de este mapa es hoy una pregunta de investigación abierta:Líneas de investigación en sistemas ISACLíneaPregunta de ingenieríaQué observarForma de onda¿Cómo diseñar señales útiles para comunicación y sensado?BER · resolución · lóbulos lateralesODDM-ISAC¿Cómo mejorar el desempeño en escenarios con movilidad?Retardo · Doppler · precisiónMIMO y haces¿Cómo aprovechar múltiples antenas para transmitir y percibir?Cobertura · dirección · resolución espacialProcesamiento¿Cómo extraer información del eco recibido?Detección · estimación · filtrado",
+      "ids": [
+        "tecnologias-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig03-framework.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Marco de las tecnologías ISAC: aplicaciones, ganancias, trade-offs, formas de onda, recepción y redes perceptivas"
+        },
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig11-ofdm-isac.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Flujo de procesamiento de una señal OFDM ISAC hacia el receptor de comunicaciones y el estimador de sensing"
+        },
+        {
+          "text": "",
+          "href": "/images/isac/huawei/fig10-hardware.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Arquitectura de hardware del prototipo ISAC de Huawei con arreglos de transmisión y recepción"
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/liu-jsac-2022/fig03-framework.avif",
+          "alt": "Marco de las tecnologías ISAC: aplicaciones, ganancias, trade-offs, formas de onda, recepción y redes perceptivas",
+          "caption": "El marco de las tecnologías ISAC: arriba, las aplicaciones y las dos ganancias que las motivan; debajo, los pilares técnicos —compromisos de desempeño, diseño de forma de onda, procesamiento en recepción y redes perceptivas— que sostienen el campo [1].Fig. 3 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 3 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        },
+        {
+          "src": "/images/isac/liu-jsac-2022/fig11-ofdm-isac.avif",
+          "alt": "Flujo de procesamiento de una señal OFDM ISAC hacia el receptor de comunicaciones y el estimador de sensing",
+          "caption": "Un mismo OFDM, dos lecturas: la señal recibida se demodula para recuperar datos y, en paralelo, se procesa con transformadas para estimar retardo y Doppler. No se transmite nada «extra»: el sensado aprovecha la señal que ya viaja [1].Fig. 11 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 11 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        },
+        {
+          "src": "/images/oddm-isac-paper.png",
+          "alt": "Diseño de forma de onda ODDM-ISAC",
+          "caption": "Diseño de forma de onda ODDM-ISAC y optimización conjunta para comunicación y sensado.",
+          "sourceOrLicense": null
+        },
+        {
+          "src": "/images/isac/huawei/fig10-hardware.avif",
+          "alt": "Arquitectura de hardware del prototipo ISAC de Huawei con arreglos de transmisión y recepción",
+          "caption": "Hardware compartido en la práctica: arquitectura del prototipo ISAC de Huawei, con arreglos MIMO de transmisión y recepción integrados en un mismo módulo [8].Fig. 10 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "sourceOrLicense": "Fig. 10 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "El marco de las tecnologías ISAC: arriba, las aplicaciones y las dos ganancias que las motivan; debajo, los pilares técnicos —compromisos de desempeño, diseño de forma de onda, procesamiento en recepción y redes perceptivas— que sostienen el campo [1].Fig. 3 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        },
+        {
+          "caption": "Un mismo OFDM, dos lecturas: la señal recibida se demodula para recuperar datos y, en paralelo, se procesa con transformadas para estimar retardo y Doppler. No se transmite nada «extra»: el sensado aprovecha la señal que ya viaja [1].Fig. 11 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        },
+        {
+          "caption": "Diseño de forma de onda ODDM-ISAC y optimización conjunta para comunicación y sensado.",
+          "images": 1
+        },
+        {
+          "caption": "Hardware compartido en la práctica: arquitectura del prototipo ISAC de Huawei, con arreglos MIMO de transmisión y recepción integrados en un mismo módulo [8].Fig. 10 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": [
+        "\\Delta f = \\frac{1}{T_u}"
+      ]
+    },
+    {
+      "id": "integracion",
+      "title": "Qué significa integrar: compartir recursos",
+      "text": "Qué significa integrar: compartir recursos«Integrar» es una escalera, no un interruptor. Huawei describe tres niveles, del más laxo al más profundo [8]:CoexistenciaSensado y comunicación comparten espectro y hardware, pero mantienen sus señales y procesamiento separados. Ya es más eficiente que dedicar equipos y espectro a cada función.Integración de forma de ondaUna misma señal y un mismo procesamiento sirven a ambos propósitos: el tiempo, la frecuencia y el espacio se usan con un objetivo común.Integración completaLa información fluye entre capas, módulos y nodos: sensing y comunicación se ayudan mutuamente y se reduce el costo, el tamaño y el consumo del sistema completo.El peldaño más accesible de la escalera reparte los recursos en dominios que no se solapan: división en tiempo, en frecuencia, en espacio o en código [1]. En la división temporal, el mismo nodo alterna entre ciclos de radar y ciclos de radio:El siguiente esquema ilustra esa división temporal: se alternan intervalos de sensing y comunicación, y el objetivo se observa en los intervalos reservados al radar.División temporal de sensing y comunicación: los intervalos se asignan por turnos, de modo que cada función deja de transmitir mientras opera la otra. Se han publicado propuestas y demostraciones de radar que reutilizan campos de estimación de canal de IEEE 802.11p y 802.11ad; esas normas de comunicación no incorporan por ello una función ISAC nativa [1].Fig. 8 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.En el extremo opuesto está la forma de onda totalmente unificada: la misma señal, la misma potencia y el mismo ancho de banda sirven a las dos funciones a la vez. Es el diseño que maximiza la ganancia de integración —y también donde el compromiso se hace inevitable: un watt no puede estar en dos funciones al mismo tiempo, y los objetivos de ambas métricas pueden tirar en direcciones opuestas [1].Integrar no es gratisCuanto más profunda es la integración, más complejos son el receptor, la gestión de interferencias y la evaluación del sistema: las métricas de comunicación (tasa, BER) y de sensado (detección, resolución, error de estimación) responden a preguntas distintas y deben optimizarse juntas [1], [4].",
+      "ids": [
+        "integracion-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig08-target-time-division-manner.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Reconocimiento de objetivos y comunicación alternados en el tiempo en un nodo ISAC"
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/liu-jsac-2022/fig08-target-time-division-manner.avif",
+          "alt": "Reconocimiento de objetivos y comunicación alternados en el tiempo en un nodo ISAC",
+          "caption": "División temporal de sensing y comunicación: los intervalos se asignan por turnos, de modo que cada función deja de transmitir mientras opera la otra. Se han publicado propuestas y demostraciones de radar que reutilizan campos de estimación de canal de IEEE 802.11p y 802.11ad; esas normas de comunicación no incorporan por ello una función ISAC nativa [1].Fig. 8 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 8 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "División temporal de sensing y comunicación: los intervalos se asignan por turnos, de modo que cada función deja de transmitir mientras opera la otra. Se han publicado propuestas y demostraciones de radar que reutilizan campos de estimación de canal de IEEE 802.11p y 802.11ad; esas normas de comunicación no incorporan por ello una función ISAC nativa [1].Fig. 8 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "redes-perceptivas",
+      "title": "De nodos individuales a redes perceptivas",
+      "text": "De nodos individuales a redes perceptivasUn radar clásico es un nodo aislado. ISAC propone algo mayor: que la red celular completa —decenas de estaciones base interconectadas— perciba de forma coordinada, como un radar distribuido [1]. La literatura llama a esta idea red móvil perceptiva (perceptive mobile network): la infraestructura 5G y 6G, con sus señales de referencia y sus enlaces de coordinación, se convierte en la plataforma de sensado [1]. La geometría básica ya la conocen los radares:MonostáticaEl transmisor y receptor de sensado se encuentran en el mismo nodo. La señal enviada hacia el objetivo regresa como eco al mismo sistema.BiestáticaEl transmisor y receptor están ubicados en posiciones diferentes. La estimación depende de la sincronización y la geometría entre ambos elementos.MultiestáticaMúltiples nodos colaboran para obtener diferentes observaciones del entorno y mejorar la información disponible.La figura compara el sensado monostático, bistático y multiestático; fíjate en la ubicación del receptor con respecto al transmisor y en cuántos nodos aportan observaciones.Topologías de sensado en una red móvil: dónde se coloca el receptor respecto del transmisor define qué se puede medir y con qué precisión.Ericsson, «Integrated Sensing and Communication (ISAC)», página 6G (ericsson.com/en/6g/isac). © Ericsson; utilizado como referencia.La posición relativa de transmisores y receptores determina la geometría del eco: un mismo objetivo puede observarse desde un nodo o desde varios. El esquema distingue las topologías antes de discutir cómo se combinan sus señales.La arquitectura C-RAN de 5G resulta ser un marco natural para esto: las unidades de radio remotas actúan como sensores de radar y envían sus observaciones —o las señales crudas— por el fronthaul óptico hacia un pool de procesamiento centralizado que fusiona todo [1]. Hay dos formas de fusionar: intercambiar resultados (fusión de información, más barata) o intercambiar señales (fusión de señal, más precisa) [1]. Y aparece un giro conceptual revelador: la interferencia entre celdas, enemiga histórica de las comunicaciones, contiene información útil del objetivo —para la red perceptiva es un aliado que conviene explotar, no cancelar— [1].Huawei ilustra el uso de una apertura virtual en su prototipo de imagen THz: un arreglo pequeño se desplaza y sus mediciones se combinan en el procesamiento, como si se hubiera observado desde una apertura mayor.Apertura virtual: mover y combinar arreglos pequeños en el tiempo y el espacio equivale a una antena mucho mayor. Con esta idea, el prototipo THz de Huawei logró imagen de resolución milimétrica a 140 GHz con un módulo portátil [8].Fig. 9 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.El esquema muestra el movimiento del arreglo y la combinación de muestras para formar esa apertura virtual. El resultado milimétrico citado corresponde al prototipo concreto descrito por Huawei [8].",
+      "ids": [
+        "redes-perceptivas-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/ericsson/sensing-topologies.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Topologías de sensado de red: monostática, bistática y multiestática con estaciones base y dispositivos"
+        },
+        {
+          "text": "",
+          "href": "/images/isac/huawei/fig09-virtual-aperture.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Apertura virtual MIMO: el movimiento de un arreglo pequeño crea una apertura equivalente mucho mayor"
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/ericsson/sensing-topologies.avif",
+          "alt": "Topologías de sensado de red: monostática, bistática y multiestática con estaciones base y dispositivos",
+          "caption": "Topologías de sensado en una red móvil: dónde se coloca el receptor respecto del transmisor define qué se puede medir y con qué precisión.Ericsson, «Integrated Sensing and Communication (ISAC)», página 6G (ericsson.com/en/6g/isac). © Ericsson; utilizado como referencia.",
+          "sourceOrLicense": "Ericsson, «Integrated Sensing and Communication (ISAC)», página 6G (ericsson.com/en/6g/isac). © Ericsson; utilizado como referencia."
+        },
+        {
+          "src": "/images/isac/huawei/fig09-virtual-aperture.avif",
+          "alt": "Apertura virtual MIMO: el movimiento de un arreglo pequeño crea una apertura equivalente mucho mayor",
+          "caption": "Apertura virtual: mover y combinar arreglos pequeños en el tiempo y el espacio equivale a una antena mucho mayor. Con esta idea, el prototipo THz de Huawei logró imagen de resolución milimétrica a 140 GHz con un módulo portátil [8].Fig. 9 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "sourceOrLicense": "Fig. 9 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "Topologías de sensado en una red móvil: dónde se coloca el receptor respecto del transmisor define qué se puede medir y con qué precisión.Ericsson, «Integrated Sensing and Communication (ISAC)», página 6G (ericsson.com/en/6g/isac). © Ericsson; utilizado como referencia.",
+          "images": 1
+        },
+        {
+          "caption": "Apertura virtual: mover y combinar arreglos pequeños en el tiempo y el espacio equivale a una antena mucho mayor. Con esta idea, el prototipo THz de Huawei logró imagen de resolución milimétrica a 140 GHz con un módulo portátil [8].Fig. 9 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "beneficio-mutuo",
+      "title": "Beneficio mutuo: cuando cada función ayuda a la otra",
+      "text": "Beneficio mutuo: cuando cada función ayuda a la otraLa promesa más profunda de ISAC no es hacer dos cosas con un equipo, sino que cada función mejore a la otra: la ganancia de coordinación en acción [1].El sensado ayuda a comunicarEn mmWave, alinear haces cuesta muchos pilotos y retroalimentación. Con el sensado, la base puede predecir dónde estará el usuario y apuntar el haz sin barrer: en un sistema V2I con 1024 pares de haces, la búsqueda se reduce a 32 usando las medidas del radar, con la misma precisión que el barrido completo [1]. En el seguimiento, el eco del vehículo reemplaza la retroalimentación: mientras un esquema clásico pierde el ángulo y su tasa cae a cero, el esquema ISAC mantiene el enlace [1]. El conocimiento del entorno también reduce la sobrecarga de estimar el canal y ayuda a gestionar los recursos [8].La comunicación ayuda a percibirLas señales que la red ya transmite —sincronización, pilotos, referencias de posicionamiento, incluso los propios datos— sirven de señal de radar sin costo adicional; la sincronización por fronthaul entre estaciones resuelve el problema de fase que separa a los radares cooperativos; y la coordinación de la red permite observar el mismo objetivo desde varias direcciones, compensando las fluctuaciones de su reflectividad [1], [3].Un lazo que se cierra soloEn el escenario V2I del tutorial, la estación al borde de la vía predice la posición del vehículo, apunta su haz con esa predicción, lee el eco que devuelve el propio mensaje y corrige la predicción con un filtro de Kalman. Comunicar produce la señal que percibe; percibir produce la información que mejora la comunicación [1].La figura siguiente representa el escenario V2I: una estación de carretera (RSU) usa la señal ISAC y el eco del vehículo para seguirlo y predecir la dirección del haz.La RSU recibe la comunicación del vehículo y procesa el eco de la señal ISAC para apoyar el seguimiento y la predicción del haz. El diagrama ilustra este flujo V2I; no presenta mediciones de desempeño.Fig. 17 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+      "ids": [
+        "beneficio-mutuo-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig17--isac--v2I.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Escenario V2I con vehículo en movimiento y una RSU que usa la señal ISAC para seguimiento y predicción del haz"
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/liu-jsac-2022/fig17--isac--v2I.avif",
+          "alt": "Escenario V2I con vehículo en movimiento y una RSU que usa la señal ISAC para seguimiento y predicción del haz",
+          "caption": "La RSU recibe la comunicación del vehículo y procesa el eco de la señal ISAC para apoyar el seguimiento y la predicción del haz. El diagrama ilustra este flujo V2I; no presenta mediciones de desempeño.Fig. 17 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 17 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "La RSU recibe la comunicación del vehículo y procesa el eco de la señal ISAC para apoyar el seguimiento y la predicción del haz. El diagrama ilustra este flujo V2I; no presenta mediciones de desempeño.Fig. 17 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "procesamiento",
+      "title": "Del eco a la inteligencia: fusión, Edge AI y gemelos digitales",
+      "text": "Del eco a la inteligencia: fusión, Edge AI y gemelos digitalesPercibir es solo el primer eslabón. Los datos de sensado que genera una red son masivos, llegan distribuidos entre distintos nodos y solo valen si se procesan a tiempo —un gesto, una falla de respiración, un intruso: todos son eventos que exigen una respuesta oportuna [1]. De ahí dos movimientos complementarios:Fusión de sensores. El radar de la red no trabaja solo: sus observaciones se combinan con cámaras, LiDAR y otros sensores para lograr una percepción más robusta que la de cualquier sensor individual [1]. Inteligencia en el borde. El procesamiento con IA se acerca al lugar donde nacen los datos —la propia estación base— para cumplir las latencias, y los dispositivos pueden entrenar modelos localmente y compartir solo las actualizaciones: es una forma de aprendizaje federado. Esto reduce el intercambio de datos brutos, aunque por sí solo no garantiza la privacidad [1]. La figura resume este flujo:ISAC se encuentra con la inteligencia en el borde: cada dispositivo perceptivo entrena su modelo local y la red agrega las actualizaciones; el tráfico de modelos compite con el de datos y de sensado por el mismo espectro [1].Fig. 19 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.La figura anterior muestra dispositivos que comparten modelos locales con un servidor de borde, donde se agregan para formar un modelo global; después se distribuye el modelo actualizado. Representa el flujo de aprendizaje federado aplicado al escenario ISAC estudiado en el tutorial.La integración introduce un compromiso adicional —el de sensado, comunicación y computo: más precisión de sensado genera más datos que transmitir y más cómputo que ejecutar, de modo que el objetivo final (por ejemplo, la exactitud de un clasificador) debería optimizarse de extremo a extremo, no métrica por métrica [1].Una superficie inteligente reconfigurable (RIS) puede redirigir la propagación para habilitar una trayectoria reflejada hacia un objetivo o un dispositivo sin línea de vista directa. La figura muestra dos RIS y trayectorias alternativas en torno a un obstáculo; ilustra una arquitectura estudiada, no una garantía de cobertura en cualquier entorno [1].ISAC servido por una superficie reconfigurable: el RIS crea líneas de vista donde no las hay y permite ver el objetivo desde otro ángulo; el sensado, a su vez, ayuda a estimar el canal del propio RIS [1].Fig. 20 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.En el dibujo, las trayectorias reflejadas por RIS 1 y RIS 2 ofrecen rutas adicionales entre el transceptor ISAC, los objetivos y el equipo de usuario; el obstáculo bloquea la trayectoria directa. A continuación se muestra por separado un esquema de aplicaciones THz descrito por Huawei.Aplicaciones de ISAC-THz previstas por Huawei: localización y seguimiento, reconocimiento de gestos y actividades, comunicación y observación espacial: la misma señal milimétrica que conecta también revela [8].Fig. 8 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.Y en el extremo de la cadena, la recompensa conceptual: si la red percibe el mundo físico en tiempo real, puede mantener de él una réplica digital viva. Huawei describe el sensing como el «nuevo canal» que conecta el mundo físico con el mundo ciber, la base para que el gemelo digital deje de ser metáfora [8].",
+      "ids": [
+        "procesamiento-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig19-ISAC-edge-ai.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: ISAC e inteligencia en el borde: dispositivos que perciben, entrenan modelos locales y comparten actualizaciones con el servidor de borde"
+        },
+        {
+          "text": "",
+          "href": "/images/isac/liu-jsac-2022/fig20-ISAC.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: ISAC asistido por superficie inteligente reconfigurable que crea enlaces con objetivos sin línea de vista"
+        },
+        {
+          "text": "",
+          "href": "/images/isac/huawei/fig08-thz-isac.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Aplicaciones de ISAC en terahercio: localización, reconocimiento de gestos, comunicación y observación espacial"
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/liu-jsac-2022/fig19-ISAC-edge-ai.avif",
+          "alt": "ISAC e inteligencia en el borde: dispositivos que perciben, entrenan modelos locales y comparten actualizaciones con el servidor de borde",
+          "caption": "ISAC se encuentra con la inteligencia en el borde: cada dispositivo perceptivo entrena su modelo local y la red agrega las actualizaciones; el tráfico de modelos compite con el de datos y de sensado por el mismo espectro [1].Fig. 19 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 19 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        },
+        {
+          "src": "/images/isac/liu-jsac-2022/fig20-ISAC.avif",
+          "alt": "ISAC asistido por superficie inteligente reconfigurable que crea enlaces con objetivos sin línea de vista",
+          "caption": "ISAC servido por una superficie reconfigurable: el RIS crea líneas de vista donde no las hay y permite ver el objetivo desde otro ángulo; el sensado, a su vez, ayuda a estimar el canal del propio RIS [1].Fig. 20 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "sourceOrLicense": "Fig. 20 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
+        },
+        {
+          "src": "/images/isac/huawei/fig08-thz-isac.avif",
+          "alt": "Aplicaciones de ISAC en terahercio: localización, reconocimiento de gestos, comunicación y observación espacial",
+          "caption": "Aplicaciones de ISAC-THz previstas por Huawei: localización y seguimiento, reconocimiento de gestos y actividades, comunicación y observación espacial: la misma señal milimétrica que conecta también revela [8].Fig. 8 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "sourceOrLicense": "Fig. 8 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "ISAC se encuentra con la inteligencia en el borde: cada dispositivo perceptivo entrena su modelo local y la red agrega las actualizaciones; el tráfico de modelos compite con el de datos y de sensado por el mismo espectro [1].Fig. 19 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        },
+        {
+          "caption": "ISAC servido por una superficie reconfigurable: el RIS crea líneas de vista donde no las hay y permite ver el objetivo desde otro ángulo; el sensado, a su vez, ayuda a estimar el canal del propio RIS [1].Fig. 20 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0.",
+          "images": 1
+        },
+        {
+          "caption": "Aplicaciones de ISAC-THz previstas por Huawei: localización y seguimiento, reconocimiento de gestos y actividades, comunicación y observación espacial: la misma señal milimétrica que conecta también revela [8].Fig. 8 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "industria",
+      "title": "Lo que la industria ya está demostrando",
+      "text": "Lo que la industria ya está demostrandoISAC ya no es solo literatura: la estandarización y los fabricantes lo tienen en sus hojas de ruta hacia 6G. Un repaso de los hitos verificables:3GPPTR 22.837(Release 19) es un informe de estudio de casos de uso y requisitos, no una especificación de implementación [3]. El trabajo posterior separa etapas: TS 22.137(Stage 1), TS 23.137(Stage 2) y TS 29.545(servicios de sensing, Stage 3; draft). En paralelo, RAN mantiene un estudio de ISAC para NR y un estudio de modelado de canal. Release 17 aporta antecedentes de posicionamiento y requisitos relacionados; no es una especificación completa de ISAC.IEEEIEEE 802.11bf-2025estandariza sensing para WLAN. Esto es distinto de 802.11p y 802.11ad, cuyas señales de comunicación se han reutilizado en propuestas y demostraciones de radar mediante campos de estimación de canal o pilotos; esos usos no significan que las normas originales definan ISAC [1].HuaweiEl artículo técnico citado presenta una propuesta de ISAC para 6G y un prototipo de imagen THz descrito por sus autores como ISAC. El equipo opera a 140 GHz con 8 GHz de ancho de banda y reporta resolución de imagen milimétrica; se trata de un resultado de prototipo, no de una capacidad desplegada en red comercial [8].EricssonEricsson presenta su visión, casos de uso y arquitectura de ISAC para 6G [7]; la fuente enlazada es una hoja de ruta y no evidencia un prototipo desplegado.QualcommPresenta ISAC como capacidad nativa de 6G: la infraestructura celular como sensor, útil a la vez como herramienta de eficiencia de red y como plataforma de nuevos servicios [5], [9].La literatura también recoge ensayos de investigación que reutilizan estructuras de señal de redes móviles para sensing. Estos resultados experimentales no equivalen a una función normalizada ni a un despliegue comercial de ISAC [1].",
+      "ids": [
+        "industria-title"
+      ],
+      "links": [
+        {
+          "text": "TR 22.837",
+          "href": "https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=4044",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "TS 22.137",
+          "href": "https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=4198",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "TS 23.137",
+          "href": "https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=5516",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "TS 29.545",
+          "href": "https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=5533",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "estudio de ISAC para NR",
+          "href": "https://portal.3gpp.org/desktopmodules/WorkItem/WorkItemDetails.aspx?workitemId=1080070",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "estudio de modelado de canal",
+          "href": "https://portal.3gpp.org/desktopmodules/WorkItem/WorkItemDetails.aspx?workitemId=1020086",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "IEEE 802.11bf-2025",
+          "href": "https://standards.ieee.org/ieee/802.11bf/11574/",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "desafios",
+      "title": "Desafíos abiertos y por qué cuantificar el compromiso",
+      "text": "Desafíos abiertos y por qué cuantificar el compromisoQue la visión sea convincente no significa que esté resuelta. Los desafíos abiertos de ISAC tocan todas las capas del sistema:Compromisos de desempeño. Las métricas de comunicación y de sensado compiten por los mismos recursos en numerosos dominios: límites de teoría de la información, capa física, grados de libertad espaciales y diseño entre capas [1].Hardware. El sensado acumula señales coherentemente durante mucho tiempo, así que es más sensible que la comunicación al ruido de fase, los desajustes de I/Q y las no linealidades del amplificador; y el radar monostático exige aislamiento de dúplex completo [8].Sincronización. Entre dispositivos no sincronizados por cable, un reloj con 20 ppm de error acumula 20 ns en 1 ms: ese desfase equivale a 6 m de recorrido de la señal, o aproximadamente 3 m de error de distancia en una medición monostática de ida y vuelta [1].Planificación de recursos. El eco de un objetivo aparece cuando el objetivo quiere: es un «atípico» que los planificadores de red, diseñados para dispositivos controlables, no sabían manejar [1].Métricas y cotas. Todavía no hay una forma establecida de medir la ganancia de integración, ni una cota de Pareto que diga hasta dónde puede llegar el compromiso entre ambas eficiencias [1].Privacidad y regulación. Una red que percibe es una red que observa: los requisitos de ISAC se estudian junto con sus implicaciones regulatorias [3].Para ver cómo aparecen esos errores, la figura de Huawei recorre una cadena de transmisión y recepción con ruido de fase, desviaciones de frecuencia y muestreo, no linealidades e interferencia entre transmisor y receptor.Las imperfecciones que el sensado no perdona: ruido de fase, desviación de frecuencia, fluctuación de muestreo, no linealidades e interferencia de dúplex aparecen en toda la cadena de radio y el sensado coherente las acumula [8].Fig. 18 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.De todos estos desafíos, hay uno que un estudiante de ingeniería puede tomar con las herramientas de un primer curso de comunicaciones: el compromiso por recursos compartidos. Si un nodo reparte su potencia entre comunicar y percibir, ¿qué le pasa a la tasa de datos cuando el radar recibe más? ¿Y al eco cuando gana la comunicación? Responder con ecuaciones —no con intuición— es exactamente el propósito del mini-caso técnico que sigue.",
+      "ids": [
+        "desafios-title"
+      ],
+      "links": [
+        {
+          "text": "",
+          "href": "/images/isac/huawei/fig18-hardware-impairments.avif",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": "Ampliar figura: Cadena de transmisión ISAC con las imperfecciones de hardware que degradan el sensado"
+        },
+        {
+          "text": "mini-caso técnico",
+          "href": "/mini-caso",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/isac/huawei/fig18-hardware-impairments.avif",
+          "alt": "Cadena de transmisión ISAC con las imperfecciones de hardware que degradan el sensado",
+          "caption": "Las imperfecciones que el sensado no perdona: ruido de fase, desviación de frecuencia, fluctuación de muestreo, no linealidades e interferencia de dúplex aparecen en toda la cadena de radio y el sensado coherente las acumula [8].Fig. 18 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "sourceOrLicense": "Fig. 18 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia."
+        }
+      ],
+      "figures": [
+        {
+          "caption": "Las imperfecciones que el sensado no perdona: ruido de fase, desviación de frecuencia, fluctuación de muestreo, no linealidades e interferencia de dúplex aparecen en toda la cadena de radio y el sensado coherente las acumula [8].Fig. 18 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia.",
+          "images": 1
+        }
+      ],
+      "details": [],
+      "formulas": []
+    }
+  ]
+}

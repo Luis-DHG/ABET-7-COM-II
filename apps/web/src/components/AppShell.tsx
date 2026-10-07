@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { FORUM_PATH, MODULES } from "@/lib/manifest";
 import { useSession } from "@/session/SessionProvider";
+import { cn } from "@/lib/utils";
 
 const CONTACT_EMAIL = "chaconvargasfabiancamilo@gmail.com";
 
@@ -49,13 +50,13 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-[80rem] items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <Link to="/planeacion" className="shrink-0 font-semibold tracking-tight" aria-label="BlogDPC ISAC, inicio">
+      <div className="mx-auto flex h-14 w-full max-w-[80rem] items-center gap-4 px-4 sm:px-6 lg:px-8">
+        <Link to="/planeacion" className="inline-flex min-h-11 min-w-11 items-center font-semibold tracking-tight" aria-label="BlogDPC ISAC, inicio">
           BlogDPC · ISAC
         </Link>
 
         {/* Navegación escritorio */}
-        <nav className="ml-4 hidden items-center gap-1 md:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-2 md:flex" aria-label="Principal">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm">
@@ -68,9 +69,9 @@ function Header() {
               <DropdownMenuSeparator />
               {MODULES.map((module) => (
                 <DropdownMenuItem key={module.path} asChild>
-                  <Link to={module.path}>
+                  <NavLink to={module.path} className="site-module-link">
                     <span className="text-muted-foreground tabular-nums">{module.number}.</span> {module.title}
-                  </Link>
+                  </NavLink>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -79,7 +80,7 @@ function Header() {
           <NavLink
             to={FORUM_PATH}
             className={({ isActive }) =>
-              `rounded-md px-3 py-2 text-sm font-medium ${isActive ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`
+              cn("inline-flex min-h-11 items-center rounded-md border-b-2 px-3 py-2 text-sm font-medium", isActive ? "border-primary bg-secondary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")
             }
           >
             Retroalimentación
@@ -105,7 +106,7 @@ function Header() {
           ) : null}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <div className="hidden items-center gap-2 md:flex">
             {status === "unknown" ? null : user ? (
               <DropdownMenu>
@@ -146,25 +147,25 @@ function Header() {
                 <SheetDescription>Señales, radar y comunicaciones.</SheetDescription>
               </SheetHeader>
               <nav className="flex flex-col gap-1 px-4 pb-6" aria-label="Móvil">
-                <p className="px-2 pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Módulos</p>
+                <p className="px-2 pt-2 text-sm font-semibold text-muted-foreground">Módulos</p>
                 {MODULES.map((module) => (
-                  <Link
+                  <NavLink
                     key={module.path}
                     to={module.path}
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-md px-2 py-2 text-sm hover:bg-secondary"
+                    className="site-module-link rounded-md px-2 py-2 text-sm hover:bg-secondary"
                   >
                     <span className="text-muted-foreground tabular-nums">{module.number}.</span> {module.title}
-                  </Link>
+                  </NavLink>
                 ))}
                 <Separator className="my-2" />
-                <Link
+                <NavLink
                   to={FORUM_PATH}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-md px-2 py-2 text-sm font-medium hover:bg-secondary"
+                  className="site-module-link rounded-md px-2 py-2 text-sm font-medium hover:bg-secondary"
                 >
                   Retroalimentación
-                </Link>
+                </NavLink>
                 {user?.role === "ADMIN" ? (
                   <>
                     <Link
@@ -234,7 +235,7 @@ function OfflineBanner() {
 
 function Footer() {
   return (
-    <footer className="border-t">
+    <footer className="site-footer border-t">
       <div className="mx-auto flex w-full max-w-[80rem] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-6 text-sm text-muted-foreground sm:px-6 lg:px-8">
         <Link to="/privacidad" className="underline underline-offset-4 hover:text-foreground">
           Privacidad

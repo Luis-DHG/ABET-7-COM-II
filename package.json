@@ -1,0 +1,11 @@
+{
+  "name": "blogdpc",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @blogdpc/server dev",
+    "build": "pnpm --filter @blogdpc/contracts build && pnpm --filter @blogdpc/server build && pnpm --filter @blogdpc/web build",
+    "check": "pnpm --filter @blogdpc/contracts build && pnpm -r check",
+    "lint": "pnpm --filter @blogdpc/web lint",
+    "test": "pnpm --filter @blogdpc/server test && pnpm --filter @blogdpc/web test"
+  }
+}

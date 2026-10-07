@@ -1,0 +1,38 @@
+{
+  "run": "browser_run_code_unsafe(filename=evidence/resource-checks.js), sesión anterior a la petición de reservar el browser",
+  "observedStatus": "RED",
+  "observedAssertions": { "passed": 129, "failed": 7, "total": 136 },
+  "confirmedProductFindings": [
+    {
+      "check": "local-scroll-keyboard-no-global-overflow",
+      "scope": "mini-caso@360:3",
+      "actual": { "localOverflowCssPx": 6, "tabIndex": 0, "focusedOutline": "solid", "scrollLeftAfterArrowRight": 0, "documentOverflowCssPx": 0 },
+      "expected": "El recurso ancho puede recorrerse localmente con teclado sin overflow global"
+    },
+    {
+      "check": "local-scroll-keyboard-no-global-overflow",
+      "scope": "mini-caso@768:4",
+      "actual": { "localOverflowCssPx": 3, "tabIndex": 0, "focusedOutline": "solid", "scrollLeftAfterArrowRight": 0, "documentOverflowCssPx": 0 },
+      "expected": "El recurso ancho puede recorrerse localmente con teclado sin overflow global"
+    },
+    {
+      "check": "map-responsive-to-available-space",
+      "scope": "analisis, viewport 1440, región de mapa limitada a 240px CSS",
+      "actual": { "regionCssPx": 240, "plotCssPx": 0, "detailCssPx": 240 },
+      "expected": "Plot con dimensión positiva y detalle en una disposición que quepa en el espacio real disponible"
+    }
+  ],
+  "excludedHarnessFindings": [
+    {
+      "count": 4,
+      "checks": ["renderer-full-network-domain-and-cache", "renderer-selection-preserved", "renderer-cluster-preserved", "map-reset-state-and-renderer"],
+      "reason": "La primera versión inspeccionaba getEdgeDisplayData(), cuyo display-cache no da el resultado aplicado por los reducers para todos los edges. No se cuentan estos cuatro errores de observación como regresiones de producto.",
+      "correction": "resource-checks.js ahora lee los reducers nodeReducer/edgeReducer con getSetting() y los aplica a atributos del Graph obtenido mediante getGraph(), APIs públicas de Sigma. Esa versión corregida necesita ejecución browser posterior al handoff."
+    }
+  ],
+  "otherChecks": "Los restantes checks de figuras, controles/métricas/reset OFDM y operaciones de mapa pasaron en esa ejecución; el archivo PNG ODDM ausente se registró aparte como condición heredada, no se aceptó como activo ni se contó como GREEN de imagen.",
+  "limitations": [
+    "La revisión browser corregida de reducers no se ejecutó en esta entrega porque el browser compartido debía quedar reservado al ingeniero tras el handoff.",
+    "El ensayo ejecutado no sustituye equivalencia visual WebGL, contraste AA completo ni revisión científica humana."
+  ]
+}

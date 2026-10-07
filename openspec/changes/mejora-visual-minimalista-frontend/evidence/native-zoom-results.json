@@ -1,0 +1,166 @@
+{
+  "method": "Chrome nativo settingsPrivate.setDefaultZoom(2); restauración en finally",
+  "noFakeZoom": "Sin Emulation.setPageScaleFactor, deviceScaleFactor ni transform CSS",
+  "before": {
+    "innerWidth": 1440,
+    "innerHeight": 900,
+    "dpr": 1,
+    "visualScale": 1,
+    "overflow": 0,
+    "indexOpen": true
+  },
+  "restored": {
+    "innerWidth": 1440,
+    "innerHeight": 900,
+    "dpr": 1,
+    "visualScale": 1,
+    "overflow": 0,
+    "indexOpen": true
+  },
+  "checks": [
+    {
+      "route": "planeacion",
+      "window": {
+        "width": 360,
+        "height": 800
+      },
+      "actual": {
+        "innerWidth": 180,
+        "innerHeight": 400,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 45,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "analisis",
+      "window": {
+        "width": 360,
+        "height": 800
+      },
+      "actual": {
+        "innerWidth": 180,
+        "innerHeight": 400,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 46,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "mini-caso",
+      "window": {
+        "width": 360,
+        "height": 800
+      },
+      "actual": {
+        "innerWidth": 180,
+        "innerHeight": 400,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 13,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "planeacion",
+      "window": {
+        "width": 768,
+        "height": 1024
+      },
+      "actual": {
+        "innerWidth": 384,
+        "innerHeight": 512,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 0,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "analisis",
+      "window": {
+        "width": 768,
+        "height": 1024
+      },
+      "actual": {
+        "innerWidth": 384,
+        "innerHeight": 512,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 0,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "mini-caso",
+      "window": {
+        "width": 768,
+        "height": 1024
+      },
+      "actual": {
+        "innerWidth": 384,
+        "innerHeight": 512,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 0,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "planeacion",
+      "window": {
+        "width": 1440,
+        "height": 900
+      },
+      "actual": {
+        "innerWidth": 720,
+        "innerHeight": 450,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 0,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "analisis",
+      "window": {
+        "width": 1440,
+        "height": 900
+      },
+      "actual": {
+        "innerWidth": 720,
+        "innerHeight": 450,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 0,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    },
+    {
+      "route": "mini-caso",
+      "window": {
+        "width": 1440,
+        "height": 900
+      },
+      "actual": {
+        "innerWidth": 720,
+        "innerHeight": 450,
+        "dpr": 2,
+        "visualScale": 1,
+        "overflow": 0,
+        "indexOpen": false
+      },
+      "native200Verified": true
+    }
+  ]
+}
