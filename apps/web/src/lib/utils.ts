@@ -4,7 +4,7 @@ export { cn } from "cn"
 
 export function scrollHorizontallyWithArrowKeys(
   event: KeyboardEvent<HTMLElement>,
-  target: HTMLElement = event.currentTarget,
+  target: HTMLElement,
 ) {
   if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
   const maximum = target.scrollWidth - target.clientWidth;

@@ -33,7 +33,7 @@ function clusterProjection(network: ReturnType<typeof clusterTieFixture>, visibl
       const key = pairKey(link.source_id, link.target_id), visible = visibleKeys.has(key);
       return { source: String(link.source_id), target: String(link.target_id), strength: link.strength,
         baseSize: globallySized.has(key) ? sizeFor(link.strength) : 0,
-        visible, renderedSize: visible ? sizeFor(link.strength) : 0 };
+        visible, renderedSize: visible && globallySized.has(key) ? sizeFor(link.strength) : 0 };
     }),
   };
 }
@@ -71,9 +71,12 @@ test("mutaciones del render detectan coordenada, tamaño, grosor y visibilidad d
   assert.ok(rendererDifferences(network, thinned).includes("edge:1:2:rendered-size"));
 });
 
-test("la selección dibuja con tamaño positivo un enlace permitido fuera del top 1.000 global", () => {
+test("la selección des-oculta un enlace fuera del top 1.000 global pero conserva su tamaño original 0", () => {
   // Node 2 solo tiene un enlace: el más débil global, pero está dentro del
   // conjunto de hasta 1.000 conexiones directas para el término seleccionado.
+  // Transferencia científica original (fuente del expected): al enfocar puede
+  // entrar al conjunto visible sin adquirir tamaño positivo; solo el top-1.000
+  // global tiene grosor. El mutante con tamaño positivo ES la regresión.
   const items = Array.from({ length: 1002 }, (_, index) => item(index + 1));
   const links = [edge(1, 2, 1), ...Array.from({ length: 1000 }, (_, index) => edge(1, index + 3, index + 2))];
   const network = { items, links };
@@ -85,12 +88,12 @@ test("la selección dibuja con tamaño positivo un enlace permitido fuera del to
     const isGlobal = global.has(`${entry.source_id}:${entry.target_id}`);
     return { source: String(entry.source_id), target: String(entry.target_id), strength: entry.strength,
       baseSize: isGlobal ? sizeFor(entry.strength) : 0, visible: selected,
-      renderedSize: selected ? sizeFor(entry.strength) : 0 };
+      renderedSize: selected && isGlobal ? sizeFor(entry.strength) : 0 };
   });
   const result = rendererDifferences(network, { nodes, edges }, { selected: 2 });
   assert.deepEqual(result, []);
   const productionPattern = structuredClone(edges[0]);
-  productionPattern.renderedSize = 0;
+  productionPattern.renderedSize = sizeFor(productionPattern.strength); // tamaño positivo nuevo fuera del top global: la regresión
   const mutated = [...edges]; mutated[0] = productionPattern;
   assert.ok(rendererDifferences(network, { nodes, edges: mutated }, { selected: 2 }).includes("edge:1:2:rendered-size"));
 });
@@ -155,15 +158,18 @@ test("el scroll horizontal local responde a flechas solo si existe desbordamient
   const helper = module.scrollHorizontallyWithArrowKeys;
   assert.equal(typeof helper, "function", "utils debe exportar scrollHorizontallyWithArrowKeys");
 
+  // Patrón del consumidor real: el currentTarget del evento es .editorial-body (sin desbordamiento)
+  // y el scroll se aplica al target explícito (la región .equation/.editorial-table-wrap), no al currentTarget.
+  const body = { scrollWidth: 800, clientWidth: 800, scrollLeft: 0 };
   const element = { scrollWidth: 340, clientWidth: 311, scrollLeft: 0 };
   const press = (key: string, target = element) => {
     let prevented = false;
     const event = {
       key,
-      currentTarget: target,
+      currentTarget: body,
       preventDefault() { prevented = true; },
     } as unknown as ReactKeyboardEvent<HTMLElement>;
-    helper(event);
+    helper(event, target);
     return { prevented, scrollLeft: target.scrollLeft };
   };
 
@@ -176,4 +182,10 @@ test("el scroll horizontal local responde a flechas solo si existe desbordamient
 
   element.scrollLeft = 7;
   assert.deepEqual(press("Tab"), { prevented: false, scrollLeft: 7 });
+
+  // Oráculo de firma del refactor (3.4), al final para que el RED ejecute primero la conservación:
+  // Function.length cuenta los parámetros previos al primer default. El consumidor real
+  // (ModuleLayout) siempre pasa el target explícito de closest(), así que la firma no debe tener
+  // parámetro opcional/default: hoy es 1, tras el fix debe ser 2.
+  assert.equal(helper.length, 2, "scrollHorizontallyWithArrowKeys no debe tener parámetro opcional/default");
 });

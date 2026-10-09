@@ -45,11 +45,14 @@ export function rendererDifferences(network, observed, state = {}) {
     } else if (edge.visible !== visible.has(key)) errors.push(`edge:${key}:visibility`);
     const baseSize = global.has(key) ? 0.18 + Math.min(1, Math.log2(expected.strength + 1) / 5) * 0.95 : 0;
     if (!close(edge.baseSize, baseSize)) errors.push(`edge:${key}:base-size`);
-    // Un link seleccionado o incluido en el clúster enfocado tiene que ser
-    // dibujable aunque no pertenezca al top 1.000 global; verificar el size
-    // retornado por el reducer, no el caché/escala de display del renderer.
+    // Transferencia científica original (fuente del expected, spec del hallazgo
+    // 3.6): solo el top-1.000 global por fuerza tiene representación positiva.
+    // Al enfocar, un enlace fuera del top global puede entrar al conjunto
+    // enfocado (des-ocultarse) pero NO adquiere tamaño positivo: conserva su
+    // tamaño original 0. Nunca más de 1.000 enlaces positivos. Verificar el
+    // size retornado por el reducer, no el caché/escala de display del renderer.
     const isVisible = state.cluster ? edge.visible : visible.has(key);
-    const renderedSize = isVisible ? 0.18 + Math.min(1, Math.log2(expected.strength + 1) / 5) * 0.95 : 0;
+    const renderedSize = isVisible && global.has(key) ? 0.18 + Math.min(1, Math.log2(expected.strength + 1) / 5) * 0.95 : 0;
     if (!close(edge.renderedSize, renderedSize)) errors.push(`edge:${key}:rendered-size`);
   }
   if (state.cluster && clusterActualVisibleCount !== clusterVisibleCount) errors.push("cluster:visible-count");

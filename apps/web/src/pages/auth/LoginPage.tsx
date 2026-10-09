@@ -10,7 +10,7 @@ import { FieldError, StatusNotice } from "@/components/StatusNotice";
 
 export function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
   return (
-    <section className="mx-auto w-full max-w-md space-y-6 py-8">
+    <section className="auth-shell mx-auto w-full max-w-md space-y-6 py-8">
       <header className="space-y-1 text-center">
         <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
         {subtitle ? <p className="text-sm text-muted-foreground">{subtitle}</p> : null}

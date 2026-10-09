@@ -155,7 +155,12 @@ export default function ForumPage() {
               <ol className="divide-y divide-border rounded-lg border bg-card">
                 {comments.map((comment) => (
                   <div key={comment.id} className="px-4 sm:px-6">
-                    <CommentItem comment={comment} canReply={canPublish && !error} onReplyPublished={handlePublished} />
+                    <CommentItem
+                      comment={comment}
+                      canReply={canPublish && !error}
+                      onReplyPublished={handlePublished}
+                      onConflict={() => setRetry((current) => current + 1)}
+                    />
                   </div>
                 ))}
               </ol>
@@ -183,8 +188,7 @@ export default function ForumPage() {
           <div className="rounded-lg border bg-card p-4 text-sm">
             <h2 className="font-semibold">Cómo participar</h2>
             <p className="mt-2 text-muted-foreground">
-              Crea una cuenta, verifica tu correo y publica. Puedes responder hasta varios niveles; las conversaciones
-              profundas se abren en una vista dedicada.
+              Crea una cuenta, verifica tu correo y publica.
             </p>
           </div>
         </aside>

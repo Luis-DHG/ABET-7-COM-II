@@ -1,13 +1,14 @@
 import { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
-import { MAX_COMMENT_DEPTH } from "@blogdpc/contracts/constants";
+import { MAX_DIRECT_REPLIES_PER_ROOT } from "@blogdpc/contracts/constants";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { CommentComposer } from "@/pages/forum/CommentComposer";
+import { canReplyToRoot } from "@/pages/forum/replyPolicy";
 
 function initials(name: string): string {
   return name
@@ -24,6 +25,7 @@ interface CommentItemProps {
   threadMode?: boolean;
   parentAuthorName?: string;
   onReplyPublished: (comment: PublicComment) => void;
+  onConflict?: () => void;
 }
 
 export const CommentItem = memo(function CommentItem({
@@ -32,28 +34,31 @@ export const CommentItem = memo(function CommentItem({
   threadMode = false,
   parentAuthorName,
   onReplyPublished,
+  onConflict,
 }: CommentItemProps) {
   const [replying, setReplying] = useState(false);
+  // Un rechazo por cupo bloquea el reenvío de esta lectura hasta que llegue una actualizada.
+  const [rejectedReading, setRejectedReading] = useState<PublicComment | null>(null);
 
-  // Sangría acotada: niveles profundos se señalan con barra lateral + etiqueta (plan §6.3).
-  const depthIndent = Math.min(comment.depth - 1, 3);
+  const replyEligible =
+    canReplyToRoot(comment, canReply, MAX_DIRECT_REPLIES_PER_ROOT) && rejectedReading !== comment;
 
   return (
     <li
       id={`comment-${comment.id}`}
       tabIndex={-1}
-      className={cn(comment.depth > 1 && "border-l-2 border-border pl-4", "list-none")}
-      style={comment.depth > 1 ? { marginLeft: `${depthIndent * 0.75}rem` } : undefined}
+      className="comment-item"
+      data-depth={comment.depth}
     >
       <article className="py-4">
         <header className="flex flex-wrap items-center gap-2 text-sm">
-          <Avatar className="size-7">
+          <Avatar className="size-8 shrink-0">
             <AvatarFallback>{initials(comment.authorName)}</AvatarFallback>
           </Avatar>
           <span className={cn("font-medium", comment.isRemoved && "text-muted-foreground")}>
             {comment.authorName}
           </span>
-          <time dateTime={comment.createdAt} className="text-xs text-muted-foreground">
+          <time dateTime={comment.createdAt} className="text-[0.8125rem] text-muted-foreground">
             {formatDateTime(comment.createdAt)}
           </time>
           {comment.isRemoved ? <Badge variant="secondary">Retirado</Badge> : null}
@@ -67,19 +72,18 @@ export const CommentItem = memo(function CommentItem({
 
         <p
           className={cn(
-            "mt-2 max-w-prose whitespace-pre-line leading-relaxed",
+            "comment-message mt-2 whitespace-pre-line",
             comment.isRemoved && "text-muted-foreground italic",
           )}
         >
           {comment.body}
         </p>
 
-        <div className="mt-2 flex flex-wrap items-center gap-3">
-          {canReply && !comment.isRemoved && comment.depth < MAX_COMMENT_DEPTH ? (
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          {replyEligible ? (
             <Button
               variant="ghost"
               size="sm"
-              className="h-auto px-2 py-1 text-xs"
               onClick={() => setReplying((value) => !value)}
               aria-expanded={replying}
             >
@@ -89,7 +93,7 @@ export const CommentItem = memo(function CommentItem({
           {!threadMode && comment.hasDeepConversation ? (
             <Link
               to={`/retroalimentacion/${comment.rootId}`}
-              className="text-xs text-primary underline underline-offset-4"
+              className="inline-flex min-h-11 items-center text-sm text-primary underline underline-offset-4"
             >
               Ver conversación completa
             </Link>
@@ -101,11 +105,15 @@ export const CommentItem = memo(function CommentItem({
             <CommentComposer
               parentId={comment.id}
               autoFocus
-              disabled={!canReply}
+              disabled={!replyEligible}
               onCancel={() => setReplying(false)}
               onPublished={(published) => {
                 setReplying(false);
                 onReplyPublished(published);
+              }}
+              onConflict={() => {
+                setRejectedReading(comment);
+                onConflict?.();
               }}
             />
           </div>

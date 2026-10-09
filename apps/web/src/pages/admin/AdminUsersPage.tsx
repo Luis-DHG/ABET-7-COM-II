@@ -102,7 +102,7 @@ export default function AdminUsersPage() {
       </header>
 
       <form onSubmit={onSearch} className="flex flex-wrap items-end gap-3">
-        <div className="min-w-56 flex-1 space-y-1.5">
+        <div className="min-w-0 basis-full space-y-1.5 sm:min-w-56 sm:flex-1 sm:basis-auto">
           <Label htmlFor="search">Buscar por nombre o correo</Label>
           <Input
             id="search"

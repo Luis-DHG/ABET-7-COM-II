@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { MAX_DIRECT_REPLIES_PER_ROOT } from "@blogdpc/contracts/constants";
 
 const CONTACT_EMAIL = "chaconvargasfabiancamilo@gmail.com";
 
@@ -79,7 +80,7 @@ const DOCUMENTS: Record<string, LegalDoc> = {
         title: "Participación en el foro",
         paragraphs: [
           "La lectura del foro es pública. Si publicas un comentario, tu nombre visible y el contenido se mostrarán a quienes visiten el sitio; tu correo electrónico no se muestra públicamente.",
-          "Los comentarios deben ser texto plano, tener entre 3 y 2000 caracteres y pueden formar conversaciones de hasta seis niveles. La plataforma aplica un intervalo entre publicaciones consecutivas.",
+          `Los comentarios deben ser texto plano y tener entre 3 y 2000 caracteres. Solo se puede responder a comentarios raíz, con un máximo de ${MAX_DIRECT_REPLIES_PER_ROOT} respuestas directas por raíz; las respuestas no admiten nuevas respuestas. La plataforma aplica un intervalo entre publicaciones consecutivas.`,
           "La aplicación no incluye opciones para editar o eliminar comentarios individualmente.",
         ],
       },
@@ -114,7 +115,7 @@ const DOCUMENTS: Record<string, LegalDoc> = {
 export default function LegalPage({ kind }: { kind: "privacidad" | "terminos" }) {
   const doc = DOCUMENTS[kind];
   return (
-    <article className="max-w-prose space-y-6 break-words">
+    <article className="legal-document space-y-6 break-words">
       <title>{`${doc.title} | BlogDPC · ISAC`}</title>
       <meta name="description" content={doc.summary} />
       <header className="space-y-2">

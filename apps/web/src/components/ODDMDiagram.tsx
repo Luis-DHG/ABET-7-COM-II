@@ -3,7 +3,7 @@ export function ODDMDiagram() {
     <figure className="signal-figure">
 
       <img
-        src="/images/oddm-isac-paper.png"
+        src="/images/oddm-isac-paper.avif"
         alt="Diseño de forma de onda ODDM-ISAC"
         className="signal-image"
       />

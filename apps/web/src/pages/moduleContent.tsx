@@ -169,6 +169,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         <li>La <strong>amplitud y la microestructura</strong> del eco revelan tamaño, material y hasta gestos, respiración o parpadeos [1], [4].</li>
         </ul>
 
+        <div className="editorial-figure-pair">
         <p>
         La figura sitúa la resolución en los tres parámetros que el
         receptor estima: retardo, Doppler y ángulo.
@@ -180,6 +181,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="La celda de resolución en retardo, Doppler y ángulo: dos objetivos próximos pueden resultar difíciles de separar si sus respuestas caen dentro de la misma celda. La figura resume el límite que imponen esas dimensiones; no fija por sí sola el desempeño de un sistema concreto."
           source="Fig. 6 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+        </div>
 
         <p>
         La resolución depende del ancho de banda, la geometría de antenas
@@ -417,6 +419,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         </div>
 
+        <div className="editorial-figure-pair">
         <p>
         La siguiente figura reúne tres papeles posibles de los vehículos
         aéreos no tripulados en redes perceptivas: objetivo observado,
@@ -430,6 +433,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="Los drones ilustran la amplitud del campo: pueden ser objetivos que la red vigila en espacios aéreos bajos, usuarios que la red localiza mientras se comunican, o plataformas aéreas que perciben y conectan a demanda [1]."
           source="Fig. 21 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+        </div>
 
         <p>
         Las flechas discontinuas representan sensado y los haces verdes,
@@ -521,6 +525,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           </small>
         </div>
 
+        <div className="editorial-figure-pair">
         <p>
         La figura muestra cómo se separa la señal OFDM recibida en dos
         caminos de procesamiento: recuperación de datos y estimación de
@@ -533,6 +538,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="Un mismo OFDM, dos lecturas: la señal recibida se demodula para recuperar datos y, en paralelo, se procesa con transformadas para estimar retardo y Doppler. No se transmite nada «extra»: el sensado aprovecha la señal que ya viaja [1]."
           source="Fig. 11 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+        </div>
 
         <p>
         Para escenarios con alta movilidad se estudian además formas de
@@ -651,6 +657,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         radio:
         </p>
 
+        <div className="editorial-figure-pair">
         <p>
         El siguiente esquema ilustra esa división temporal: se alternan
         intervalos de sensing y comunicación, y el objetivo se observa en
@@ -663,6 +670,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="División temporal de sensing y comunicación: los intervalos se asignan por turnos, de modo que cada función deja de transmitir mientras opera la otra. Se han publicado propuestas y demostraciones de radar que reutilizan campos de estimación de canal de IEEE 802.11p y 802.11ad; esas normas de comunicación no incorporan por ello una función ISAC nativa [1]."
           source="Fig. 8 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+        </div>
 
         <p>
         En el extremo opuesto está la <strong>forma de onda totalmente
@@ -727,6 +735,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         </dl>
 
+        <div className="editorial-figure-pair">
         <p>
         La figura compara el sensado monostático, bistático y multiestático;
         fíjate en la ubicación del receptor con respecto al transmisor y
@@ -739,6 +748,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="Topologías de sensado en una red móvil: dónde se coloca el receptor respecto del transmisor define qué se puede medir y con qué precisión."
           source="Ericsson, «Integrated Sensing and Communication (ISAC)», página 6G (ericsson.com/en/6g/isac). © Ericsson; utilizado como referencia."
         />
+        </div>
 
         <p>
         La posición relativa de transmisores y receptores determina la
@@ -762,6 +772,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         [1].
         </p>
 
+        <div className="editorial-figure-pair">
         <p>
         Huawei ilustra el uso de una apertura virtual en su prototipo de
         imagen THz: un arreglo pequeño se desplaza y sus mediciones se
@@ -775,6 +786,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="Apertura virtual: mover y combinar arreglos pequeños en el tiempo y el espacio equivale a una antena mucho mayor. Con esta idea, el prototipo THz de Huawei logró imagen de resolución milimétrica a 140 GHz con un módulo portátil [8]."
           source="Fig. 9 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia."
         />
+        </div>
 
         <p>
         El esquema muestra el movimiento del arreglo y la combinación de
@@ -840,6 +852,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         </div>
 
+        <div className="editorial-figure-pair">
         <p>
         La figura siguiente representa el escenario V2I: una estación de
         carretera (RSU) usa la señal ISAC y el eco del vehículo para
@@ -852,6 +865,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="La RSU recibe la comunicación del vehículo y procesa el eco de la señal ISAC para apoyar el seguimiento y la predicción del haz. El diagrama ilustra este flujo V2I; no presenta mediciones de desempeño."
           source="Fig. 17 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+        </div>
 
       </> },
 
@@ -904,9 +918,10 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         métrica por métrica [1].
         </p>
 
+        <div className="editorial-figure-pair">
         <p>
-        Una superficie inteligente reconfigurable (RIS) puede redirigir
-        la propagación para habilitar una trayectoria reflejada hacia un
+        Una superficie inteligente reconfigurable (RIS) puede redirigir la
+        propagación para habilitar una trayectoria reflejada hacia un
         objetivo o un dispositivo sin línea de vista directa. La figura
         muestra dos RIS y trayectorias alternativas en torno a un
         obstáculo; ilustra una arquitectura estudiada, no una garantía de
@@ -919,6 +934,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="ISAC servido por una superficie reconfigurable: el RIS crea líneas de vista donde no las hay y permite ver el objetivo desde otro ángulo; el sensado, a su vez, ayuda a estimar el canal del propio RIS [1]."
           source="Fig. 20 de F. Liu et al., IEEE JSAC, 2022. Licencia CC BY 4.0."
         />
+        </div>
 
         <p>
         En el dibujo, las trayectorias reflejadas por RIS 1 y RIS 2
@@ -1043,6 +1059,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         <li><strong>Privacidad y regulación.</strong> Una red que percibe es una red que observa: los requisitos de ISAC se estudian junto con sus implicaciones regulatorias [3].</li>
         </ul>
 
+        <div className="editorial-figure-pair">
         <p>
         Para ver cómo aparecen esos errores, la figura de Huawei recorre
         una cadena de transmisión y recepción con ruido de fase,
@@ -1056,6 +1073,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
           caption="Las imperfecciones que el sensado no perdona: ruido de fase, desviación de frecuencia, fluctuación de muestreo, no linealidades e interferencia de dúplex aparecen en toda la cadena de radio y el sensado coherente las acumula [8]."
           source="Fig. 18 de A. Bayesteh et al. (Huawei), «ISAC — From Concept to Practice», 2022. © Huawei; utilizado como referencia."
         />
+        </div>
 
         <p>
         De todos estos desafíos, hay uno que un estudiante de ingeniería

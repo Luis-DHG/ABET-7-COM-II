@@ -1,35 +1,89 @@
-# BlogDPC — Sensing & Communications (ISAC)
+# BlogDPC — Aplicación web full-stack
 
-Blog de divulgación científica sobre **redes perceptivas 6G e Integrated Sensing and Communications (ISAC)**: la convergencia entre las redes de comunicaciones inalámbricas y los sistemas de detección tipo radar sobre un mismo espectro e infraestructura.
+Aplicación web construida con React, Express y PostgreSQL alojado en Supabase. Este README describe la implementación y ejecución de la rama `dev_content`.
 
-Este sitio es el producto del **Reto ABET SO7** de la asignatura **Comunicaciones II (27145)**, Escuela de Ingenierías Eléctrica, Electrónica y de Telecomunicaciones (EIEET), **Universidad Industrial de Santander (UIS)**, semestre 2026-II. Profesor: Ronald Zamora Musa. Grupo 3.
+## Descripción técnica
 
-> *"La presente Divulgación Pública de la Ciencia, a través del siguiente Desarrollo Web, tiene una ruta de circulación nacional sin enfoque diferencial y está dirigido a la comunidad o público objetivo conformado por jóvenes, adultos, empresarios y/o empresa en género literario informativo de tipo Blog, con componente digital a través de soporte web".*
+El proyecto es un monorepo pnpm con tres partes principales:
 
-## ¿Qué encuentras aquí?
+- **Frontend (`apps/web`)**: aplicación de una sola página con React 19, TypeScript, Vite y React Router. Incluye rutas de contenido, autenticación, foro y administración.
+- **Backend (`apps/server`)**: API REST en Node.js y Express 5. Gestiona sesiones, autorización, correo, lógica del foro y el acceso a la base de datos.
+- **Base de datos**: PostgreSQL alojado en Supabase. El backend se conecta usando `postgres` y Drizzle ORM; el navegador no usa el cliente de Supabase ni accede directamente a la base de datos.
 
-El blog está organizado en módulos que puedes recorrer en orden o visitar por separado:
+En desarrollo, Vite sirve el frontend y reenvía `/api` al servidor local. En producción, Express puede servir el frontend compilado y la API desde el mismo origen.
 
-1. **Planeación** — Qué son las redes perceptivas 6G, la pregunta que guía el proyecto y el plan de trabajo del equipo.
-2. **Análisis** — Exploración de la literatura científica con mapas bibliométricos: qué se investiga, quién investiga y hacia dónde va el campo.
-3. **Tendencias** — El estado del arte explicado sin fórmulas innecesarias: formas de onda duales, estaciones base que "ven" como radares y las aplicaciones más prometedoras.
-4. **Mini-caso** — Una simulación práctica que muestra el equilibrio entre transmitir datos y detectar objetos con la misma señal.
-5. **Divulgación** — Un video del equipo resumiendo los hallazgos principales.
-6. **Bitácora** — Reflexión sobre lo aprendido durante el proceso.
-7. **Retroalimentación** — Un foro abierto donde puedes dejar comentarios, preguntas y sugerencias sobre el contenido.
+## Motivo de las tecnologías
 
-A lo largo de los módulos, un **glosario emergente** explica los términos técnicos al pasar el cursor sobre ellos: no necesitas formación previa en telecomunicaciones.
+Se priorizaron herramientas que permitieran implementar y mantener los flujos del proyecto con rapidez, sin administrar infraestructura de base de datos propia.
 
-## ¿A quién le sirve?
+- **React** permite organizar la interfaz en componentes reutilizables y gestionar estado de cliente en los flujos interactivos de sesión, formularios, conversaciones del foro y administración.
+- **Express** centraliza las reglas de negocio, la autenticación y la autorización en el servidor. Así, las credenciales y las operaciones de base de datos no quedan expuestas al navegador.
+- **Supabase** proporciona PostgreSQL administrado, evitando tener que instalar y operar un servidor de base de datos. Se usa como proveedor de PostgreSQL, no como proveedor de autenticación ni como API directa para el frontend.
+- **Drizzle ORM** ofrece consultas y esquema tipados desde TypeScript, y Drizzle Kit genera migraciones SQL a partir del esquema. Las migraciones se guardan y revisan como código antes de aplicarlas; las capacidades específicas de PostgreSQL siguen expresándose en SQL cuando hace falta.
 
-A cualquier persona con curiosidad por la tecnología que viene después del 5G: estudiantes, profesionales, empresarios o lectores interesados en cómo las futuras redes celulares podrán no solo comunicar, sino también **percibir el entorno** — detectar vehículos, monitorear la salud sin dispositivos encima, rastrear drones o guiar robots industriales.
+## Requisitos
 
-## Enfoque
+- Node.js y pnpm instalados.
+- Una base de datos PostgreSQL disponible en Supabase.
+- Credenciales SMTP para enviar correos de verificación y recuperación de contraseña.
+- Credenciales de Google OIDC para el inicio de sesión con Google, con la URL de redirección configurada para la aplicación.
 
-Divulgación con rigor: el contenido se apoya en literatura científica revisada por pares (IEEE, 3GPP) y se presenta en lenguaje accesible, con gráficos interactivos y ejemplos de aplicación en vehículos autónomos, drones, salud digital e industria 4.0. El foro de retroalimentación busca que la conversación continúe con la comunidad.
+El servidor valida la configuración al arrancar y requiere las credenciales SMTP y Google OIDC aunque se quiera probar solo la interfaz.
 
-## Sobre este repositorio
+## Instalación y configuración
 
-Este repositorio es la **evidencia técnica del proyecto de curso**. No es una plantilla para replicar ni se ofrece soporte para desplegarlo por cuenta propia. Si solo quieres leer el contenido, visita el sitio publicado; no necesitas nada de lo que hay aquí.
+Desde la raíz del repositorio:
 
-El sitio está construido con React, Express y PostgreSQL sobre Supabase.
+```sh
+pnpm install
+```
+
+Aplica las migraciones existentes a la base de datos:
+
+```sh
+pnpm --filter @blogdpc/server db:migrate
+```
+
+## Ejecución
+
+### Comandos manuales
+
+Abre dos terminales desde la raíz del repositorio.
+
+Terminal 1 — backend, en `http://localhost:3000`:
+
+```sh
+pnpm dev
+```
+
+Terminal 2 — frontend, normalmente en `http://localhost:5173`:
+
+```sh
+pnpm --filter @blogdpc/web dev
+```
+
+Abre la dirección del frontend en el navegador. Vite reenvía las solicitudes `/api` al backend local.
+
+### Atajo para Windows
+
+También puedes ejecutar `start-dev.bat` desde la raíz del repositorio. El archivo instala las dependencias e inicia el backend y el frontend en ventanas separadas.
+
+## Uso de la aplicación
+
+- Navega por las secciones disponibles desde el frontend.
+- Usa el registro con correo —requiere verificarlo mediante el mensaje enviado por SMTP— o inicia sesión con Google.
+- El foro permite consultar conversaciones y publicar después de iniciar sesión y verificar el correo.
+- Las rutas de administración requieren una cuenta con rol `ADMIN`; la asignación inicial del rol se realiza mediante el comando interno `pnpm --filter @blogdpc/server admin:create` (requiere `ADMIN_EMAIL`, `ADMIN_NAME` y `ADMIN_PASSWORD` en `.env`).
+
+## Comprobaciones y build
+
+Desde la raíz del repositorio:
+
+```sh
+pnpm check
+pnpm lint
+pnpm test
+pnpm build
+```
+
+`pnpm lint` ejecuta Oxlint en el frontend. Las pruebas de base de datos requieren una base de pruebas aislada y no se ejecutan con la configuración local predeterminada.

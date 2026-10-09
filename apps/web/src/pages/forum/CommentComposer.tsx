@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { api, ApiError } from "@/lib/http";
-import { publishForumComment } from "@/pages/forum/forumCache";
+import { publishForumComment, invalidateForumCache } from "@/pages/forum/forumCache";
 
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 2000;
@@ -17,12 +17,14 @@ export function CommentComposer({
   disabled = false,
   onPublished,
   onCancel,
+  onConflict,
 }: {
   parentId?: string;
   autoFocus?: boolean;
   disabled?: boolean;
   onPublished: (comment: PublicComment) => void;
   onCancel?: () => void;
+  onConflict?: () => void;
 }) {
   const [idPrefix] = useState(() => `composer-${++composerCounter}`);
   const [body, setBody] = useState("");
@@ -57,6 +59,14 @@ export function CommentComposer({
       if (error_ instanceof ApiError && error_.code === "COMMENT_COOLDOWN") {
         setCooldown(error_.retryAfterSeconds ?? 30);
         setError(error_.message);
+      } else if (
+        error_ instanceof ApiError &&
+        (error_.code === "REPLY_ROOT_ONLY" || error_.code === "ROOT_REPLY_LIMIT_REACHED")
+      ) {
+        // La API es la autoridad: invalidar la lectura y pedir revalidación sin tocar el borrador.
+        invalidateForumCache();
+        onConflict?.();
+        setError(error_.message);
       } else if (error_ instanceof ApiError) {
         setError(error_.message);
       } else {
@@ -68,7 +78,7 @@ export function CommentComposer({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="comment-composer space-y-3">
       <p ref={announcementRef} tabIndex={-1} aria-live="polite" className="sr-only" />
 
       <div className="space-y-1.5">

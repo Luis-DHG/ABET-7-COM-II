@@ -25,7 +25,7 @@ La política SHALL identificar al Grupo 3 como responsable y publicar `chaconvar
 - **THEN** lee la fecha de cierre del 31 de marzo de 2027, el borrado de base y registros, la ausencia de copias de respaldo y la ausencia de una opción de eliminar cuenta en la aplicación
 
 ### Requirement: Contenido de términos aprobado
-Los términos SHALL describir el servicio educativo ISAC/6G, cuentas y correo verificado, responsabilidad sobre credenciales, lectura pública del foro, límites de 3 a 2000 caracteres y seis niveles, intervalo de publicación, ausencia de edición y eliminación individual de comentarios, conservación de derechos del autor con autorización limitada de alojamiento y visualización sin publicidad, proveedores, cierre y contacto. SHALL omitir la sección de moderación conforme a la instrucción del usuario.
+Los términos SHALL describir el servicio educativo ISAC/6G, cuentas y correo verificado, responsabilidad sobre credenciales, lectura pública del foro, límites de 3 a 2000 caracteres y respuestas solo a comentarios raíz con un máximo de seis respuestas directas por raíz, sin respuestas a respuestas, intervalo de publicación, ausencia de edición y eliminación individual de comentarios, conservación de derechos del autor con autorización limitada de alojamiento y visualización sin publicidad, proveedores, cierre y contacto. SHALL omitir la sección de moderación conforme a la instrucción del usuario.
 
 #### Scenario: Consulta sobre comentarios
 - **WHEN** el visitante lee los términos del foro

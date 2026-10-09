@@ -145,7 +145,7 @@ export default function AdminCommentsPage() {
             <li key={comment.id} className="rounded-lg border bg-card p-4">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
                 <span className="font-medium">{comment.authorName}</span>
-                <span className="text-muted-foreground">{comment.authorEmail}</span>
+                <span className="text-muted-foreground break-words">{comment.authorEmail}</span>
                 <time dateTime={comment.createdAt} className="text-xs text-muted-foreground">
                   {formatDateTime(comment.createdAt)}
                 </time>

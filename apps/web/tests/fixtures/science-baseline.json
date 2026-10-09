@@ -91,6 +91,16 @@
       "path": "public/images/isac/huawei/fig18-hardware-impairments.avif",
       "bytes": 23442,
       "sha256": "7f4b13e4fdd4eca120a74cf3fae3cb40ce6955ef1298dbbf2c94fb88298f300f"
+    },
+    {
+      "path": "public/images/oddm-isac-paper.avif",
+      "bytes": 80190,
+      "sha256": "cbfc98de22e44574c0aebaecf13f15c183c58c222c11971c2b1fe945e7054427",
+      "provenance": {
+        "authorization": "Usar el AVIF fiel",
+        "declaredBy": "usuario, autorización explícita comunicada en esta invocación",
+        "scope": "Conversión fiel de la misma figura y autorización de uso conservada; sustituir únicamente referencia PNG ausente por AVIF existente, manteniendo alt, caption y fuente actuales. No se inventa licencia."
+      }
     }
   ],
   "unresolvedAsset": {

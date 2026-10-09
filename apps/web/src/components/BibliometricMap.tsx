@@ -3,6 +3,7 @@ import Graph from "graphology";
 import Sigma from "sigma";
 import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { applyMapMotion, resetMapCamera } from "@/lib/mapMotion";
 
 type VOSItem = {
   id: number;
@@ -22,13 +23,14 @@ const COLORS = ["#2463a6", "#a54b42", "#4d8065", "#9a6c1c", "#765a9e", "#25858b"
 const MAX_VISIBLE_LINKS = 1000;
 const rgb = (hex: string) => hex.match(/[\da-f]{2}/gi)?.map((part) => Number.parseInt(part, 16)).join(", ") ?? "89, 105, 123";
 const edgeSize = (strength: number) => 0.18 + Math.min(1, Math.log2(strength + 1) / 5) * 0.95;
-const DEFAULT_EDGE_COLOR = "rgba(76, 90, 106, 0.46)";
+const DEFAULT_EDGE_COLOR = "rgba(76, 90, 106, 0.75)";
 const number = (value: number) => value.toLocaleString("es-CO", { maximumFractionDigits: 2 });
 
 export function BibliometricMap() {
   const host = useRef<HTMLDivElement>(null);
   const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
+  const resetCamera = useRef<() => void>(() => {});
   const [terms, setTerms] = useState<MapTerm[]>([]);
   const [query, setQuery] = useState("");
   const [cluster, setCluster] = useState("");
@@ -38,6 +40,13 @@ export function BibliometricMap() {
   useEffect(() => {
     let cancelled = false;
     let renderer: Sigma | null = null;
+    let duration = 0;
+    let originalInertiaRatio = 0;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotion = () => {
+      if (renderer) applyMapMotion(renderer, duration, motionPreference.matches, originalInertiaRatio);
+    };
+    motionPreference.addEventListener("change", updateMotion);
     fetch(`${import.meta.env.BASE_URL}data/isac/vosviewer-cooccurrence-network.json`)
       .then((response) => {
         if (!response.ok) throw new Error("No se pudo cargar el archivo de la red.");
@@ -83,23 +92,30 @@ export function BibliometricMap() {
         }
         graphRef.current = graph;
         setTerms(parsed);
+        duration = Number.parseFloat(getComputedStyle(host.current).getPropertyValue("--motion-normal"));
         renderer = new Sigma(graph, host.current, {
           renderLabels: true,
-          labelRenderedSizeThreshold: 6,
+          labelRenderedSizeThreshold: 4,
           labelFont: "Inter Variable, Inter, sans-serif",
-          labelSize: 12,
+          labelSize: 14,
           defaultEdgeColor: DEFAULT_EDGE_COLOR,
           allowInvalidContainer: false,
         });
         sigmaRef.current = renderer;
+        originalInertiaRatio = renderer.getSetting("inertiaRatio");
+        updateMotion();
+        const currentRenderer = renderer;
+        resetCamera.current = () => resetMapCamera(currentRenderer.getCamera(), duration, motionPreference.matches);
         renderer.on("clickNode", ({ node }) => setSelected(node));
-        renderer.getCamera().animatedReset({ duration: 350 });
+        resetCamera.current();
       })
       .catch((cause: unknown) => {
         if (!cancelled) setError(cause instanceof Error ? cause.message : "No se pudo cargar el mapa.");
       });
     return () => {
       cancelled = true;
+      motionPreference.removeEventListener("change", updateMotion);
+      resetCamera.current = () => {};
       renderer?.kill();
       sigmaRef.current = null;
       graphRef.current = null;
@@ -144,7 +160,7 @@ export function BibliometricMap() {
     }
     renderer.setSetting("nodeReducer", (node, attributes) => {
       const dim = (selected !== "" || cluster !== "") && !focusedNodes.has(node);
-      return { ...attributes, color: dim ? "#c8cdd3" : attributes.color, size: node === selected ? attributes.size * 1.65 : attributes.size };
+      return { ...attributes, color: dim ? "#87939d" : attributes.color, size: node === selected ? attributes.size * 1.65 : attributes.size };
     });
     renderer.setSetting("edgeReducer", (edge, attributes) => {
       const visible = selected !== "" || cluster !== "" ? focusedEdges.has(edge) : attributes.defaultVisible === true;
@@ -152,8 +168,8 @@ export function BibliometricMap() {
       return {
         ...attributes,
         hidden: false,
-        size: edgeSize(attributes.strength as number),
-        color: focusColor ? `rgba(${rgb(focusColor)}, 0.86)` : DEFAULT_EDGE_COLOR,
+        size: attributes.size as number,
+        color: focusColor ? `rgba(${rgb(focusColor)}, 0.94)` : DEFAULT_EDGE_COLOR,
       };
     });
     renderer.refresh();
@@ -177,7 +193,7 @@ export function BibliometricMap() {
     setCluster("");
     setSelected("");
     setQuery("");
-    sigmaRef.current?.getCamera().animatedReset({ duration: 350 });
+    resetCamera.current();
   }
 
   return (
