@@ -98,7 +98,7 @@ export default function ThreadPage() {
       ) : null}
 
       {thread && thread.id === rootId ? (
-        <div className="rounded-lg border bg-card px-4 sm:px-6">
+        <div className="rounded-xl bg-card px-4 sm:px-6">
           <CommentItem
             comment={thread}
             canReply={canReply}

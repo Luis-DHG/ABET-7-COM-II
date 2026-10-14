@@ -5,13 +5,10 @@ node_modules/
 dist/
 .env
 .env.*
-!.env.example
 coverage/
 *.log
 *.md
-!README.md
 !openspec/**/*.md
-docs/
 .opencode/
 graphify-out/*
 !graphify-out/graph.json
@@ -39,5 +36,4 @@ Desktop.ini
 imagen
 .atl/
 .pi/
-testsprite_tests/tmp/
-testsprite_tests/tmp/config.json
+/tmp/

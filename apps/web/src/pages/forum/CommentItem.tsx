@@ -101,7 +101,7 @@ export const CommentItem = memo(function CommentItem({
         </div>
 
         {replying ? (
-          <div className="mt-3 rounded-lg border bg-card p-4">
+          <div className="mt-3 rounded-lg bg-muted/50 p-4">
             <CommentComposer
               parentId={comment.id}
               autoFocus

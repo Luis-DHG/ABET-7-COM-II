@@ -152,7 +152,7 @@ export default function ForumPage() {
             </div>
           ) : (
             <>
-              <ol className="divide-y divide-border rounded-lg border bg-card">
+              <ol className="divide-y divide-border rounded-xl bg-card">
                 {comments.map((comment) => (
                   <div key={comment.id} className="px-4 sm:px-6">
                     <CommentItem
@@ -282,7 +282,7 @@ function ParticipationBox({
   if (!canPublish) return null;
 
   return (
-    <div className="rounded-lg border bg-card p-6">
+    <div className="rounded-xl bg-card p-6">
       <CommentComposer disabled={disabled} onPublished={onPublished} />
     </div>
   );

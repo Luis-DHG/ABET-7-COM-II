@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useLayoutEffect } from "react";
+import { Link, useLocation, useNavigationType } from "react-router-dom";
 import { MAX_DIRECT_REPLIES_PER_ROOT } from "@blogdpc/contracts/constants";
 
 const CONTACT_EMAIL = "chaconvargasfabiancamilo@gmail.com";
@@ -114,6 +115,13 @@ const DOCUMENTS: Record<string, LegalDoc> = {
 
 export default function LegalPage({ kind }: { kind: "privacidad" | "terminos" }) {
   const doc = DOCUMENTS[kind];
+  const { key, hash } = useLocation();
+  const navigationType = useNavigationType();
+
+  useLayoutEffect(() => {
+    if (navigationType !== "POP" && !hash) window.scrollTo(0, 0);
+  }, [key, hash, navigationType]);
+
   return (
     <article className="legal-document space-y-6 break-words">
       <title>{`${doc.title} | BlogDPC · ISAC`}</title>

@@ -111,8 +111,8 @@ function Header() {
             {status === "unknown" ? null : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" aria-label={`Cuenta de ${user.displayName}`}>
-                    <UserRound aria-hidden />
+                  <Button variant="secondary" size="sm" aria-label={`Cuenta de ${user.displayName}`}>
+                    <UserRound className="text-primary" aria-hidden />
                     <span className="max-w-32 truncate">{user.displayName}</span>
                   </Button>
                 </DropdownMenuTrigger>
