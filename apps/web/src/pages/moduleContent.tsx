@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Radio, Video } from "lucide-react";
+import { ArrowUpRight, Radio } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { EditorialNote as Note, ForumInvitation } from "@/components/EditorialExtras";
 import { SignalDiagram } from "@/components/SignalDiagram";
@@ -11,6 +11,7 @@ import { LazyGlossary } from "@/components/LazyGlossary";
 import { ReferenceFigure } from "@/components/ReferenceFigure";
 import { LazyBibliometricMap } from "@/components/LazyBibliometricMap";
 import { LazyBibliometricFindings } from "@/components/LazyBibliometricFindings";
+import { LazyAlphaTradeoffExplorer } from "@/components/LazyAlphaTradeoffExplorer";
 import { MODULES } from "@/lib/manifest";
 import { FORMULAS } from "@/lib/formulas";
 
@@ -21,6 +22,53 @@ export interface EditorialModule {
   status?: string;
   sections: { id: string; title: string; content: ReactNode }[];
 }
+
+const ISAC_VIDEO_RESOURCES = [
+  {
+    id: "zugXaO0EUiI",
+    title: "6G sensing and intelligent classification",
+    source: "Qualcomm",
+    duration: "5:35",
+    language: "Audio: inglés; subtítulos automáticos en español",
+    description: "La demostración oficial presenta detección, seguimiento y clasificación de drones mediante sensado de red e IA; muestra cómo la infraestructura inalámbrica puede percibir objetos que no están conectados.",
+    watchUrl: "https://www.youtube.com/watch?v=zugXaO0EUiI",
+  },
+  {
+    id: "YK2bffGvxc4",
+    title: "Enabling parking lot vehicle detection with sensing",
+    source: "Qualcomm",
+    duration: "3:55",
+    language: "Audio: inglés; subtítulos automáticos en español",
+    description: "Muestra la detección de vehículos en un estacionamiento mientras la red mantiene las comunicaciones de datos, un ejemplo concreto de sensado integrado aplicado al transporte.",
+    watchUrl: "https://www.youtube.com/watch?v=YK2bffGvxc4",
+  },
+  {
+    id: "Up4PehlflSo",
+    title: "Enabling 6G efficiency with digital twin network and sensing-enhanced communications",
+    source: "Qualcomm",
+    duration: "7:41",
+    language: "Audio: inglés; subtítulos automáticos en español",
+    description: "Explica cómo el sensado de red y los gemelos digitales de radio pueden apoyar la optimización continua de redes 6G y habilitar servicios basados en información del entorno.",
+    watchUrl: "https://www.youtube.com/watch?v=Up4PehlflSo",
+  },
+  {
+    id: "_lNV28z7wIQ",
+    title: "Introduction to Integrated Sensing and Communication (ISAC)",
+    source: "Wireless Future",
+    duration: "28:20",
+    language: "Audio: inglés; subtítulos automáticos en español",
+    description: "Introducción académica a los fundamentos de ISAC, la relación entre radar y comunicaciones, los niveles de integración y los compromisos de diseño.",
+    watchUrl: "https://www.youtube.com/watch?v=_lNV28z7wIQ",
+  },
+  {
+    id: "uCALF7_90ys",
+    title: "Ep 47. Everyone Talks About Integrated Sensing and Communications [Wireless Future Podcast]",
+    source: "Wireless Future",
+    duration: "1:04:20",
+    language: "Audio: inglés; subtítulos automáticos en español",
+    description: "Conversación técnica sobre cómo se relacionan el sensado y las comunicaciones, sus niveles de integración, beamforming, formas de onda y posibles usos de ISAC en redes 6G.",
+    watchUrl: "https://www.youtube.com/watch?v=uCALF7_90ys",
+  },] as const;
 
 export const MODULE_CONTENT: Record<number, EditorialModule> = {
   1: { 
@@ -279,16 +327,6 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         </p> 
 
         <p className="editorial-caption">Universidad Industrial de Santander (UIS).</p> 
-
-        <details className="editorial-details">
-        <summary>Declaración de divulgación pública</summary>
-        <p>
-        La presente Divulgación Pública de la Ciencia tiene como propósito
-        acercar conceptos relacionados con Integrated Sensing and Communications
-        a estudiantes y público interesado en tecnologías inalámbricas
-        emergentes mediante un formato digital educativo.
-        </p>
-        </details> 
 
       </> }, 
 
@@ -1445,12 +1483,14 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
 
         </div>
 
-        <Note title="Qué todavía no muestra el explorador">
-        Esta primera versión trabaja con relaciones ideales deterministas.
-        Las curvas de tasa de datos y de SNR de radar en función de α, el
-        ruido, el canal real y la detección de objetivos son la siguiente
-        etapa del mini-caso; las ecuaciones de este módulo ya las
-        anticipan.
+        <p>
+        ¿Qué le pasa al eco cuando le quitas potencia para dársela a los datos? ¿Y a los datos cuando se la quitas al eco? Haz tu apuesta y luego compruébalo.
+        </p>
+
+        <LazyAlphaTradeoffExplorer />
+
+        <Note title="Qué todavía no muestran los exploradores">
+        Ambos trabajan con relaciones ideales deterministas. El ruido es un nivel térmico fijo, no una simulación; el ruido simulado, el canal real y la detección de objetivos son la siguiente etapa del mini-caso.
         </Note>
 
       </> },
@@ -1512,17 +1552,41 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
   },
   5: {
     headline: "ISAC, contado paso a paso.",
-    introduction: "Una síntesis para conectar la idea de una señal compartida con el mini-caso de ingeniería. Este será el recorrido de nuestra pieza de divulgación.",
-    status: "Video por definir",
+    introduction: "Una síntesis para conectar la idea de una señal compartida con el mini-caso de ingeniería y explorar demostraciones y explicaciones de ISAC.",
+    status: "Cinco videos integrados",
     sections: [
-      { id: "video", title: "Una explicación para ver y escuchar", content: <>
-        <div className="video-pending"><Video aria-hidden /><Badge variant="secondary">Video pendiente</Badge><h3>De la señal al entorno</h3><p>Estamos definiendo el material audiovisual. Mientras tanto, puedes recorrer las ideas principales en este resumen.</p><Link to="/mini-caso">Explorar el mini-caso</Link></div>
+      { id: "video", title: "Videos para ver y escuchar", content: <>
+        <div className="video-resource-grid">
+          {ISAC_VIDEO_RESOURCES.map((video) => (
+            <article className="video-resource" key={video.id}>
+              <div className="video-frame">
+                <iframe
+                  src={`https://www.youtube.com/embed/${video.id}?feature=oembed`}
+                  title={`${video.title} — ${video.source}`}
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <div className="video-resource-details">
+                <h3>{video.title}</h3>
+                <p className="video-resource-source">{video.source} · {video.duration}</p>
+                <p className="editorial-caption">{video.language}</p>
+                <p>{video.description}</p>
+                <p className="editorial-caption">
+                  <a href={video.watchUrl} target="_blank" rel="noreferrer">Abrir el video en YouTube</a>
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
       </> },
       { id: "resumen", title: "Cinco ideas para llevar contigo", content: <>
         <ol className="editorial-steps"><li><h3>Una infraestructura que percibe</h3><p>ISAC integra el transporte de datos y la percepción del entorno, y ambas funciones pueden ayudarse mutuamente: la red comunica, percibe y entiende.</p></li><li><h3>Una forma de onda con doble propósito</h3><p>DFRC conecta comunicación y radar. OFDM ofrece una estructura de subportadoras y símbolos para estudiarlo.</p></li><li><h3>El eco contiene información</h3><p>Retardo y Doppler ayudan a describir la distancia y el movimiento de un objetivo.</p></li><li><h3>Una métrica no cuenta toda la historia</h3><p>BER, detección y resolución responden a preguntas distintas. El diseño necesita considerarlas juntas.</p></li><li><h3>Las aplicaciones dan sentido al modelo</h3><p>Transporte, drones, interiores e industria permiten plantear escenarios concretos de investigación.</p></li></ol>
       </> },
       { id: "lectura-complementaria", title: "Continúa el recorrido", content: <>
-        <p>Cuando el video esté definido, este espacio incluirá su transcripción, subtítulos y créditos. Por ahora, las explicaciones escritas permanecen disponibles para consultar a tu ritmo.</p><ForumInvitation />
+        <p>Estos recursos complementan las explicaciones escritas con demostraciones y fundamentos de ISAC.</p><ForumInvitation />
       </> },
     ],
   },

@@ -34,7 +34,7 @@ export const MODULES: ModuleInfo[] = [
     number: 5,
     path: "/divulgacion",
     title: "Divulgación multimedia",
-    scope: "Las ideas esenciales del proyecto y el recorrido del futuro video de divulgación.",
+    scope: "Las ideas esenciales del proyecto y cinco recursos audiovisuales integrados sobre ISAC.",
   },
   {
     number: 6,

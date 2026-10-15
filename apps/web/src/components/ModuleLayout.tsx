@@ -35,14 +35,21 @@ export function ModuleLayout({ module, content }: { module: ModuleInfo; content:
       <meta name="description" content={module.scope} />
       <header className="module-hero">
         <ModuleProgress module={module} />
-        <div className="module-hero-copy">
-          <p className="module-subject">{module.title}</p>
-          <h1 ref={heading} tabIndex={-1}>{content.headline}</h1>
-          <p className="module-introduction">{content.introduction}</p>
-          <div className="module-meta">
-            <span>Universidad Industrial de Santander</span>
-            {content.status ? <Badge variant="outline">{content.status}</Badge> : <Badge variant="secondary">Guía de lectura</Badge>}
+        <div className={module.number === 1 ? "module-hero-home-grid" : "module-hero-content"}>
+          <div className="module-hero-copy">
+            <p className="module-subject">{module.title}</p>
+            <h1 ref={heading} tabIndex={-1}>{content.headline}</h1>
+            <p className="module-introduction">{content.introduction}</p>
+            <div className="module-meta">
+              <span>Universidad Industrial de Santander</span>
+              {content.status ? <Badge variant="outline">{content.status}</Badge> : <Badge variant="secondary">Guía de lectura</Badge>}
+            </div>
           </div>
+          {module.number === 1 ? (
+            <aside className="institutional-declaration" aria-label="Declaración institucional">
+              <p>La presente Divulgación Pública de la Ciencia, a través del siguiente Desarrollo Web, tiene una ruta de circulación nacional sin enfoque diferencial y está dirigido a la comunidad o público objetivo conformado por jóvenes, adultos, empresarios y/o empresa en género literario informativo de tipo Blog, con componente digital a través de soporte web</p>
+            </aside>
+          ) : null}
         </div>
       </header>
 

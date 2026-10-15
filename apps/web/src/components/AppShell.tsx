@@ -36,7 +36,7 @@ export function AppShell() {
       </a>
       <Header />
       <OfflineBanner />
-      <main id="contenido" className="mx-auto w-full max-w-[80rem] flex-1 px-4 py-8 sm:px-6 lg:px-8">
+      <main id="contenido" className="mx-auto w-full min-w-0 max-w-[80rem] flex-1 px-4 py-8 sm:px-6 lg:px-8">
         <Outlet />
       </main>
       <Footer />
