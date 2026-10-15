@@ -21,7 +21,6 @@ export const ALPHA_MODEL = {
 
 export type UserScenario = keyof typeof ALPHA_MODEL.users;
 export type ObjectScenario = keyof typeof ALPHA_MODEL.objects;
-export type Prediction = "Más de un 50 %" | "Entre un 10 % y un 50 %" | "Menos de un 10 %";
 
 const dbToLinear = (db: number) => 10 ** (db / 10);
 const linearToDb = (value: number) => 10 * Math.log10(value);
@@ -75,49 +74,6 @@ export function tradeoffCurve(user: UserScenario, object: ObjectScenario) {
     const alpha = (index + 1) / 100;
     const metrics = alphaMetrics(alpha, user, object);
     return { alpha, radarSnrDb: metrics.radarSnrDb, dataRateMbps: metrics.dataRateMbps };
-  });
-}
-
-export function classifyPrediction(gainPercent: number): Prediction {
-  if (gainPercent > 50) return "Más de un 50 %";
-  if (gainPercent >= 10) return "Entre un 10 % y un 50 %";
-  return "Menos de un 10 %";
-}
-
-export function predictionResult(user: UserScenario, object: ObjectScenario) {
-  const atHalf = alphaMetrics(0.5, user, object);
-  const atNinety = alphaMetrics(0.9, user, object);
-  const gainPercent = ((atNinety.dataRateMbps / atHalf.dataRateMbps) - 1) * 100;
-  return {
-    gainPercent,
-    category: classifyPrediction(gainPercent),
-    echoAtHalfDb: atHalf.radarSnrDb,
-    echoAtNinetyDb: atNinety.radarSnrDb,
-    echoDropDb: atNinety.radarSnrDb - atHalf.radarSnrDb,
-  };
-}
-
-export const ECHO_NOISE = (() => {
-  let seed = 0x6d2b79f5;
-  const random = () => {
-    seed += 0x6d2b79f5;
-    let value = seed;
-    value = Math.imul(value ^ (value >>> 15), value | 1);
-    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
-    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
-  };
-  const samples = Array.from({ length: 251 }, () => 0.7 + random() * 0.6);
-  const mean = samples.reduce((sum, value) => sum + value, 0) / samples.length;
-  return samples.map((value) => value / mean);
-})();
-
-export function echoIllustration(alpha: number, object: ObjectScenario) {
-  const metrics = alphaMetrics(alpha, "near", object);
-  const width = metrics.rangeResolutionM;
-  return ECHO_NOISE.map((noise, index) => {
-    const distanceM = index;
-    const gaussian = metrics.radarSnrLinear * Math.exp(-((distanceM - metrics.objectDistanceM) ** 2) / (2 * width ** 2));
-    return { distanceM, powerDb: linearToDb(noise + gaussian) };
   });
 }
 

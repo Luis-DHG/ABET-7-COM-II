@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { ALPHA_MODEL, alphaMetrics, classifyPrediction, predictionResult, tradeoffCurve } from "../src/lib/alphaTradeoff.ts";
+import { ALPHA_MODEL, alphaMetrics, alphaModelFacts, tradeoffCurve } from "../src/lib/alphaTradeoff.ts";
 
 const close = (actual: number, expected: number, tolerance: number) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} no está dentro de ${tolerance} de ${expected}`);
 
@@ -8,11 +8,13 @@ test("α conserva potencia y las cifras de comunicación coinciden con el presup
   for (const user of ["near", "far"] as const) {
     const result = alphaMetrics(0.5, user, "pedestrian");
     close(result.communicationPowerW + result.sensingPowerW, ALPHA_MODEL.totalPowerW, 1e-12);
-    const wavelength = 299_792_458 / 5.9e9;
-    const pathLossDb = 15 + 3 + 20 * Math.log10(wavelength / (4 * Math.PI * ALPHA_MODEL.users[user].distanceM));
-    const noiseDbm = 10 * Math.log10(1.380649e-23 * 290 * 20e6 * 10 ** (6 / 10) * 1000);
+    const wavelength = ALPHA_MODEL.lightSpeed / ALPHA_MODEL.carrierHz;
+    const pathLossDb = ALPHA_MODEL.nodeGainDbi + ALPHA_MODEL.deviceGainDbi
+      + 20 * Math.log10(wavelength / (4 * Math.PI * ALPHA_MODEL.users[user].distanceM));
+    const noiseDbm = 10 * Math.log10(ALPHA_MODEL.boltzmann * ALPHA_MODEL.temperatureK
+      * ALPHA_MODEL.bandwidthHz * 10 ** (ALPHA_MODEL.noiseFigureDb / 10) * 1000);
     const expectedSnrDb = pathLossDb + 10 * Math.log10(0.5 * 1000) - noiseDbm;
-    const expectedRate = 20 * Math.log2(1 + 10 ** (expectedSnrDb / 10));
+    const expectedRate = ALPHA_MODEL.bandwidthHz / 1e6 * Math.log2(1 + 10 ** (expectedSnrDb / 10));
     close(result.communicationSnrDb, expectedSnrDb, 0.001);
     close(result.dataRateMbps, expectedRate, 0.001);
   }
@@ -47,15 +49,29 @@ test("referencias radar, sensibilidad de usuario, resolución y extremos son fin
   assert.ok(farGain > nearGain);
   close((nearGain - 1) * 100, 4.9, 0.1);
   close((farGain - 1) * 100, 8.9, 0.1);
+  assert.ok(alphaMetrics(0.5, "near", "pedestrian").communicationSnrDb > alphaMetrics(0.5, "far", "pedestrian").communicationSnrDb);
+  assert.ok(alphaMetrics(0.5, "near", "pedestrian").radarSnrDb > alphaMetrics(0.5, "near", "car").radarSnrDb);
   close(alphaMetrics(0.5, "near", "pedestrian").rangeResolutionM, 7.49481145, 1e-7);
   for (const alpha of [0.01, 0.99]) assert.ok(Object.values(alphaMetrics(alpha, "far", "car")).every(Number.isFinite));
-  assert.equal(tradeoffCurve("near", "pedestrian").length, 99);
+  const curve = tradeoffCurve("near", "pedestrian");
+  assert.equal(curve.length, 99);
+  assert.equal(curve[0].alpha, 0.01);
+  assert.equal(curve.at(-1)?.alpha, 0.99);
+  assert.ok(curve.every((point, index) => index === 0 || (
+    point.dataRateMbps > curve[index - 1].dataRateMbps && point.radarSnrDb < curve[index - 1].radarSnrDb
+  )));
 });
 
-test("la categoría de la apuesta se calcula con los umbrales del modelo", () => {
-  assert.equal(classifyPrediction(51), "Más de un 50 %");
-  assert.equal(classifyPrediction(50), "Entre un 10 % y un 50 %");
-  assert.equal(classifyPrediction(10), "Entre un 10 % y un 50 %");
-  assert.equal(classifyPrediction(9.99), "Menos de un 10 %");
-  assert.equal(predictionResult("near", "pedestrian").category, "Menos de un 10 %");
+test("la ficha técnica conserva los supuestos fijados en el modelo α", () => {
+  const facts = alphaModelFacts();
+  assert.equal(facts.carrierGHz, 5.9);
+  assert.equal(facts.bandwidthMHz, 20);
+  assert.equal(facts.totalPowerW, 1);
+  assert.equal(facts.totalPowerDbm, 30);
+  assert.equal(facts.nodeGainDbi, 15);
+  assert.equal(facts.deviceGainDbi, 3);
+  assert.equal(facts.noiseFigureDb, 6);
+  close(facts.rangeResolutionM, 7.49481145, 1e-7);
+  close(alphaMetrics(-1, "near", "pedestrian").alpha, 0.01, 0);
+  close(alphaMetrics(2, "near", "pedestrian").alpha, 0.99, 0);
 });

@@ -1130,7 +1130,7 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
   },
   4: {
     headline: "Evaluar una señal que comunica y percibe.",
-    introduction: "Construimos paso a paso el modelo del mini-caso: qué información trae el eco, qué papel juegan el ancho de banda y la potencia, cómo se reparte el recurso compartido mediante el parámetro α y qué ecuaciones conectan todo. Al llegar al explorador, cada variable tendrá un significado físico.",
+    introduction: "Este mini-caso estudia cómo una misma señal OFDM puede transportar datos y aportar información del entorno. Explora primero la observación de la señal y luego cómo cambia el reparto de potencia entre ambas funciones.",
     status: "Modelo hipotético ideal",
 
     sections: [
@@ -1147,12 +1147,35 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         </p>
 
         <p>
-        Antes de observar un solo número conviene responder tres preguntas:
-        qué información trae el eco, qué recursos se reparten ambas
-        funciones y con qué ecuaciones se describe cada una. Este módulo
-        construye esa base conceptual; el explorador interactivo, al
-        final, la pone en movimiento.
+        La potencia es limitada: dedicar más al enlace deja menos para el
+        eco. Las secciones siguientes explican las métricas que usaremos
+        para comparar ese compromiso.
         </p>
+
+      </> },
+
+
+      { id: "explorador", title: "Explora el compromiso", content: <>
+
+        <p className="alpha-transition">
+        El explorador OFDM muestra cómo el ancho de banda, el tiempo y el
+        movimiento afectan la observación. El barrido de α complementa esa
+        vista: sigue la tasa y la SNR de radar cuando cambia la potencia
+        asignada a cada función.
+        </p>
+
+        <div className="mini-case-workspace">
+        <details className="editorial-details alpha-ofdm-details">
+        <summary>1. Ajusta la observación OFDM</summary>
+        <OfdmExplorer />
+        </details>
+
+        <section className="alpha-workbench" aria-labelledby="alpha-workbench-title">
+        <h3 id="alpha-workbench-title">2. Reparte la potencia</h3>
+        <p>La portadora nominal de 5,9 GHz coincide en ambas vistas; α mantiene 20 MHz y usa su propia geometría de usuario y objetivo.</p>
+        <LazyAlphaTradeoffExplorer />
+        </section>
+        </div>
 
       </> },
 
@@ -1449,49 +1472,6 @@ export const MODULE_CONTENT: Record<number, EditorialModule> = {
         sistema sobre la curva tasa ↔ SNR de radar; mover B cambia la
         «finura» del sensado y la capacidad del enlace a la vez.
         </p>
-
-      </> },
-
-
-      { id: "explorador", title: "Explora el compromiso", content: <>
-
-        <p>
-        El explorador pone en movimiento la parte implementada del
-        mini-caso: con la potencia total fija, puedes variar el ancho de
-        banda B, el número de símbolos observados M y la posición y
-        velocidad del objetivo, y observar cómo responden la resolución de
-        rango, la resolución de velocidad, el retardo y el Doppler del
-        eco.
-        </p>
-
-        <OfdmExplorer />
-
-        <div className="example-block">
-        <h3>Cómo leer el explorador con lo aprendido</h3>
-
-        <p>
-        Al subir B, la resolución de distancia baja —la ecuación c/(2B) en
-        acción— mientras la tasa bruta crece: el mismo recurso beneficia a
-        ambas funciones, aunque también agranda el ruido térmico del
-        receptor. Al subir M, la resolución de velocidad mejora porque el
-        sistema observa el movimiento durante más tiempo. Cambiar la
-        distancia o la velocidad del objetivo desplaza el eco (τ, f_D),
-        pero no cambia la resolución del sistema. La «tasa bruta QPSK» es
-        una cuenta determinista de símbolos por segundo, no la capacidad
-        de Shannon: sirve como orden de magnitud del enlace.
-        </p>
-
-        </div>
-
-        <p>
-        ¿Qué le pasa al eco cuando le quitas potencia para dársela a los datos? ¿Y a los datos cuando se la quitas al eco? Haz tu apuesta y luego compruébalo.
-        </p>
-
-        <LazyAlphaTradeoffExplorer />
-
-        <Note title="Qué todavía no muestran los exploradores">
-        Ambos trabajan con relaciones ideales deterministas. El ruido es un nivel térmico fijo, no una simulación; el ruido simulado, el canal real y la detección de objetivos son la siguiente etapa del mini-caso.
-        </Note>
 
       </> },
 
