@@ -1,28 +1,28 @@
 # Graph Report - Blog  (2026-10-13)
 
 ## Corpus Check
-- 172 files · ~212,274 words
+- 172 files · ~211,892 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 25 file(s) not represented in the graph (top: .avif 17, (none) 4, .css 1)
+- Unclassified: 26 file(s) not represented in the graph (top: .avif 17, (none) 4, .ico 1)
 
 ## Summary
-- 1118 nodes · 2101 edges · 72 communities (61 shown, 11 thin omitted)
+- 1116 nodes · 2100 edges · 74 communities (63 shown, 11 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 51 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `19cb4efd`
+- Built from commit: `bd153b49`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - App.tsx
-- verify.ts
+- verify-session.db.test.ts
 - sprint0-baseline.ts
 - auth/module.ts
 - app.ts
 - BibliometricMap.tsx
-- moduleContent.tsx
+- admin/module.ts
 - src/index.ts
 - Requirement: Interfaz de respuesta coherente con el cupo
 - components.json
@@ -59,14 +59,16 @@
 - Regla de idioma: artefactos en español
 - allowBuilds: esbuild
 - nodeLinker: hoisted
-- config.ts
+- verify.ts
 - Requirement: Contenido editorial y recursos implementados en los siete módulos
 - Decisions
+- Proposal
 - AppShell.tsx
-- editorial-conservation.test.ts
-- ref_node_path
+- moduleContent.tsx
+- vite.config.ts
 - ADDED Requirements
-- 4.2 Conservación histórica y discrepancias
+- publish
+- forumCache.ts
 - Requirement: Legibilidad del árbol con sangría visual acumulada acotada
 - Proposal
 - Design
@@ -87,28 +89,28 @@
 - packages_contracts_dist_index_max_comment_depth
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 42 edges
-2. `Button()` - 42 edges
+1. `Button()` - 42 edges
+2. `react` - 42 edges
 3. `api()` - 32 edges
 4. `StatusNotice()` - 27 edges
 5. `AppError` - 24 edges
-6. `react-router-dom` - 19 edges
-7. `App()` - 19 edges
+6. `App()` - 19 edges
+7. `react-router-dom` - 19 edges
 8. `compilerOptions` - 19 edges
 9. `Header()` - 17 edges
 10. `useSession()` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `3. Elegibilidad, copy y caché del frontend` --references--> `ThreadPage()`  [INFERRED]
+  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/tasks.md → apps/web/src/pages/forum/ThreadPage.tsx
 - `2. Validación y conteo bajo el lock existente de la raíz` --references--> `AppError`  [INFERRED]
   openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/server/src/http/errors.ts
 - `Context` --references--> `CommentComposer()`  [INFERRED]
   openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/web/src/pages/forum/CommentComposer.tsx
-- `3. Elegibilidad, copy y caché del frontend` --references--> `ThreadPage()`  [INFERRED]
-  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/tasks.md → apps/web/src/pages/forum/ThreadPage.tsx
-- `Ciclos TDD registrados` --references--> `appendThreadReply()`  [INFERRED]
-  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/evidence/verification.md → apps/web/src/pages/forum/forumCache.ts
 - `3. Una elegibilidad en listado e hilo, manteniendo lectura recursiva` --references--> `useSession()`  [INFERRED]
   openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/web/src/session/SessionProvider.tsx
+- `Risks / Trade-offs` --references--> `publish()`  [INFERRED]
+  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/web/src/pages/forum/CommentComposer.tsx
 
 ## Import Cycles
 - None detected.
@@ -118,39 +120,39 @@
 - **Renovación y contención de la sesión del navegador** — openspec_specs_autenticacion_rotacion_de_refresh_con_revocacion_de_familia, openspec_specs_sesion_web_renovacion_unica_ante_401, openspec_specs_autenticacion_cookies_seguras_y_origen_verificado [INFERRED 0.75]
 - **Flujo de moderación y estado de usuarios del foro** — openspec_specs_foro_retroalimentacion_suspension_preserva_la_lectura, openspec_specs_moderacion_administracion_gestion_de_usuarios, openspec_specs_moderacion_administracion_acceso_restringido_por_rol [INFERRED 0.85]
 
-## Communities (72 total, 11 thin omitted)
+## Communities (74 total, 11 thin omitted)
 
 ### Community 0 - "App.tsx"
 Cohesion: 0.06
-Nodes (93): AdminCommentsPage, AdminFallback(), AdminUsersPage, App(), RouteErrorBoundary(), FieldError(), ICONS, StatusNotice() (+85 more)
+Nodes (87): AdminCommentsPage, AdminFallback(), AdminUsersPage, App(), RouteErrorBoundary(), EditorialNote(), ForumInvitation(), FieldError() (+79 more)
 
-### Community 2 - "verify.ts"
+### Community 2 - "verify-session.db.test.ts"
 Cohesion: 0.11
-Nodes (25): config, Fixture, startApp(), createDatabase(), accountTokens, appRole, appSchema, ltree (+17 more)
+Nodes (25): config, Fixture, startApp(), createDatabase(), Database, accountTokens, appRole, appSchema (+17 more)
 
 ### Community 3 - "sprint0-baseline.ts"
-Cohesion: 0.08
-Nodes (19): client, databaseUrl, isLocal, client, currentDirectory, databaseUrl, isLocal, migrationsFolder (+11 more)
+Cohesion: 0.11
+Nodes (14): client, databaseUrl, isLocal, client, databaseUrl, input, isLocal, client (+6 more)
 
 ### Community 4 - "auth/module.ts"
-Cohesion: 0.16
-Nodes (25): AccessClaims, accessClaimsSchema, createOpaqueToken(), deriveKey(), GoogleState, googleStateSchema, hashOpaqueToken(), hashPassword() (+17 more)
+Cohesion: 0.15
+Nodes (26): AccessClaims, accessClaimsSchema, createOpaqueToken(), deriveKey(), GoogleState, googleStateSchema, hashOpaqueToken(), hashPassword() (+18 more)
 
 ### Community 5 - "app.ts"
-Cohesion: 0.13
-Nodes (31): createAdminRouter(), uuidSchema, createApp(), AuthModule, createAuthRouter(), createForumRouter(), ACCESS_COOKIE, clearSessionCookies() (+23 more)
+Cohesion: 0.11
+Nodes (34): AdminModule, createAdminRouter(), uuidSchema, createApp(), AuthModule, createAuthRouter(), ForumModule, createForumRouter() (+26 more)
 
 ### Community 6 - "BibliometricMap.tsx"
 Cohesion: 0.14
 Nodes (16): BibliometricMap(), COLORS, edgeSize(), MapTerm, number(), rgb(), VOSItem, VOSLink (+8 more)
 
-### Community 7 - "moduleContent.tsx"
-Cohesion: 0.06
-Nodes (46): EditorialNote(), ForumInvitation(), Formula(), Glossary(), normalize(), terms, Glossary, LazyGlossary() (+38 more)
+### Community 7 - "admin/module.ts"
+Cohesion: 0.21
+Nodes (11): createAdminModule(), ensureAdmin(), parentAuthors, parentComments, comments, Cursor, cursorSchema, decodeCursor() (+3 more)
 
 ### Community 8 - "src/index.ts"
-Cohesion: 0.05
-Nodes (35): Capabilities, Impact, Modified Capabilities, New Capabilities, Proposal, What Changes, Why, 1. Contratos compartidos (+27 more)
+Cohesion: 0.09
+Nodes (22): MAX_COMMENT_DEPTH, MAX_DIRECT_REPLIES_PER_ROOT, AdminCommentsQuery, adminCommentsQuerySchema, AdminUsersQuery, adminUsersQuerySchema, CommentsQuery, commentsQuerySchema (+14 more)
 
 ### Community 9 - "Requirement: Interfaz de respuesta coherente con el cupo"
 Cohesion: 0.08
@@ -173,8 +175,8 @@ Cohesion: 0.10
 Nodes (20): import, types, dependencies, zod, devDependencies, typescript, exports, ./constants (+12 more)
 
 ### Community 14 - "server/package.json"
-Cohesion: 0.11
-Nodes (18): @blogdpc/contracts, @types/node, typescript, zod, main, name, private, type (+10 more)
+Cohesion: 0.12
+Nodes (16): main, name, private, type, version, @blogdpc/contracts, cookie, express-rate-limit (+8 more)
 
 ### Community 15 - "web/package.json"
 Cohesion: 0.10
@@ -193,8 +195,8 @@ Cohesion: 0.14
 Nodes (14): scripts, admin:create, build, check, db:cleanup, db:generate, db:migrate, db:provision-role (+6 more)
 
 ### Community 19 - "forum/module.ts"
-Cohesion: 0.09
-Nodes (30): AdminModule, createAdminModule(), ensureAdmin(), parentAuthors, parentComments, Database, comments, CommentRow (+22 more)
+Cohesion: 0.21
+Nodes (11): CommentRow, depthOf(), normalizeCommentBody(), publicSelection, toPublic(), buildCommentTree(), FlatPublicComment, packages_contracts_dist_index (+3 more)
 
 ### Community 20 - "dependencies"
 Cohesion: 0.17
@@ -272,9 +274,9 @@ Nodes (3): Configuración de Oxlint, Plantilla React + TypeScript + Vite, React 
 Cohesion: 0.09
 Nodes (22): ADDED Requirements, Requirement: Composición de lectura y recursos técnicos, Requirement: Conservación integral del contenido editorial actual, Requirement: Explorador OFDM con parámetros y resultados diferenciados, Requirement: Figuras científicas íntegras y atribuidas, Requirement: Jerarquía editorial y ubicación sin progreso completado, Requirement: Mapa bibliométrico legible sin cambiar su representación científica, Scenario: Comparación con la versión anterior al rediseño (+14 more)
 
-### Community 44 - "config.ts"
-Cohesion: 0.13
-Nodes (12): AppConfig, booleanFromEnv, envSchema, loadConfig(), createMailer(), escapeHtml(), Mailer, renderAuthEmail() (+4 more)
+### Community 44 - "verify.ts"
+Cohesion: 0.07
+Nodes (24): AppConfig, booleanFromEnv, envSchema, loadConfig(), client, currentDirectory, databaseUrl, isLocal (+16 more)
 
 ### Community 45 - "Requirement: Contenido editorial y recursos implementados en los siete módulos"
 Cohesion: 0.09
@@ -284,25 +286,33 @@ Nodes (21): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Req
 Cohesion: 0.11
 Nodes (18): 1. Una sola capa de tokens y primitivas, 2. Shell compacto y editorial con dos anchos, 3. Figuras y bloques técnicos: presentación antes que nuevos activos, 4. Bibliometría y OFDM: separar organización de cálculo, 5. Foro: limitar la sangría del árbol completo, no por componente, 6. Auxiliares y matriz cerrada de estados observados, 7. Movimiento: dos tokens, CSS primero y puente nativo al canvas, 8. Contratos y oráculos de referencia, sin reejecución amplia retirada (+10 more)
 
+### Community 47 - "Proposal"
+Cohesion: 0.20
+Nodes (9): Capabilities, Impact, Modified Capabilities, New Capabilities, Proposal, What Changes, Why, 1. Contratos compartidos (+1 more)
+
 ### Community 48 - "AppShell.tsx"
-Cohesion: 0.12
-Nodes (27): AppShell(), Footer(), Header(), OfflineBanner(), DropdownMenu(), DropdownMenuContent(), DropdownMenuItem(), DropdownMenuLabel() (+19 more)
+Cohesion: 0.06
+Nodes (50): AppShell(), Footer(), Header(), OfflineBanner(), ModuleLayout(), ModuleProgress(), PreviousNext(), useIsDesktop() (+42 more)
 
-### Community 49 - "editorial-conservation.test.ts"
-Cohesion: 0.08
-Nodes (30): controls, number(), OfdmExplorer(), FORMULAS, OFDM_DEFAULTS, ofdmMetrics(), createSessionGate(), routes (+22 more)
+### Community 49 - "moduleContent.tsx"
+Cohesion: 0.05
+Nodes (42): Formula(), Glossary(), normalize(), terms, Glossary, LazyGlossary(), ODDMDiagram(), controls (+34 more)
 
-### Community 50 - "ref_node_path"
-Cohesion: 0.40
-Nodes (4): ref_node_path, @tailwindcss/vite, vite, @vitejs/plugin-react
+### Community 50 - "vite.config.ts"
+Cohesion: 0.50
+Nodes (3): @tailwindcss/vite, vite, @vitejs/plugin-react
 
 ### Community 51 - "ADDED Requirements"
 Cohesion: 0.18
 Nodes (10): ADDED Requirements, MODIFIED Requirements, Requirement: Contenido de privacidad aprobado, Requirement: Contenido de términos aprobado, Requirement: Rutas legales públicas, Scenario: Acceso directo, Scenario: Consulta de retención, Scenario: Consulta sobre comentarios (+2 more)
 
-### Community 54 - "4.2 Conservación histórica y discrepancias"
-Cohesion: 0.20
-Nodes (9): 4.1 Resultados, 4.2 Conservación histórica y discrepancias, Alcance respetado, Ciclos TDD registrados, Conservación histórica verificada, Discrepancias con textos que aún describen la política anterior (documentadas, NO modificadas por instrucción del design), Evidencia de verificación integrada (tasks 4.1 y 4.2), F 3.3 — revalidación de hilo (2026-10-09) (+1 more)
+### Community 52 - "publish"
+Cohesion: 0.25
+Nodes (7): publish(), Risks / Trade-offs, 2. Política autoritativa y transacción, 3. Elegibilidad, copy y caché del frontend, 4. Comprobación integrada y entrega, 5. Coherencia documental autorizada después de la implementación, Tasks
+
+### Community 54 - "forumCache.ts"
+Cohesion: 0.12
+Nodes (22): appendForumPage(), appendThreadReply(), cache, ForumCache, isForumCacheStale(), publishForumComment(), readForumCache(), refreshForumCache() (+14 more)
 
 ### Community 55 - "Requirement: Legibilidad del árbol con sangría visual acumulada acotada"
 Cohesion: 0.20
@@ -365,24 +375,24 @@ Cohesion: 0.22
 Nodes (8): 1. Límites compartidos de escritura, DTO sin cambios, 2. Validación y conteo bajo el lock existente de la raíz, 3. Una elegibilidad en listado e hilo, manteniendo lectura recursiva, Context, Decisions, Design, Goals / Non-Goals, Migration Plan
 
 ## Knowledge Gaps
-- **496 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+491 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 579 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **495 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+490 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 577 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `App.tsx` to `BibliometricMap.tsx`, `moduleContent.tsx`, `BibliometricFindings.tsx`, `web/package.json`, `AppShell.tsx`, `editorial-conservation.test.ts`, `dialog.tsx`, `resource-oracles.test.ts`?**
-  _High betweenness centrality (0.065) - this node is a cross-community bridge._
-- **Why does `drizzle-orm` connect `verify.ts` to `sprint0-baseline.ts`, `auth/module.ts`, `app.ts`, `server/package.json`, `forum/module.ts`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
-- **Why does `Button()` connect `App.tsx` to `BibliometricMap.tsx`, `moduleContent.tsx`, `AppShell.tsx`, `editorial-conservation.test.ts`, `dialog.tsx`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `react` connect `App.tsx` to `BibliometricMap.tsx`, `BibliometricFindings.tsx`, `web/package.json`, `AppShell.tsx`, `moduleContent.tsx`, `dialog.tsx`, `resource-oracles.test.ts`?**
+  _High betweenness centrality (0.082) - this node is a cross-community bridge._
+- **Why does `zod` connect `app.ts` to `verify-session.db.test.ts`, `sprint0-baseline.ts`, `auth/module.ts`, `admin/module.ts`, `src/index.ts`, `verify.ts`, `server/package.json`?**
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
+- **Why does `Button()` connect `App.tsx` to `AppShell.tsx`, `moduleContent.tsx`, `BibliometricMap.tsx`, `dialog.tsx`?**
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `private` to the rest of the system?**
-  _496 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _495 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.05840851260698589 - nodes in this community are weakly interconnected._
-- **Should `verify.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.060825396825396824 - nodes in this community are weakly interconnected._
+- **Should `verify-session.db.test.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.10793650793650794 - nodes in this community are weakly interconnected._
 - **Should `sprint0-baseline.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
