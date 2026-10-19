@@ -1,28 +1,28 @@
-# Graph Report - Blog  (2026-10-13)
+# Graph Report - Blog  (2026-10-18)
 
 ## Corpus Check
-- 172 files · ~211,892 words
+- 186 files · ~234,617 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 26 file(s) not represented in the graph (top: .avif 17, (none) 4, .ico 1)
 
 ## Summary
-- 1116 nodes · 2100 edges · 74 communities (63 shown, 11 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 51 edges (avg confidence: 0.84)
+- 1324 nodes · 2383 edges · 103 communities (91 shown, 12 thin omitted)
+- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.89)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bd153b49`
+- Built from commit: `8b2b7476`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- App.tsx
+- react
 - verify-session.db.test.ts
 - sprint0-baseline.ts
 - auth/module.ts
 - app.ts
 - BibliometricMap.tsx
-- admin/module.ts
+- moduleContent.tsx
 - src/index.ts
 - Requirement: Interfaz de respuesta coherente con el cupo
 - components.json
@@ -62,15 +62,17 @@
 - verify.ts
 - Requirement: Contenido editorial y recursos implementados en los siete módulos
 - Decisions
-- Proposal
+- Design
 - AppShell.tsx
-- moduleContent.tsx
-- vite.config.ts
+- ModuleLayout.tsx
+- ref_node_path
 - ADDED Requirements
-- publish
-- forumCache.ts
+- loadConfig
+- admin/module.ts
+- 4.2 Conservación histórica y discrepancias
 - Requirement: Legibilidad del árbol con sangría visual acumulada acotada
 - Proposal
+- BibliometricFindings.tsx
 - Design
 - Proposal
 - resource-oracles.test.ts
@@ -80,37 +82,64 @@
 - Requirement: Accesibilidad operativa
 - Coherencia documental autorizada — tarea 5.1
 - scripts
+- Requirement: El mini-caso evalúa el trade-off OFDM-DFRC
 - Design
 - MODIFIED Requirements
 - Tasks
-- BibliometricFindings.tsx
+- Proposal
 - Design
+- ADDED Requirements
+- Requirement: Acceso autenticado sin restricciones del foro
+- Design
+- Tasks
+- Requirement: Contrato de entrada estricto
+- Requirement: Cuota deslizante por usuario
 - packages_contracts_dist_constants_max_comment_depth
+- Requirement: Presupuesto de entrada y rollover transaccional
+- Spec Delta
+- Requirement: Bloqueo de envío durante streaming
+- Requirement: Configuración server-only
+- Requirement: Contexto en memoria separado por identidad real
+- Requirement: Controlador global persistente
+- Requirement: Deadline hasta el primer contenido
+- Requirement: Desconexión y cierre ordenado
+- Requirement: Exclusión por conversación
+- Requirement: Expiración de contexto
+- Requirement: Fallback solo antes de contenido
 - packages_contracts_dist_index_max_comment_depth
+- Requirement: Historial no aislado por cuenta
+- Requirement: Parser SSE incremental robusto
+- Requirement: Persistencia de pares completos por pestaña
+- Requirement: Pool secuencial de modelos
+- Requirement: Privacidad y observabilidad
+- Requirement: Protocolo SSE de salida
+- Requirement: Recuperación de almacenamiento degradado
+- Requirement: Renovación compartida sin replay
+- Requirement: Terminación explícita y orden de confirmación
 
 ## God Nodes (most connected - your core abstractions)
-1. `Button()` - 42 edges
-2. `react` - 42 edges
-3. `api()` - 32 edges
-4. `StatusNotice()` - 27 edges
-5. `AppError` - 24 edges
-6. `App()` - 19 edges
-7. `react-router-dom` - 19 edges
-8. `compilerOptions` - 19 edges
-9. `Header()` - 17 edges
-10. `useSession()` - 16 edges
+1. `react` - 44 edges
+2. `Button()` - 42 edges
+3. `api()` - 36 edges
+4. `Design` - 27 edges
+5. `StatusNotice()` - 27 edges
+6. `AppError` - 26 edges
+7. `ADDED Requirements` - 25 edges
+8. `App()` - 20 edges
+9. `react-router-dom` - 19 edges
+10. `compilerOptions` - 19 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `3. Elegibilidad, copy y caché del frontend` --references--> `ThreadPage()`  [INFERRED]
-  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/tasks.md → apps/web/src/pages/forum/ThreadPage.tsx
-- `2. Validación y conteo bajo el lock existente de la raíz` --references--> `AppError`  [INFERRED]
-  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/server/src/http/errors.ts
-- `Context` --references--> `CommentComposer()`  [INFERRED]
-  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/web/src/pages/forum/CommentComposer.tsx
-- `3. Una elegibilidad en listado e hilo, manteniendo lectura recursiva` --references--> `useSession()`  [INFERRED]
-  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/web/src/session/SessionProvider.tsx
-- `Risks / Trade-offs` --references--> `publish()`  [INFERRED]
-  openspec/changes/archive/2026-10-08-foro-respuestas-directas-limitadas/design.md → apps/web/src/pages/forum/CommentComposer.tsx
+- `Orden de admisión` --references--> `requestContext()`  [INFERRED]
+  openspec/CHATBOT_SPEC.md → apps/server/src/http/middleware.ts
+- `Errores y recuperación` --references--> `parseWith()`  [INFERRED]
+  openspec/CHATBOT_SPEC.md → apps/server/src/http/errors.ts
+- `Sesión web y seam HTTP` --references--> `api()`  [INFERRED]
+  openspec/CHATBOT_SPEC.md → apps/web/src/lib/http.ts
+- `Risks / Trade-offs` --references--> `errorHandler()`  [INFERRED]
+  openspec/changes/2026-10-18-agrega-chatbot-tecnico/design.md → apps/server/src/http/errors.ts
+- `Impact` --references--> `ModuleLayout()`  [INFERRED]
+  openspec/changes/2026-10-18-agrega-chatbot-tecnico/proposal.md → apps/web/src/components/ModuleLayout.tsx
 
 ## Import Cycles
 - None detected.
@@ -120,39 +149,39 @@
 - **Renovación y contención de la sesión del navegador** — openspec_specs_autenticacion_rotacion_de_refresh_con_revocacion_de_familia, openspec_specs_sesion_web_renovacion_unica_ante_401, openspec_specs_autenticacion_cookies_seguras_y_origen_verificado [INFERRED 0.75]
 - **Flujo de moderación y estado de usuarios del foro** — openspec_specs_foro_retroalimentacion_suspension_preserva_la_lectura, openspec_specs_moderacion_administracion_gestion_de_usuarios, openspec_specs_moderacion_administracion_acceso_restringido_por_rol [INFERRED 0.85]
 
-## Communities (74 total, 11 thin omitted)
+## Communities (103 total, 12 thin omitted)
 
-### Community 0 - "App.tsx"
-Cohesion: 0.06
-Nodes (87): AdminCommentsPage, AdminFallback(), AdminUsersPage, App(), RouteErrorBoundary(), EditorialNote(), ForumInvitation(), FieldError() (+79 more)
+### Community 0 - "react"
+Cohesion: 0.05
+Nodes (97): AdminCommentsPage, AdminFallback(), AdminUsersPage, App(), RouteErrorBoundary(), FieldError(), ICONS, StatusNotice() (+89 more)
 
 ### Community 2 - "verify-session.db.test.ts"
-Cohesion: 0.11
-Nodes (25): config, Fixture, startApp(), createDatabase(), Database, accountTokens, appRole, appSchema (+17 more)
+Cohesion: 0.10
+Nodes (29): config, Fixture, startApp(), createDatabase(), Database, accountTokens, appRole, appSchema (+21 more)
 
 ### Community 3 - "sprint0-baseline.ts"
-Cohesion: 0.11
-Nodes (14): client, databaseUrl, isLocal, client, databaseUrl, input, isLocal, client (+6 more)
+Cohesion: 0.08
+Nodes (20): client, databaseUrl, isLocal, client, currentDirectory, databaseUrl, isLocal, migrationsFolder (+12 more)
 
 ### Community 4 - "auth/module.ts"
-Cohesion: 0.15
-Nodes (26): AccessClaims, accessClaimsSchema, createOpaqueToken(), deriveKey(), GoogleState, googleStateSchema, hashOpaqueToken(), hashPassword() (+18 more)
+Cohesion: 0.17
+Nodes (24): AccessClaims, accessClaimsSchema, createOpaqueToken(), deriveKey(), GoogleState, googleStateSchema, hashOpaqueToken(), hashPassword() (+16 more)
 
 ### Community 5 - "app.ts"
 Cohesion: 0.11
-Nodes (34): AdminModule, createAdminRouter(), uuidSchema, createApp(), AuthModule, createAuthRouter(), ForumModule, createForumRouter() (+26 more)
+Nodes (37): AdminModule, createAdminRouter(), uuidSchema, createApp(), AuthModule, createAuthRouter(), ForumModule, createForumRouter() (+29 more)
 
 ### Community 6 - "BibliometricMap.tsx"
 Cohesion: 0.14
 Nodes (16): BibliometricMap(), COLORS, edgeSize(), MapTerm, number(), rgb(), VOSItem, VOSLink (+8 more)
 
-### Community 7 - "admin/module.ts"
-Cohesion: 0.21
-Nodes (11): createAdminModule(), ensureAdmin(), parentAuthors, parentComments, comments, Cursor, cursorSchema, decodeCursor() (+3 more)
+### Community 7 - "moduleContent.tsx"
+Cohesion: 0.07
+Nodes (40): AlphaResponseChart(), AlphaTradeoffExplorer(), chart, number(), panels, percent(), EditorialNote(), ForumInvitation() (+32 more)
 
 ### Community 8 - "src/index.ts"
-Cohesion: 0.09
-Nodes (22): MAX_COMMENT_DEPTH, MAX_DIRECT_REPLIES_PER_ROOT, AdminCommentsQuery, adminCommentsQuerySchema, AdminUsersQuery, adminUsersQuerySchema, CommentsQuery, commentsQuerySchema (+14 more)
+Cohesion: 0.05
+Nodes (36): Capabilities, Impact, Modified Capabilities, New Capabilities, Proposal, What Changes, Why, 1. Contratos compartidos (+28 more)
 
 ### Community 9 - "Requirement: Interfaz de respuesta coherente con el cupo"
 Cohesion: 0.08
@@ -175,12 +204,12 @@ Cohesion: 0.10
 Nodes (20): import, types, dependencies, zod, devDependencies, typescript, exports, ./constants (+12 more)
 
 ### Community 14 - "server/package.json"
-Cohesion: 0.12
-Nodes (16): main, name, private, type, version, @blogdpc/contracts, cookie, express-rate-limit (+8 more)
+Cohesion: 0.11
+Nodes (18): @blogdpc/contracts, @types/node, typescript, zod, main, name, private, type (+10 more)
 
 ### Community 15 - "web/package.json"
 Cohesion: 0.10
-Nodes (20): @blogdpc/contracts, @types/node, typescript, name, private, type, version, @fontsource-variable/inter (+12 more)
+Nodes (19): @blogdpc/contracts, @types/node, typescript, name, private, type, version, @fontsource-variable/inter (+11 more)
 
 ### Community 16 - "dependencies"
 Cohesion: 0.11
@@ -195,8 +224,8 @@ Cohesion: 0.14
 Nodes (14): scripts, admin:create, build, check, db:cleanup, db:generate, db:migrate, db:provision-role (+6 more)
 
 ### Community 19 - "forum/module.ts"
-Cohesion: 0.21
-Nodes (11): CommentRow, depthOf(), normalizeCommentBody(), publicSelection, toPublic(), buildCommentTree(), FlatPublicComment, packages_contracts_dist_index (+3 more)
+Cohesion: 0.22
+Nodes (10): CommentRow, depthOf(), normalizeCommentBody(), publicSelection, toPublic(), buildCommentTree(), FlatPublicComment, packages_contracts_dist_index_commentsquery (+2 more)
 
 ### Community 20 - "dependencies"
 Cohesion: 0.17
@@ -275,8 +304,8 @@ Cohesion: 0.09
 Nodes (22): ADDED Requirements, Requirement: Composición de lectura y recursos técnicos, Requirement: Conservación integral del contenido editorial actual, Requirement: Explorador OFDM con parámetros y resultados diferenciados, Requirement: Figuras científicas íntegras y atribuidas, Requirement: Jerarquía editorial y ubicación sin progreso completado, Requirement: Mapa bibliométrico legible sin cambiar su representación científica, Scenario: Comparación con la versión anterior al rediseño (+14 more)
 
 ### Community 44 - "verify.ts"
-Cohesion: 0.07
-Nodes (24): AppConfig, booleanFromEnv, envSchema, loadConfig(), client, currentDirectory, databaseUrl, isLocal (+16 more)
+Cohesion: 0.10
+Nodes (16): AppConfig, booleanFromEnv, envSchema, createdUserIds, database, databaseUrl, isLocal, migrationsFolder (+8 more)
 
 ### Community 45 - "Requirement: Contenido editorial y recursos implementados en los siete módulos"
 Cohesion: 0.09
@@ -286,33 +315,37 @@ Nodes (21): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Req
 Cohesion: 0.11
 Nodes (18): 1. Una sola capa de tokens y primitivas, 2. Shell compacto y editorial con dos anchos, 3. Figuras y bloques técnicos: presentación antes que nuevos activos, 4. Bibliometría y OFDM: separar organización de cálculo, 5. Foro: limitar la sangría del árbol completo, no por componente, 6. Auxiliares y matriz cerrada de estados observados, 7. Movimiento: dos tokens, CSS primero y puente nativo al canvas, 8. Contratos y oráculos de referencia, sin reejecución amplia retirada (+10 more)
 
-### Community 47 - "Proposal"
-Cohesion: 0.20
-Nodes (9): Capabilities, Impact, Modified Capabilities, New Capabilities, Proposal, What Changes, Why, 1. Contratos compartidos (+1 more)
+### Community 47 - "Design"
+Cohesion: 0.05
+Nodes (42): Acceptance and verification, Actividad y TTL, Appendix A — Literal system prompt, Archivos nuevos propuestos, Arquitectura general, Autenticación y autorización, Client state machine, Context and compatibility (+34 more)
 
 ### Community 48 - "AppShell.tsx"
-Cohesion: 0.06
-Nodes (50): AppShell(), Footer(), Header(), OfflineBanner(), ModuleLayout(), ModuleProgress(), PreviousNext(), useIsDesktop() (+42 more)
+Cohesion: 0.11
+Nodes (30): AppShell(), Footer(), Header(), OfflineBanner(), DropdownMenu(), DropdownMenuContent(), DropdownMenuItem(), DropdownMenuLabel() (+22 more)
 
-### Community 49 - "moduleContent.tsx"
+### Community 49 - "ModuleLayout.tsx"
 Cohesion: 0.05
-Nodes (42): Formula(), Glossary(), normalize(), terms, Glossary, LazyGlossary(), ODDMDiagram(), controls (+34 more)
+Nodes (49): ModuleLayout(), ModuleProgress(), PreviousNext(), useIsDesktop(), controls, number(), OfdmExplorer(), FORUM_PATH (+41 more)
 
-### Community 50 - "vite.config.ts"
-Cohesion: 0.50
-Nodes (3): @tailwindcss/vite, vite, @vitejs/plugin-react
+### Community 50 - "ref_node_path"
+Cohesion: 0.40
+Nodes (4): ref_node_path, @tailwindcss/vite, vite, @vitejs/plugin-react
 
 ### Community 51 - "ADDED Requirements"
 Cohesion: 0.18
 Nodes (10): ADDED Requirements, MODIFIED Requirements, Requirement: Contenido de privacidad aprobado, Requirement: Contenido de términos aprobado, Requirement: Rutas legales públicas, Scenario: Acceso directo, Scenario: Consulta de retención, Scenario: Consulta sobre comentarios (+2 more)
 
-### Community 52 - "publish"
-Cohesion: 0.25
-Nodes (7): publish(), Risks / Trade-offs, 2. Política autoritativa y transacción, 3. Elegibilidad, copy y caché del frontend, 4. Comprobación integrada y entrega, 5. Coherencia documental autorizada después de la implementación, Tasks
+### Community 52 - "loadConfig"
+Cohesion: 0.09
+Nodes (20): loadConfig(), Context, Decisions, Design, Goals / Non-Goals, Migration Plan, Risks / Trade-offs, Capabilities (+12 more)
 
-### Community 54 - "forumCache.ts"
-Cohesion: 0.12
-Nodes (22): appendForumPage(), appendThreadReply(), cache, ForumCache, isForumCacheStale(), publishForumComment(), readForumCache(), refreshForumCache() (+14 more)
+### Community 53 - "admin/module.ts"
+Cohesion: 0.23
+Nodes (10): createAdminModule(), ensureAdmin(), parentAuthors, parentComments, Cursor, cursorSchema, decodeCursor(), encodeCursor() (+2 more)
+
+### Community 54 - "4.2 Conservación histórica y discrepancias"
+Cohesion: 0.20
+Nodes (9): 4.1 Resultados, 4.2 Conservación histórica y discrepancias, Alcance respetado, Ciclos TDD registrados, Conservación histórica verificada, Discrepancias con textos que aún describen la política anterior (documentadas, NO modificadas por instrucción del design), Evidencia de verificación integrada (tasks 4.1 y 4.2), F 3.3 — revalidación de hilo (2026-10-09) (+1 more)
 
 ### Community 55 - "Requirement: Legibilidad del árbol con sangría visual acumulada acotada"
 Cohesion: 0.20
@@ -321,6 +354,10 @@ Nodes (9): ADDED Requirements, Requirement: Composer claro blanco y azul sin cam
 ### Community 56 - "Proposal"
 Cohesion: 0.25
 Nodes (7): Capabilities, Impact, Modified Capabilities, New Capabilities, Proposal, What Changes, Why
+
+### Community 57 - "BibliometricFindings.tsx"
+Cohesion: 0.21
+Nodes (11): BibliometricFindings(), CLUSTER_READINGS, decimal(), LinkWeight, METHOD_REFERENCES, NetworkData, number(), PAIR_LABELS (+3 more)
 
 ### Community 58 - "Design"
 Cohesion: 0.33
@@ -354,6 +391,10 @@ Nodes (6): Autorización y alcance, Coherencia documental autorizada — tarea 5
 Cohesion: 0.22
 Nodes (8): name, private, scripts, build, check, dev, lint, test
 
+### Community 67 - "Requirement: El mini-caso evalúa el trade-off OFDM-DFRC"
+Cohesion: 0.20
+Nodes (9): MODIFIED Requirements, Requirement: El mini-caso evalúa el trade-off OFDM-DFRC, Scenario: Apuesta antes de explorar, Scenario: Cambio de escenario, Scenario: Carga diferida, Scenario: Enfoque técnico del mini-caso, Scenario: Exploración de parámetros OFDM, Scenario: Ficha de datos (+1 more)
+
 ### Community 68 - "Design"
 Cohesion: 0.33
 Nodes (5): Context, Decisions, Design, Goals / Non-Goals, Risks / Trade-offs
@@ -366,33 +407,133 @@ Nodes (4): MODIFIED Requirements, Requirement: Contenido de términos aprobado, 
 Cohesion: 0.50
 Nodes (3): 1. Verificación de la base y el alcance, 2. Validación y sincronización OpenSpec, Tasks
 
-### Community 73 - "BibliometricFindings.tsx"
-Cohesion: 0.21
-Nodes (11): BibliometricFindings(), CLUSTER_READINGS, decimal(), LinkWeight, METHOD_REFERENCES, NetworkData, number(), PAIR_LABELS (+3 more)
+### Community 73 - "Proposal"
+Cohesion: 0.25
+Nodes (7): Capabilities, Impact, Modified Capabilities, New Capabilities, Proposal, What Changes, Why
 
 ### Community 74 - "Design"
-Cohesion: 0.22
-Nodes (8): 1. Límites compartidos de escritura, DTO sin cambios, 2. Validación y conteo bajo el lock existente de la raíz, 3. Una elegibilidad en listado e hilo, manteniendo lectura recursiva, Context, Decisions, Design, Goals / Non-Goals, Migration Plan
+Cohesion: 0.20
+Nodes (9): 1. Límites compartidos de escritura, DTO sin cambios, 2. Validación y conteo bajo el lock existente de la raíz, 3. Una elegibilidad en listado e hilo, manteniendo lectura recursiva, Context, Decisions, Design, Goals / Non-Goals, Migration Plan (+1 more)
+
+### Community 75 - "ADDED Requirements"
+Cohesion: 0.29
+Nodes (7): ADDED Requirements, Requirement: Accesibilidad y diseño adaptable, Requirement: Render seguro de Markdown y matemáticas, Scenario: Contenido hostil, Scenario: LaTeX parcial durante streaming, Scenario: Operación por teclado, Scenario: Viewports y movimiento reducido
+
+### Community 76 - "Requirement: Acceso autenticado sin restricciones del foro"
+Cohesion: 0.50
+Nodes (4): Requirement: Acceso autenticado sin restricciones del foro, Scenario: Credenciales inválidas o usuario inexistente, Scenario: Transacción liberada antes del proveedor, Scenario: Usuario sin permiso de publicar en el foro
+
+### Community 77 - "Design"
+Cohesion: 0.33
+Nodes (5): Context, Decisions, Design, Goals / Non-Goals, Risks / Trade-offs
+
+### Community 78 - "Tasks"
+Cohesion: 0.33
+Nodes (5): 1. OpenSpec, 2. Modelo y pruebas, 3. Explorador, 4. Verificación y entrega, Tasks
+
+### Community 79 - "Requirement: Contrato de entrada estricto"
+Cohesion: 0.50
+Nodes (4): Requirement: Contrato de entrada estricto, Scenario: Campos no admitidos, Scenario: Límite de longitud exacto, Scenario: Origen inválido
+
+### Community 80 - "Requirement: Cuota deslizante por usuario"
+Cohesion: 0.50
+Nodes (4): Requirement: Cuota deslizante por usuario, Scenario: Fallos posteriores consumen cuota, Scenario: Frontera de ventana sin dobles admisiones, Scenario: Recuperación progresiva
+
+### Community 82 - "Requirement: Presupuesto de entrada y rollover transaccional"
+Cohesion: 0.50
+Nodes (4): Requirement: Presupuesto de entrada y rollover transaccional, Scenario: Candidato aún excedido, Scenario: Fallo con rollover preparado, Scenario: Frontera del presupuesto
+
+### Community 84 - "Requirement: Bloqueo de envío durante streaming"
+Cohesion: 0.67
+Nodes (3): Requirement: Bloqueo de envío durante streaming, Scenario: Doble activación antes del rerender, Scenario: Sesión no apta
+
+### Community 85 - "Requirement: Configuración server-only"
+Cohesion: 0.67
+Nodes (3): Requirement: Configuración server-only, Scenario: Configuración incompleta, Scenario: Sin exposición al navegador
+
+### Community 86 - "Requirement: Contexto en memoria separado por identidad real"
+Cohesion: 0.67
+Nodes (3): Requirement: Contexto en memoria separado por identidad real, Scenario: Contexto inexistente, Scenario: Usuarios distintos con el mismo UUID
+
+### Community 87 - "Requirement: Controlador global persistente"
+Cohesion: 0.67
+Nodes (3): Requirement: Controlador global persistente, Scenario: Cierre y reapertura del panel, Scenario: Navegación durante streaming
+
+### Community 88 - "Requirement: Deadline hasta el primer contenido"
+Cohesion: 0.67
+Nodes (3): Requirement: Deadline hasta el primer contenido, Scenario: Metadatos no detienen el timer, Scenario: Primer contenido válido
+
+### Community 89 - "Requirement: Desconexión y cierre ordenado"
+Cohesion: 0.67
+Nodes (3): Requirement: Desconexión y cierre ordenado, Scenario: Cierre del proceso, Scenario: Cliente desconectado
+
+### Community 90 - "Requirement: Exclusión por conversación"
+Cohesion: 0.67
+Nodes (3): Requirement: Exclusión por conversación, Scenario: Otra clave progresa, Scenario: Solicitud concurrente para la misma clave
+
+### Community 91 - "Requirement: Expiración de contexto"
+Cohesion: 0.67
+Nodes (3): Requirement: Expiración de contexto, Scenario: Actividad que no cuenta, Scenario: Frontera de TTL
+
+### Community 92 - "Requirement: Fallback solo antes de contenido"
+Cohesion: 0.67
+Nodes (3): Requirement: Fallback solo antes de contenido, Scenario: Agotamiento del pool, Scenario: Fallo después del primer fragmento
+
+### Community 94 - "Requirement: Historial no aislado por cuenta"
+Cohesion: 0.67
+Nodes (3): Requirement: Historial no aislado por cuenta, Scenario: Cambio de cuenta en la misma pestaña, Scenario: Pestaña clonada
+
+### Community 95 - "Requirement: Parser SSE incremental robusto"
+Cohesion: 0.67
+Nodes (3): Requirement: Parser SSE incremental robusto, Scenario: Fragmentación arbitraria, Scenario: Respuesta inválida
+
+### Community 96 - "Requirement: Persistencia de pares completos por pestaña"
+Cohesion: 0.67
+Nodes (3): Requirement: Persistencia de pares completos por pestaña, Scenario: Recarga durante generación, Scenario: Recarga tras éxito
+
+### Community 97 - "Requirement: Pool secuencial de modelos"
+Cohesion: 0.67
+Nodes (3): Requirement: Pool secuencial de modelos, Scenario: Construcción de cada intento, Scenario: Fallback secuencial
+
+### Community 98 - "Requirement: Privacidad y observabilidad"
+Cohesion: 0.67
+Nodes (3): Requirement: Privacidad y observabilidad, Scenario: Inspección de acceso a datos, Scenario: Logs sin contenido sensible
+
+### Community 99 - "Requirement: Protocolo SSE de salida"
+Cohesion: 0.67
+Nodes (3): Requirement: Protocolo SSE de salida, Scenario: Error antes del primer fragmento, Scenario: Error con stream iniciado
+
+### Community 100 - "Requirement: Recuperación de almacenamiento degradado"
+Cohesion: 0.67
+Nodes (3): Requirement: Recuperación de almacenamiento degradado, Scenario: Envelope corrupto, Scenario: Storage no disponible
+
+### Community 101 - "Requirement: Renovación compartida sin replay"
+Cohesion: 0.67
+Nodes (3): Requirement: Renovación compartida sin replay, Scenario: 401 concurrente con otra llamada, Scenario: Stream interrumpido
+
+### Community 102 - "Requirement: Terminación explícita y orden de confirmación"
+Cohesion: 0.67
+Nodes (3): Requirement: Terminación explícita y orden de confirmación, Scenario: Commit previo al terminal downstream, Scenario: EOF sin terminal
 
 ## Knowledge Gaps
-- **495 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+490 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 577 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **613 isolated node(s):** `Purpose`, `In scope`, `Non-goals`, `Desfase documental reconocido`, `Arquitectura general` (+608 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 705 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `App.tsx` to `BibliometricMap.tsx`, `BibliometricFindings.tsx`, `web/package.json`, `AppShell.tsx`, `moduleContent.tsx`, `dialog.tsx`, `resource-oracles.test.ts`?**
-  _High betweenness centrality (0.082) - this node is a cross-community bridge._
-- **Why does `zod` connect `app.ts` to `verify-session.db.test.ts`, `sprint0-baseline.ts`, `auth/module.ts`, `admin/module.ts`, `src/index.ts`, `verify.ts`, `server/package.json`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **Why does `Button()` connect `App.tsx` to `AppShell.tsx`, `moduleContent.tsx`, `BibliometricMap.tsx`, `dialog.tsx`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
-- **What connects `name`, `version`, `private` to the rest of the system?**
-  _495 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `App.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.060825396825396824 - nodes in this community are weakly interconnected._
+- **Why does `react` connect `react` to `BibliometricMap.tsx`, `moduleContent.tsx`, `web/package.json`, `AppShell.tsx`, `ModuleLayout.tsx`, `dialog.tsx`, `BibliometricFindings.tsx`, `resource-oracles.test.ts`?**
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+- **Why does `AppShell()` connect `AppShell.tsx` to `react`, `loadConfig`, `app.ts`, `Requirement: Controlador global persistente`?**
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+- **Why does `ADDED Requirements` connect `ADDED Requirements` to `Requirement: Acceso autenticado sin restricciones del foro`, `Requirement: Contrato de entrada estricto`, `Requirement: Cuota deslizante por usuario`, `Requirement: Presupuesto de entrada y rollover transaccional`, `Spec Delta`, `Requirement: Bloqueo de envío durante streaming`, `Requirement: Configuración server-only`, `Requirement: Contexto en memoria separado por identidad real`, `Requirement: Controlador global persistente`, `Requirement: Deadline hasta el primer contenido`, `Requirement: Desconexión y cierre ordenado`, `Requirement: Exclusión por conversación`, `Requirement: Expiración de contexto`, `Requirement: Fallback solo antes de contenido`, `Requirement: Historial no aislado por cuenta`, `Requirement: Parser SSE incremental robusto`, `Requirement: Persistencia de pares completos por pestaña`, `Requirement: Pool secuencial de modelos`, `Requirement: Privacidad y observabilidad`, `Requirement: Protocolo SSE de salida`, `Requirement: Recuperación de almacenamiento degradado`, `Requirement: Renovación compartida sin replay`, `Requirement: Terminación explícita y orden de confirmación`?**
+  _High betweenness centrality (0.077) - this node is a cross-community bridge._
+- **Are the 4 inferred relationships involving `api()` (e.g. with `Decisions` and `4. Estado y Hook de Streaming en React`) actually correct?**
+  _`api()` has 4 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `Purpose`, `In scope`, `Non-goals` to the rest of the system?**
+  _613 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `react` be split into smaller, more focused modules?**
+  _Cohesion score 0.05421749556876238 - nodes in this community are weakly interconnected._
 - **Should `verify-session.db.test.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.10793650793650794 - nodes in this community are weakly interconnected._
-- **Should `sprint0-baseline.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09872241579558652 - nodes in this community are weakly interconnected._
