@@ -1,6 +1,7 @@
 {
   "name": "blogdpc",
   "private": true,
+  "packageManager": "pnpm@11.28.6",
   "scripts": {
     "dev": "pnpm --filter @blogdpc/server dev",
     "build": "pnpm --filter @blogdpc/contracts build && pnpm --filter @blogdpc/server build && pnpm --filter @blogdpc/web build",
