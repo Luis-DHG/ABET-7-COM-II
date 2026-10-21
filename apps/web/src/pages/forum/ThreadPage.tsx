@@ -65,7 +65,6 @@ export default function ThreadPage() {
     const element = document.getElementById(hash.slice(1));
     if (!element) return;
     element.scrollIntoView({ block: "center" });
-    element.focus();
   }, [threadId, hash]);
 
   const handleReplyPublished = useCallback((comment: PublicComment) => {

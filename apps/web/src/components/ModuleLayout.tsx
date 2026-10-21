@@ -26,7 +26,6 @@ export function ModuleLayout({ module, content }: { module: ModuleInfo; content:
     const target = hash ? document.getElementById(hash) : heading.current;
     if (hash && target) target.scrollIntoView();
     else window.scrollTo(0, 0);
-    target?.focus({ preventScroll: true });
   }, []);
 
   return (
@@ -38,7 +37,7 @@ export function ModuleLayout({ module, content }: { module: ModuleInfo; content:
         <div className={module.number === 1 ? "module-hero-home-grid" : "module-hero-content"}>
           <div className="module-hero-copy">
             <p className="module-subject">{module.title}</p>
-            <h1 ref={heading} tabIndex={-1}>{content.headline}</h1>
+            <h1 ref={heading}>{content.headline}</h1>
             <p className="module-introduction">{content.introduction}</p>
             <div className="module-meta">
               <span>Universidad Industrial de Santander</span>
@@ -79,7 +78,7 @@ export function ModuleLayout({ module, content }: { module: ModuleInfo; content:
             if (scrollRegion) scrollHorizontallyWithArrowKeys(event, scrollRegion);
           }}
         >{content.sections.map((section) => (
-          <section key={section.id} id={section.id} tabIndex={-1} aria-labelledby={`${section.id}-title`} className="editorial-section">
+          <section key={section.id} id={section.id} aria-labelledby={`${section.id}-title`} className="editorial-section">
             <h2 id={`${section.id}-title`}>{section.title}</h2>
             {section.content}
           </section>

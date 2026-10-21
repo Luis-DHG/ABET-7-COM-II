@@ -60,6 +60,14 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Chat flotante: respeta la escala Tailwind y reserva espacio alrededor del launcher. */
+.chat-widget-panel {
+  box-sizing: border-box;
+  width: min(var(--container-sm), 100%);
+  height: min(80dvh, calc(100dvh - var(--spacing) * 24));
+  max-height: calc(100dvh - var(--spacing) * 24);
+}
+
 /* Páginas editoriales: lectura, esquemas y datos con la paleta existente. */
 #contenido { box-sizing: border-box; min-width: 0; }
 .editorial-module { width: 100%; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem; }

@@ -48,17 +48,17 @@ El endpoint `POST /api/chat` SHALL exigir `Origin` exactamente igual a `APP_ORIG
 
 ### Requirement: Cuota deslizante por usuario
 
-El sistema SHALL admitir como máximo 15 peticiones por `userId` en los últimos 60 000 ms mediante una ventana deslizante `(now - 60000, now]` en RAM, con un `Map<string, number[]>` separado del Map de conversaciones. Antes de contar, el sistema SHALL eliminar los timestamps `t <= now - 60000`; con 15 vigentes SHALL rechazar con 429 `CHAT_RATE_LIMITED` sin registrar la rechazada, e incluir `Retry-After` y `error.retryAfterSeconds` iguales a `Math.ceil((oldest + 60000 - now) / 1000)`. Las peticiones admitidas SHALL consumir cuota aunque fallen upstream, reciban 409, excedan contexto o se desconecten; los fallos de origen, autenticación o body SHALL NOT consumirla. No SHALL existir cuota por IP ni por pestaña. El barrido de cinco minutos SHALL podar timestamps vencidos y entradas vacías; la disposición SHALL vaciar los contadores.
+El sistema SHALL admitir como máximo 10 peticiones por `userId` en los últimos 60 000 ms mediante una ventana deslizante `(now - 60000, now]` en RAM, con un `Map<string, number[]>` separado del Map de conversaciones que conserva como máximo 10 timestamps por usuario. Antes de contar, el sistema SHALL eliminar los timestamps `t <= now - 60000`; con 10 vigentes SHALL rechazar la 11.ª petición con 429 `CHAT_RATE_LIMITED` sin registrar la rechazada, e incluir `Retry-After` y `error.retryAfterSeconds` iguales a `Math.ceil((oldest + 60000 - now) / 1000)`. Las peticiones admitidas SHALL consumir cuota aunque fallen upstream, reciban 409, excedan contexto o se desconecten; los fallos de origen, autenticación o body SHALL NOT consumirla. No SHALL existir cuota por IP ni por pestaña. El barrido de cinco minutos SHALL podar timestamps vencidos y entradas vacías; la disposición SHALL vaciar los contadores.
 
 #### Scenario: Frontera de ventana sin dobles admisiones
 
-- **WHEN** se admiten 15 peticiones en `t = 59000` ms y llegan más en `t = 60000` ms
+- **WHEN** se admiten 10 peticiones en `t = 59000` ms y llegan más en `t = 60000` ms
 - **THEN** las adicionales reciben 429 con `Retry-After: 59` y no se registran
 
 #### Scenario: Recuperación progresiva
 
-- **WHEN** hay 15 timestamps en `0, 1000, ..., 14000` ms
-- **THEN** en `59999` ms se rechaza con espera de 1 s, en `60000` ms expira solo el timestamp `0` y se admite una petición, y en `61000` ms expira el timestamp `1000` liberando otro cupo, sin reset global de ventana fija
+- **WHEN** hay 10 timestamps en `0, 1000, ..., 9000` ms
+- **THEN** en `59999` ms se rechaza con espera de 1 s, en `60000` ms expira solo el timestamp `0` y se admite una petición; tras registrarla, en `60001` ms se rechaza, y en `61000` ms expira el timestamp `1000` liberando otro cupo, sin reset global de ventana fija
 
 #### Scenario: Fallos posteriores consumen cuota
 
@@ -132,7 +132,7 @@ El sistema SHALL estimar la entrada como `(longitudDelPromptLiteral + sumaDeLong
 
 ### Requirement: Pool secuencial de modelos
 
-El sistema SHALL intentar en orden exacto: 1) `nvidia/nemotron-3.5-lightning-30b-a3b` en `https://integrate.api.nvidia.com/v1/chat/completions` con `NVIDIA_NIM_API_KEY` (TTFB 4000 ms), 2) `nvidia/nemotron-3.5-super-vl-120b-a12b` en el mismo endpoint y clave (5000 ms), 3) `nvidia/nemotron-3.5-lightning:free` en `https://openrouter.ai/api/v1/chat/completions` con `OPENROUTER_API_KEY` (6000 ms). Cada intento SHALL ser un POST compatible con OpenAI con `{model, messages, stream: true, max_tokens: 700}` y Bearer server-only, con el primer mensaje `system` conteniendo el prompt literal completo del Appendix A de `openspec/CHATBOT_SPEC.md` sin modificaciones. Cada modelo SHALL intentarse como máximo una vez por solicitud, sin paralelismo. El payload SHALL excluir herramientas, imágenes, cookies, identidad, IP y `tabSessionId`.
+El sistema SHALL intentar en orden exacto: 1) `nvidia/nemotron-3.5-lightning-30b-a3b` en `https://integrate.api.nvidia.com/v1/chat/completions` con `NVIDIA_NIM_API_KEY` (TTFB 8000 ms), 2) `nvidia/nemotron-3.5-super-vl-120b-a12b` en el mismo endpoint y clave (10000 ms), 3) `nvidia/nemotron-3.5-lightning:free` en `https://openrouter.ai/api/v1/chat/completions` con `OPENROUTER_API_KEY` (12000 ms). Cada intento SHALL ser un POST compatible con OpenAI con `{model, messages, stream: true, max_tokens: 700}` y Bearer server-only, con el primer mensaje `system` conteniendo el prompt literal completo del Appendix A de `openspec/CHATBOT_SPEC.md` sin modificaciones. Cada modelo SHALL intentarse como máximo una vez por solicitud, sin paralelismo. El payload SHALL excluir herramientas, imágenes, cookies, identidad, IP y `tabSessionId`.
 
 #### Scenario: Construcción de cada intento
 
@@ -244,7 +244,7 @@ El cliente SHALL tolerar envelope corrupto, `SecurityError` o cuota agotada recu
 
 ### Requirement: Historial no aislado por cuenta
 
-El cliente SHALL conservar el historial local y el `tabSessionId` al cerrar sesión o cambiar de cuenta en la misma pestaña; otra cuenta puede ver la historia anterior. El backend SHALL seguir separando el contexto por el usuario autenticado real, de modo que usuarios distintos con el mismo UUID usan claves distintas, y una pestaña clonada con UUID copiado bajo la misma cuenta puede compartir clave backend protegida por el lock.
+El cliente SHALL conservar el historial local y el `tabSessionId` al cerrar sesión o cambiar de cuenta en la misma pestaña; otra cuenta puede ver la historia anterior. El widget SHALL NOT mostrar un aviso persistente sobre el aislamiento del historial entre cuentas; esa advertencia no forma parte de la UI. El backend SHALL seguir separando el contexto por el usuario autenticado real, de modo que usuarios distintos con el mismo UUID usan claves distintas, y una pestaña clonada con UUID copiado bajo la misma cuenta puede compartir clave backend protegida por el lock.
 
 #### Scenario: Cambio de cuenta en la misma pestaña
 
@@ -255,6 +255,11 @@ El cliente SHALL conservar el historial local y el `tabSessionId` al cerrar sesi
 
 - **WHEN** el navegador duplica el storage con el mismo UUID y la misma cuenta
 - **THEN** ambas pestañas pueden dirigirse a la misma clave backend y el 409 protege la concurrencia
+
+#### Scenario: Ausencia de aviso persistente de multicuenta
+
+- **WHEN** se muestra el panel de chat
+- **THEN** el widget no muestra un aviso persistente sobre el aislamiento del historial entre cuentas
 
 ### Requirement: Controlador global persistente
 
@@ -272,7 +277,24 @@ El widget SHALL montarse una sola vez en `AppShell` fuera de `Outlet`, sin `key`
 
 ### Requirement: Bloqueo de envío durante streaming
 
-El cliente SHALL activar `isStreaming` desde la aceptación del envío, incluyendo renovación de sesión y espera del primer contenido, hasta `[DONE]`, error terminal o aborto. Mientras `isStreaming === true`, el input y el botón de envío SHALL tener su propiedad nativa `disabled` en `true`; un guard síncrono antes del rerender SHALL impedir doble envío sin sustituir el bloqueo real de ambos controles. El envío SHALL requerir sesión `authenticated`, conexión online, texto válido y ausencia de turno activo: `anonymous` muestra CTA a `/login` sin POST, y `unknown`, `unverifiable` u offline bloquean el envío conservando la historia.
+El composer SHALL conservar el diseño visual existente y presentar un `textarea` compacto y un botón de envío alineados en una fila. Enter SHALL enviar el borrador válido; Shift+Enter SHALL insertar una nueva línea sin enviar; Enter mientras el evento indica composición IME SHALL NOT enviar. Al iniciar un envío (por Enter, botón de envío o acción explícita de reintento), el contenedor de historial SHALL desplazar automáticamente su barra de scroll hacia el fondo para asegurar la visibilidad del turno iniciado; mientras el modelo responde y emite fragmentos progresivos (streaming), el contenedor SHALL NOT desplazar automáticamente el scroll hacia abajo, preservando la posición de lectura del usuario. El cliente SHALL activar `isStreaming` desde la aceptación del envío, incluyendo renovación de sesión y espera del primer contenido, hasta `[DONE]`, error terminal o aborto. Mientras `isStreaming === true`, el `textarea` y el botón de envío SHALL tener su propiedad nativa `disabled` en `true`; un guard síncrono antes del rerender SHALL impedir doble envío sin sustituir el bloqueo real de ambos controles. El envío SHALL requerir sesión `authenticated`, conexión online, texto válido y ausencia de turno activo: `anonymous` muestra CTA a `/login` sin POST, y `unknown`, `unverifiable` u offline bloquean el envío conservando la historia.
+
+#### Scenario: Enter envía y Shift+Enter inserta una línea
+
+- **WHEN** el usuario pulsa Enter con un borrador válido fuera de una composición IME, o pulsa Shift+Enter en el `textarea`
+- **THEN** Enter inicia un único envío y Shift+Enter inserta una nueva línea sin iniciar un POST
+
+#### Scenario: Desplazamiento automático al enviar y estabilidad en streaming
+
+- **WHEN** el usuario envía un prompt o activa un reintento
+- **THEN** el contenedor de historial desciende automáticamente hacia el fondo
+- **WHEN** el modelo transmite fragmentos de texto progresivo
+- **THEN** el scroll no desciende automáticamente de forma involuntaria
+
+#### Scenario: Enter durante composición IME
+
+- **WHEN** el usuario pulsa Enter mientras el evento de teclado indica que la composición IME sigue activa
+- **THEN** el composer conserva la composición y no inicia un envío
 
 #### Scenario: Doble activación antes del rerender
 
@@ -285,6 +307,30 @@ El cliente SHALL activar `isStreaming` desde la aceptación del envío, incluyen
 - **THEN** se muestra el CTA de login sin POST al chat
 - **WHEN** es desconocida, no verificable u offline
 - **THEN** se bloquea el envío sin destruir la historia
+
+### Requirement: Intentos fallidos temporales y reintento explícito
+
+Al aceptar un envío, el cliente SHALL limpiar inmediatamente el borrador del `textarea` y conservar la pregunta en el intento activo, sin devolverla automáticamente al composer ante ningún error. Si el intento termina sin `[DONE]`, el cliente SHALL conservar en RAM la pregunta y el fragmento de respuesta recibido (si lo hubo), marcar y presentar ese intento como no completado/fallido en una tarjeta distinguible (por ejemplo, con indicación de intento no completado), y mantenerlo separado de los pares completados en `sessionStorage`. La presentación del historial en el widget SHALL ordenar cronológicamente los turnos completados y los intentos no completados en una secuencia continua en RAM: cada intento fallido permanece visible en su posición de ocurrencia temporal, y un reintento manual posterior exitoso (o una nueva pregunta) SHALL presentarse debajo del intento no completado previo, situando la pregunta y la respuesta exitosa del asistente debajo de la tarjeta fallida. Cada intento fallido SHALL permanecer visible por separado durante la vida de la página; los reintentos sucesivos SHALL conservar las tarjetas previas, usar una respuesta nueva sin concatenar fragmentos de intentos distintos y crear una nueva tentativa explícita para la misma pregunta. Un botón o acción explícita **Reintentar** SHALL iniciar un POST nuevo con esa pregunta, sujeto a la elegibilidad normal de sesión/red y a la cuota existente; cada POST admitido SHALL consumir cuota como cualquier solicitud admitida. El cliente SHALL NOT reintentar automáticamente ni persistir preguntas, fragmentos o estados fallidos en `sessionStorage` o en el contexto conversacional del servidor. Solo una tentativa que termine con `[DONE]` SHALL incorporarse como par completado conforme a las reglas de persistencia existentes; los intentos fallidos previos seguirán siendo transitorios y separados.
+
+#### Scenario: Borrador vaciado y fallo visible sin restauración
+
+- **WHEN** se acepta un envío y después falla antes o después de recibir un fragmento
+- **THEN** el borrador se vacía inmediatamente, la pregunta y el fragmento parcial (si existe) quedan visibles en un intento marcado no completado/fallido en RAM, el campo no se rellena automáticamente y no se persiste el intento fallido
+
+#### Scenario: Reintento manual conserva intentos separados
+
+- **WHEN** el usuario activa **Reintentar** en un intento fallido y la nueva solicitud también falla
+- **THEN** se realiza un POST nuevo con la pregunta original, el fallo nuevo queda en otra tentativa visible, los fragmentos de respuesta no se concatenan ni reemplazan intentos previos, y los intentos fallidos no se escriben en `sessionStorage` ni en el contexto del servidor
+
+#### Scenario: Orden cronológico tras reintento exitoso
+
+- **WHEN** un intento previo falló y el usuario ejecuta un reintento manual que culmina con éxito
+- **THEN** la tarjeta del intento fallido permanece en su posición histórica, la nueva pregunta se presenta debajo del intento no completado y la respuesta exitosa del modelo se presenta debajo de la nueva pregunta
+
+#### Scenario: Reintento completado y recarga
+
+- **WHEN** una tentativa manual termina con `[DONE]` y luego se recarga la página
+- **THEN** solo se restaura el par completado de esa tentativa; ningún intento fallido anterior se rehidrata desde `sessionStorage`
 
 ### Requirement: Renovación compartida sin replay
 
@@ -330,7 +376,12 @@ El cliente SHALL renderizar Markdown y LaTeX tratando los mensajes del usuario y
 
 ### Requirement: Accesibilidad y diseño adaptable
 
-El widget SHALL ofrecer launcher con nombre accesible, panel con título, historial, campo con label, contador del límite de 300, botón de envío y cierre, con estados de espera, generación, error, storage degradado y CTA de acceso. Los controles principales SHALL tener objetivos mínimos de 44 × 44 CSS px, foco visible, operación completa por teclado, Escape para cerrar restaurando el foco al launcher, y `aria-live` para estados relevantes sin anunciar cada token. El widget SHALL ser utilizable a 360, 768 y 1440 CSS px, respetar `prefers-reduced-motion` y no provocar desbordamiento horizontal de la página.
+El widget SHALL ofrecer launcher con nombre accesible, panel con título, historial, campo con label asociado, contador del límite de 300, botón de envío y cierre, con estados de espera, generación, error, storage degradado y CTA de acceso. El nombre accesible del campo SHALL preservarse aunque el label asociado se presente visualmente oculto (no visible). El composer SHALL NOT mostrar rótulos visibles que dupliquen el nombre accesible del campo ni textos de ayuda sobre atajos de teclado (Enter/Shift+Enter). Los controles principales SHALL tener objetivos mínimos de 44 × 44 CSS px, foco visible, operación completa por teclado, Escape para cerrar restaurando el foco al launcher, y `aria-live` para estados relevantes sin anunciar cada token. El widget SHALL ser utilizable a 360, 768 y 1440 CSS px, respetar `prefers-reduced-motion` y no provocar desbordamiento horizontal de la página.
+
+#### Scenario: Label accesible sin duplicación visual ni ayuda de atajos
+
+- **WHEN** se presenta el composer
+- **THEN** el campo conserva su nombre accesible mediante un label asociado aunque esté visualmente oculto, y no se muestran rótulos visibles duplicados ni textos de ayuda de atajos Enter/Shift+Enter
 
 #### Scenario: Operación por teclado
 

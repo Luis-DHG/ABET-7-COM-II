@@ -46,7 +46,6 @@ export const CommentItem = memo(function CommentItem({
   return (
     <li
       id={`comment-${comment.id}`}
-      tabIndex={-1}
       className="comment-item"
       data-depth={comment.depth}
     >
@@ -104,7 +103,6 @@ export const CommentItem = memo(function CommentItem({
           <div className="mt-3 rounded-lg bg-muted/50 p-4">
             <CommentComposer
               parentId={comment.id}
-              autoFocus
               disabled={!replyEligible}
               onCancel={() => setReplying(false)}
               onPublished={(published) => {

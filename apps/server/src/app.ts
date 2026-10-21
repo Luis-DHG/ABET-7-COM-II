@@ -14,15 +14,23 @@ import { createForumModule } from "./forum/module.js";
 import { createForumRouter } from "./forum/routes.js";
 import { createAdminModule } from "./admin/module.js";
 import { createAdminRouter } from "./admin/routes.js";
+import { createChatModule } from "./chat/module.js";
+import { createChatRouter } from "./chat/routes.js";
 import { errorHandler, notFound } from "./http/errors.js";
 import { requestContext, requireSameOrigin } from "./http/middleware.js";
 
-export function createApp(config: AppConfig, db: Database, mailer: Mailer): Express {
+export function createApp(config: AppConfig, db: Database, mailer: Mailer, chat = createChatModule()): Express {
   const app = express();
   app.disable("x-powered-by");
   app.set("trust proxy", config.trustProxyHops);
   app.use(requestContext);
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: { frameSrc: ["'self'", "https://www.youtube.com"] },
+      },
+    }),
+  );
   app.use(express.json({ limit: "32kb" }));
   app.use(requireSameOrigin(config.appOrigin));
 
@@ -52,6 +60,7 @@ export function createApp(config: AppConfig, db: Database, mailer: Mailer): Expr
   app.use("/api/auth", authLimiter, createAuthRouter(auth, config));
   app.use("/api/comments", createForumRouter(forum, auth));
   app.use("/api/admin", createAdminRouter(admin, auth));
+  app.use("/api/chat", createChatRouter(chat, auth, config));
   app.use("/api", notFound);
 
   const currentDirectory = dirname(fileURLToPath(import.meta.url));

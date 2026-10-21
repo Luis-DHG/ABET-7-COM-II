@@ -95,6 +95,11 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
     };
   }
 
+  async function authenticateAccessToken(token: string | undefined): Promise<AccessClaims> {
+    if (!token) throw new AppError(401, "AUTH_REQUIRED", "Debes iniciar sesión.");
+    return verifyAccessToken(token, config.jwtAccessSecret);
+  }
+
   return {
     async register(input: RegisterInput): Promise<{ status: "PENDING_VERIFICATION" }> {
       const id = randomUUID();
@@ -318,9 +323,15 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
       });
     },
 
-    async authenticateAccessToken(token: string | undefined): Promise<AccessClaims> {
-      if (!token) throw new AppError(401, "AUTH_REQUIRED", "Debes iniciar sesión.");
-      return verifyAccessToken(token, config.jwtAccessSecret);
+    authenticateAccessToken,
+
+    async authenticateChatUser(token: string | undefined): Promise<string> {
+      const claims = await authenticateAccessToken(token);
+      return db.transaction(async (tx) => {
+        const [user] = await tx.select({ id: users.id }).from(users).where(eq(users.id, claims.sub)).limit(1);
+        if (!user) throw new AppError(401, "AUTH_REQUIRED", "Debes iniciar sesión.");
+        return user.id;
+      });
     },
 
     async getSession(token: string | undefined): Promise<PublicUser | null> {

@@ -18,6 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Separator } from "@/components/ui/separator";
 import { FORUM_PATH, MODULES } from "@/lib/manifest";
 import { useSession } from "@/session/SessionProvider";
@@ -40,6 +41,7 @@ export function AppShell() {
         <Outlet />
       </main>
       <Footer />
+      <ChatWidget />
     </div>
   );
 }

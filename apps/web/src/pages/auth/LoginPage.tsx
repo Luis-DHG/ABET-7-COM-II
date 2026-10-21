@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import type { PublicUser } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
@@ -29,13 +29,7 @@ export default function LoginPage() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-  const summaryRef = useRef<HTMLDivElement>(null);
-
   const googleFailed = params.get("error") === "google_auth_failed";
-
-  useEffect(() => {
-    if (formError) summaryRef.current?.focus();
-  }, [formError]);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -71,7 +65,7 @@ export default function LoginPage() {
       ) : null}
 
       {formError ? (
-        <div ref={summaryRef} tabIndex={-1} className="mb-4">
+        <div tabIndex={-1} className="mb-4">
           <StatusNotice tone="destructive" title="No fue posible ingresar">
             {formError}
           </StatusNotice>

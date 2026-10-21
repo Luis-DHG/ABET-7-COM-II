@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { PublicComment } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,14 +13,12 @@ let composerCounter = 0;
 
 export function CommentComposer({
   parentId,
-  autoFocus = false,
   disabled = false,
   onPublished,
   onCancel,
   onConflict,
 }: {
   parentId?: string;
-  autoFocus?: boolean;
   disabled?: boolean;
   onPublished: (comment: PublicComment) => void;
   onCancel?: () => void;
@@ -31,8 +29,6 @@ export function CommentComposer({
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-  const announcementRef = useRef<HTMLParagraphElement>(null);
-
   const length = body.trim().length;
   const valid = length >= MIN_LENGTH && length <= MAX_LENGTH;
 
@@ -54,7 +50,6 @@ export function CommentComposer({
       setBody("");
       publishForumComment(data);
       onPublished(data);
-      announcementRef.current?.focus();
     } catch (error_) {
       if (error_ instanceof ApiError && error_.code === "COMMENT_COOLDOWN") {
         setCooldown(error_.retryAfterSeconds ?? 30);
@@ -79,7 +74,7 @@ export function CommentComposer({
 
   return (
     <div className="comment-composer space-y-3">
-      <p ref={announcementRef} tabIndex={-1} aria-live="polite" className="sr-only" />
+      <p tabIndex={-1} aria-live="polite" className="sr-only" />
 
       <div className="space-y-1.5">
         <Label htmlFor={`${idPrefix}-body`}>{parentId ? "Escribe tu respuesta" : "Escribe tu comentario"}</Label>
@@ -88,7 +83,6 @@ export function CommentComposer({
           value={body}
           onChange={(event) => setBody(event.target.value)}
           rows={parentId ? 3 : 5}
-          autoFocus={autoFocus}
           maxLength={MAX_LENGTH * 2}
           aria-describedby={`${idPrefix}-counter${error ? ` ${idPrefix}-error` : ""}`}
           aria-invalid={Boolean(error)}

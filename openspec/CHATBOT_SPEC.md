@@ -29,7 +29,7 @@ La solución aprovechará la arquitectura existente: React, Express, contratos Z
 - Markdown y LaTeX con renderizado seguro.
 - Historial de turnos completos en `sessionStorage`.
 - Contexto temporal en RAM del servidor.
-- Límite de 15 solicitudes por minuto y usuario.
+- Límite de 10 solicitudes por minuto y usuario.
 - Exclusión de solicitudes simultáneas para una misma conversación.
 - Rollover del contexto cuando la entrada estimada supere 6000 tokens.
 - Pool secuencial de tres modelos, con fallback exclusivamente antes de emitir contenido.
@@ -163,7 +163,7 @@ Esta tabla describe puntos de integración; no constituye una lista de ejecució
 | Archivo existente | Alcance previsto |
 |---|---|
 | `apps/server/src/app.ts` | Componer el módulo de chat, registrar su ruta y su limiter propio antes del 404 de `/api`. |
-| `apps/server/src/config.ts` | Validar `NVIDIA_NIM_API_KEY` y `OPENROUTER_API_KEY` como secretos obligatorios del servidor. |
+| `apps/server/src/config.ts` | Validar `NVIDIA_NIM_API_KEY`, `OPENROUTER_API_KEY` y `GEMINI_API_KEY` como secretos obligatorios del servidor. |
 | `apps/server/src/auth/module.ts` | Exponer un helper mínimo que reutilice la verificación del token y reconsulte `users` en una transacción breve. |
 | `apps/server/src/server.ts` | Invocar la disposición del módulo de chat durante el cierre existente. |
 | `packages/contracts/src/index.ts` | Definir el body estricto y los tipos de los eventos del chat. |
@@ -395,7 +395,7 @@ Los errores upstream HTTP 401, 403 o 429 no se transmiten como si fueran errores
 
 ### Cuota y concurrencia
 
-El sistema SHALL admitir como máximo 15 peticiones por `userId` en los últimos 60 000 ms mediante una ventana deslizante en RAM. No usa ventanas fijas, que permitirían hasta 30 admisiones alrededor de una frontera. Un `Map<string, number[]>` separado del Map de conversaciones conserva como máximo 15 timestamps por usuario. Tras auth y validación estricta, y antes de lock/presupuesto, se obtiene `now = Date.now()`, se eliminan timestamps `t <= now - 60000` y, sin esperas asíncronas intermedias, se rechaza con 429 `CHAT_RATE_LIMITED` si quedan 15; en otro caso se registra `now`. La ventana es `(now - 60000, now]`; cumplir exactamente 60 000 ms libera cupo, sin reset global. Las rechazadas por cuota no se registran. En rechazo, `retryAfterSeconds = Math.ceil((oldest + 60000 - now) / 1000)` y el mismo entero se incluye en `Retry-After` y `error.retryAfterSeconds`.
+El sistema SHALL admitir como máximo 10 peticiones por `userId` en los últimos 60 000 ms mediante una ventana deslizante en RAM. No usa ventanas fijas, que permitirían hasta 20 admisiones alrededor de una frontera. Un `Map<string, number[]>` separado del Map de conversaciones conserva como máximo 10 timestamps por usuario. Tras auth y validación estricta, y antes de lock/presupuesto, se obtiene `now = Date.now()`, se eliminan timestamps `t <= now - 60000` y, sin esperas asíncronas intermedias, se rechaza con 429 `CHAT_RATE_LIMITED` si quedan 10 (la 11.ª petición se rechaza); en otro caso se registra `now`. La ventana es `(now - 60000, now]`; cumplir exactamente 60 000 ms libera cupo, sin reset global. Las rechazadas por cuota no se registran. En rechazo, `retryAfterSeconds = Math.ceil((oldest + 60000 - now) / 1000)` y el mismo entero se incluye en `Retry-After` y `error.retryAfterSeconds`.
 
 Las admitidas consumen cuota aunque luego fallen upstream, reciban 409, excedan contexto o se desconecten. Los intentos del pool son una sola petición y no añaden timestamps. Origen/auth/body inválidos no consumen esta cuota. No hay cuotas adicionales por IP o pestaña. El barrido existente de cinco minutos poda también timestamps vencidos y elimina contadores vacíos; dispose vacía contadores sin añadir otro intervalo ni modificar el Map de conversaciones.
 
@@ -530,9 +530,9 @@ No se incluyen herramientas, imágenes, datos de perfil, cookies, identificadore
 
 | Orden | Modelo | Endpoint | Secreto | TTFB de contenido |
 |---|---|---|---|---:|
-| 1 | `nvidia/nemotron-3.5-lightning-30b-a3b` | `https://integrate.api.nvidia.com/v1/chat/completions` | `NVIDIA_NIM_API_KEY` | 4000 ms |
-| 2 | `nvidia/nemotron-3.5-super-vl-120b-a12b` | `https://integrate.api.nvidia.com/v1/chat/completions` | `NVIDIA_NIM_API_KEY` | 5000 ms |
-| 3 | `nvidia/nemotron-3.5-lightning:free` | `https://openrouter.ai/api/v1/chat/completions` | `OPENROUTER_API_KEY` | 6000 ms |
+| 1 | `nvidia/nemotron-3.5-lightning-30b-a3b` | `https://integrate.api.nvidia.com/v1/chat/completions` | `NVIDIA_NIM_API_KEY` | 5000 ms |
+| 2 | `nvidia/nemotron-3.5-lightning:free` | `https://openrouter.ai/api/v1/chat/completions` | `OPENROUTER_API_KEY` | 6000 ms |
+| 3 | `gemini-2.5-flash` | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | `GEMINI_API_KEY` | 6000 ms |
 
 Los modelos se intentan secuencialmente, como máximo una vez cada uno por solicitud. No hay llamadas paralelas ni reintentos del mismo modelo.
 
@@ -579,7 +579,7 @@ Después de esa frontera:
 - No se añade el par al Map.
 - Se emite el evento de error si la conexión sigue siendo escribible.
 
-Los 4000 + 5000 + 6000 ms representan presupuestos de espera de contenido por intento. No constituyen un SLO total de 15 segundos: existen tiempos de cancelación, procesamiento, escritura y generación posterior.
+Los 8000 + 10000 + 12000 ms representan presupuestos de espera de contenido por intento. No constituyen un SLO total de 30 segundos: existen tiempos de cancelación, procesamiento, escritura y generación posterior.
 
 No se introduce un timeout total ni un timeout entre chunks después del primer contenido.
 
@@ -910,14 +910,15 @@ No almacenar chats en BlogDPC no equivale a que los proveedores no los procesen 
 
 ### Configuración
 
-Se agregan exclusivamente estas dos variables server-only:
+Se agregan exclusivamente estas tres variables server-only:
 
 | Variable | Regla |
 |---|---|
 | `NVIDIA_NIM_API_KEY` | String no vacío; obligatoria al cargar configuración. |
 | `OPENROUTER_API_KEY` | String no vacío; obligatoria al cargar configuración. |
+| `GEMINI_API_KEY` | String no vacío; obligatoria al cargar configuración. |
 
-Ambas se validan mediante el mecanismo Zod de `loadConfig`, con fallo temprano si faltan. No se exponen con prefijo `VITE_`, en contratos públicos ni en el bundle.
+Todas se validan mediante el mecanismo Zod de `loadConfig`, con fallo temprano si faltan. No se exponen con prefijo `VITE_`, en contratos públicos ni en el bundle.
 
 Los modelos, endpoints, TTFB y límites de esta especificación son constantes de esta capacidad, no nuevos parámetros configurables.
 
@@ -997,8 +998,8 @@ stateDiagram-v2
 | A05 | 300 unidades UTF-16 se aceptan; 301 se rechazan; el cómputo incluye espacios exteriores y pares sustitutos. |
 | A06 | UUIDv4 válido se admite; UUID de otra versión, whitespace-only, `history` y campos extra se rechazan. |
 | A07 | Origen ausente/distinto produce 403; JSON inválido produce 400; ninguno llega al proveedor. |
-| A08 | Con 15 peticiones admitidas en `t = 59000` ms, las adicionales en `t = 60000` ms reciben 429 con `Retry-After: 59` y `error.retryAfterSeconds: 59`; las rechazadas no se registran ni consumen cupo y no se admiten 30 peticiones alrededor de una frontera. |
-| A09 | Con 15 timestamps en `0, 1000, ..., 14000` ms, en `59999` ms se rechaza con espera de 1 segundo; en `60000` ms expira solo `0` y se admite una petición; tras registrarla, en `60001` ms se rechaza; en `61000` ms expira `1000` y se admite otra. No hay reset fijo. |
+| A08 | Con 10 peticiones admitidas en `t = 59000` ms, las adicionales en `t = 60000` ms reciben 429 con `Retry-After: 59` y `error.retryAfterSeconds: 59`; las rechazadas no se registran ni consumen cupo y no se admiten 20 peticiones alrededor de una frontera. |
+| A09 | Con 10 timestamps en `0, 1000, ..., 9000` ms, en `59999` ms se rechaza con espera de 1 segundo; en `60000` ms expira solo `0` y se admite una petición; tras registrarla, en `60001` ms se rechaza; en `61000` ms expira `1000` y se admite otra. No hay reset fijo. |
 | A10 | Fallos upstream consumen cuota; auth y body inválidos no consumen la cuota específica del chat. |
 | A11 | Dos solicitudes concurrentes para una clave producen una generación y un 409; otra clave progresa. |
 | A12 | Locks, readers y timers se liberan en éxito, error, disconnect y shutdown. |
@@ -1011,7 +1012,7 @@ stateDiagram-v2
 | A19 | El rollover conserva exactamente el último par, incluidos los casos de cero y un par previo; no reserva 700 ni usa 5300. |
 | A20 | Si el candidato sigue excedido, devuelve 422 sin cortar prompt/puente y sin llamada upstream. |
 | A21 | Fallo con rollover preparado mantiene el contenido original; éxito confirma candidato y par completo. |
-| A22 | Reloj falso verifica 4000/5000/6000 ms desde fetch; headers, rol, contenido vacío y reasoning no detienen timers. |
+| A22 | Reloj falso verifica 8000/10000/12000 ms desde fetch; headers, rol, contenido vacío y reasoning no detienen timers. |
 | A23 | Un primer contenido válido detiene el timer; no aparece un timeout total o postchunk añadido. |
 | A24 | HTTP upstream 403/429, error de red, timeout y respuesta vacía precontenido producen fallback secuencial y cancelación previa. |
 | A25 | Después del primer frame no se llama a otro modelo; se emite error, no `[DONE]`, y no hay commit. |
