@@ -27,6 +27,10 @@ Todos los resultados del nuevo explorador SHALL identificarse como predicciones 
 - **WHEN** un visitante cambia el ancho de banda, los símbolos observados, la distancia o la velocidad radial en el explorador
 - **THEN** se actualizan las métricas de resolución, tiempo de observación, tasa bruta QPSK y retardo/Doppler que corresponden al modelo ideal
 
+#### Scenario: El explorador declara sus límites
+- **WHEN** un visitante consulta la explicación del explorador
+- **THEN** se aclara que ambos exploradores usan relaciones deterministas ideales, que el ruido térmico es fijo y no constituye una simulación, que no se simulan un canal real ni la detección de objetivos, y que la curva teórica frente a α no establece un valor óptimo
+
 #### Scenario: Apuesta antes de explorar
 - **WHEN** un visitante selecciona una categoría de apuesta antes de ajustar α
 - **THEN** aparece el botón «Comprobar con el modelo» y, al activarlo, α pasa a 90 % y se presentan la categoría, el cambio de tasa y la caída del eco calculados para el escenario

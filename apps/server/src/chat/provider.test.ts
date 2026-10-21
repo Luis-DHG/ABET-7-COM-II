@@ -367,7 +367,7 @@ test("onChunk async aplica backpressure; el primer contenido cancela TTFB antes 
   f.clean();
 });
 
-for (const ttfbMs of [5000, 6000]) {
+for (const ttfbMs of [15000, 20000]) {
   test(`TTFB ${ttfbMs} ms: headers, rol, keep-alive, reasoning, tools y vacío no evitan abort en el plazo exacto`, async (t) => {
     const f = await fixture(t);
     const body = f.body();
@@ -598,9 +598,9 @@ const GEMINI_POOL_KEY = "fake-gemini-pool-api-key";
 const UNAVAILABLE_MESSAGE = "El asistente no está disponible en este momento. Intenta de nuevo.";
 const INTERRUPTED_MESSAGE = "La respuesta se interrumpió. Intenta de nuevo.";
 const EXPECTED_POOL = [
-  { model: "nvidia/nemotron-3.5-lightning-30b-a3b", endpoint: "https://integrate.api.nvidia.com/v1/chat/completions", key: NVIDIA_POOL_KEY, ttfbMs: 5000 },
-  { model: "nvidia/nemotron-3.5-lightning:free", endpoint: "https://openrouter.ai/api/v1/chat/completions", key: OPENROUTER_POOL_KEY, ttfbMs: 6000 },
-  { model: "gemini-2.5-flash", endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", key: GEMINI_POOL_KEY, ttfbMs: 6000 },
+  { model: "nvidia/nemotron-3.5-lightning-30b-a3b", endpoint: "https://integrate.api.nvidia.com/v1/chat/completions", key: NVIDIA_POOL_KEY, ttfbMs: 15000 },
+  { model: "nvidia/nemotron-3.5-lightning:free", endpoint: "https://openrouter.ai/api/v1/chat/completions", key: OPENROUTER_POOL_KEY, ttfbMs: 20000 },
+  { model: "gemini-3.1-flash-lite", endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", key: GEMINI_POOL_KEY, ttfbMs: 10000 },
 ] as const;
 
 async function poolFixture(t: TestContext) {
@@ -773,7 +773,7 @@ for (const failure of preContentFailures) {
   });
 }
 
-test("pool A24/A26: deadlines 5000 → 6000 → 6000 exactos, secuenciales, sin paralelismo y agotamiento 503", async (t) => {
+test("pool A24/A26: deadlines 15000 → 20000 → 10000 exactos, secuenciales, sin paralelismo y agotamiento 503", async (t) => {
   const f = await poolFixture(t);
   const script = scriptedPoolFetch(f, ["timeout", "timeout", "timeout"]);
   const job = f.runPool(script.fetch);
@@ -781,7 +781,7 @@ test("pool A24/A26: deadlines 5000 → 6000 → 6000 exactos, secuenciales, sin 
     await drainUntil(() => Boolean(script.sources[index]?.pulls()), `Debe estar activo solo el intento ${index + 1}`);
     assert.equal(script.fetch.calls.length, index + 1);
     const call = script.fetch.calls[index]!;
-    assert.equal(call.at, [0, 5000, 11000][index]);
+    assert.equal(call.at, [0, 15000, 35000][index]);
     assert.ok(call.signal instanceof AbortSignal);
     t.mock.timers.tick(row.ttfbMs - 1);
     assert.equal(call.signal.aborted, false);
@@ -791,8 +791,8 @@ test("pool A24/A26: deadlines 5000 → 6000 → 6000 exactos, secuenciales, sin 
     if (index < 2) await drainUntil(() => script.fetch.calls.length >= index + 2, "Fallback después de limpiar");
   }
   await rejectedPool(job, "CHAT_UNAVAILABLE", UNAVAILABLE_MESSAGE, 503);
-  assert.equal(Date.now(), 17_000);
-  assert.deepEqual(f.timers.map((timer) => timer.delay), [5000, 6000, 6000]);
+  assert.equal(Date.now(), 45_000);
+  assert.deepEqual(f.timers.map((timer) => timer.delay), [15000, 20000, 10000]);
   assert.deepEqual(f.chunks, []);
   await assertPoolRequests(f, script, 3);
   f.clean();

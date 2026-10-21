@@ -20,9 +20,9 @@ export async function streamChat(input: {
   fetchImpl?: typeof fetch;
 }, onChunk: OnChunk): Promise<string> {
   const pool = [
-    { model: "nvidia/nemotron-3.5-lightning-30b-a3b", endpoint: "https://integrate.api.nvidia.com/v1/chat/completions", apiKey: input.nvidiaApiKey, ttfbMs: 5000 },
-    { model: "nvidia/nemotron-3.5-lightning:free", endpoint: "https://openrouter.ai/api/v1/chat/completions", apiKey: input.openrouterApiKey, ttfbMs: 6000 },
-    { model: "gemini-2.5-flash", endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", apiKey: input.geminiApiKey, ttfbMs: 6000 },
+    { model: "nvidia/nemotron-3.5-lightning-30b-a3b", endpoint: "https://integrate.api.nvidia.com/v1/chat/completions", apiKey: input.nvidiaApiKey, ttfbMs: 15000 },
+    { model: "nvidia/nemotron-3.5-lightning:free", endpoint: "https://openrouter.ai/api/v1/chat/completions", apiKey: input.openrouterApiKey, ttfbMs: 20000 },
+    { model: "gemini-3.1-flash-lite", endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", apiKey: input.geminiApiKey, ttfbMs: 10000 },
   ];
   let emitted = false;
   for (const provider of pool) {
@@ -38,10 +38,16 @@ export async function streamChat(input: {
         emitted = true;
         return onChunk(chunk);
       }, input.fetchImpl);
-    } catch {
+    } catch (error) {
       if (emitted || input.externalSignal?.aborted) {
         throw new AppError(503, "CHAT_STREAM_INTERRUPTED", "La respuesta se interrumpió. Intenta de nuevo.");
       }
+      console.warn(JSON.stringify({
+        level: "warn",
+        event: "chat_provider_attempt_failed",
+        model: provider.model,
+        reason: error instanceof Error ? error.message : "unknown",
+      }));
     }
   }
   throw new AppError(503, "CHAT_UNAVAILABLE", "El asistente no está disponible en este momento. Intenta de nuevo.");
@@ -78,7 +84,8 @@ export async function streamChatAttempt(input: AttemptInput, onChunk: OnChunk, f
     }, () => undefined);
     response = await Promise.race([pending, interrupted]);
     if (!response.ok || !response.body || !/^text\/event-stream(?:\s*;|$)/iu.test(response.headers.get("content-type") ?? "")) {
-      throw new Error("Respuesta de proveedor inválida.");
+      const detail = !response.ok ? `HTTP ${response.status}` : !response.body ? "Cuerpo nulo" : "Content-Type no SSE";
+      throw new Error(`Respuesta de proveedor inválida: ${detail}.`);
     }
     reader = response.body.getReader();
     const decoder = new TextDecoder();
@@ -121,9 +128,12 @@ export async function streamChatAttempt(input: AttemptInput, onChunk: OnChunk, f
         }
       }
     }
-  } catch {
+  } catch (error) {
     // No propagar cuerpos, claves, errores de fetch ni cause del proveedor a logs.
-    throw new Error("No se pudo completar la respuesta del proveedor.");
+    const message = error instanceof Error && (error.message.startsWith("Respuesta de proveedor inválida:") || error.message.includes("cancelada"))
+      ? error.message
+      : "No se pudo completar la respuesta del proveedor.";
+    throw new Error(message);
   } finally {
     clearTimeout(timer);
     input.externalSignal?.removeEventListener("abort", abort);

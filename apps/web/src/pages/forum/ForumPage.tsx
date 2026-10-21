@@ -9,6 +9,7 @@ import { StatusNotice } from "@/components/StatusNotice";
 import { CommentComposer } from "@/pages/forum/CommentComposer";
 import { CommentItem } from "@/pages/forum/CommentItem";
 import { appendForumPage, isForumCacheStale, readForumCache, refreshForumCache } from "@/pages/forum/forumCache";
+import { useCommentStream } from "@/pages/forum/useCommentStream";
 
 const PAGE_SIZE = 10;
 
@@ -62,6 +63,25 @@ export default function ForumPage() {
     window.addEventListener("online", retryOnline);
     return () => window.removeEventListener("online", retryOnline);
   }, []);
+
+  const refreshFromStream = useCallback(() => {
+    refreshForumCache(loadPage)
+      .then((cached) => {
+        setComments(cached.comments);
+        setNextCursor(cached.nextCursor);
+        setError(null);
+      })
+      .catch((err: unknown) => {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        setError(err instanceof ApiError ? err.message : "No se pudieron cargar los comentarios.");
+      });
+  }, [loadPage]);
+
+  useCommentStream({
+    enabled: true,
+    onCommentCreated: refreshFromStream,
+    onReconnect: refreshFromStream,
+  });
 
   async function loadMore() {
     if (!nextCursor || loadingMore || refreshing) return;

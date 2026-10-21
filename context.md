@@ -70,7 +70,7 @@ El footer y la navegación pueden enlazar el foro y las páginas legales, pero e
 - No se usa Supabase Auth ni la Data API: Express es la única puerta de acceso a datos.
 - El proyecto completo se despliega en **Koyeb** como aplicación Node persistente.
 - Express sirve el frontend compilado y la API bajo `/api/*` desde el mismo origen.
-- Asistente técnico: endpoint autenticado `POST /api/chat` con streaming SSE. Implementa pool secuencial de proveedores upstream (NVIDIA NIM 30B a 5s → OpenRouter free a 6s → Google Gemini 2.5 Flash a 6s, total 17s de TTFB pool), store de contexto efímero en memoria (RAM) por usuario/sesión (sin persistencia en DB, TTL 30 min, barrido cada 5 min, ventana max 6 000 caracteres con rollover conservando último par), lock de concurrencia 409 (`CHAT_IN_PROGRESS`) y rate limit por usuario (10 peticiones / 60 s, `CHAT_RATE_LIMITED` 429).
+- Asistente técnico: endpoint autenticado `POST /api/chat` con streaming SSE. Implementa pool secuencial de proveedores upstream (NVIDIA NIM 30B a 15s → OpenRouter free a 20s → Google Gemini 3.1 Flash-Lite a 10s, total 45s de TTFB pool), store de contexto efímero en memoria (RAM) por usuario/sesión (sin persistencia en DB, TTL 30 min, barrido cada 5 min, ventana max 6 000 caracteres con rollover conservando último par), lock de concurrencia 409 (`CHAT_IN_PROGRESS`) y rate limit por usuario (10 peticiones / 60 s, `CHAT_RATE_LIMITED` 429).
 - `config.ts` exige variables para LLMs en el servidor (`NVIDIA_NIM_API_KEY`, `OPENROUTER_API_KEY` y `GEMINI_API_KEY`), además de JWT, SMTP, Supabase/PostgreSQL y Google OIDC (25 variables requeridas en total).
 - En el cliente, la sesión del chat se guarda en `sessionStorage` (`blogdpc.chat.v1`) y se renderiza con soporte Markdown/LaTeX seguro (`react-markdown`, `remark-math`, `rehype-katex` con dependencias unificadas en KaTeX 0.18.7 vía `pnpm-workspace.yaml`, sin HTML crudo ni imágenes).
 - `index.html` sin caché; activos versionados con caché inmutable.
@@ -132,7 +132,7 @@ Las respuestas retiradas siguen ocupando cupo; los descendientes indirectos hist
 - Un error de red no borra cookies ni cierra la sesión local.
 - El foro conserva la última lectura en memoria y pasa a modo lectura no verificable.
 - El evento `online` reintenta la renovación y la comprobación de sesión.
-- No hay WebSockets, push ni sincronización en tiempo real en el MVP.
+- El foro usa SSE público únicamente en sus vistas activas de listado e hilo: `comment.created` transporta solo `rootId` e invalida la lectura para consultar REST; una reconexión provoca una relectura puntual, sin polling, replay ni persistencia de eventos. El broadcaster en RAM requiere un único proceso/réplica. No hay WebSockets ni sincronización en tiempo real fuera del foro.
 
 ## 10. Fuera de alcance actual
 

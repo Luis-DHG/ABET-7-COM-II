@@ -530,9 +530,9 @@ No se incluyen herramientas, imágenes, datos de perfil, cookies, identificadore
 
 | Orden | Modelo | Endpoint | Secreto | TTFB de contenido |
 |---|---|---|---|---:|
-| 1 | `nvidia/nemotron-3.5-lightning-30b-a3b` | `https://integrate.api.nvidia.com/v1/chat/completions` | `NVIDIA_NIM_API_KEY` | 5000 ms |
-| 2 | `nvidia/nemotron-3.5-lightning:free` | `https://openrouter.ai/api/v1/chat/completions` | `OPENROUTER_API_KEY` | 6000 ms |
-| 3 | `gemini-2.5-flash` | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | `GEMINI_API_KEY` | 6000 ms |
+| 1 | `nvidia/nemotron-3.5-lightning-30b-a3b` | `https://integrate.api.nvidia.com/v1/chat/completions` | `NVIDIA_NIM_API_KEY` | 15000 ms |
+| 2 | `nvidia/nemotron-3.5-lightning:free` | `https://openrouter.ai/api/v1/chat/completions` | `OPENROUTER_API_KEY` | 20000 ms |
+| 3 | `gemini-3.1-flash-lite` | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | `GEMINI_API_KEY` | 10000 ms |
 
 Los modelos se intentan secuencialmente, como máximo una vez cada uno por solicitud. No hay llamadas paralelas ni reintentos del mismo modelo.
 
@@ -579,7 +579,7 @@ Después de esa frontera:
 - No se añade el par al Map.
 - Se emite el evento de error si la conexión sigue siendo escribible.
 
-Los 8000 + 10000 + 12000 ms representan presupuestos de espera de contenido por intento. No constituyen un SLO total de 30 segundos: existen tiempos de cancelación, procesamiento, escritura y generación posterior.
+Los 15000 + 20000 + 10000 ms representan presupuestos de espera de contenido por intento. No constituyen un SLO total de 45 segundos: existen tiempos de cancelación, procesamiento, escritura y generación posterior.
 
 No se introduce un timeout total ni un timeout entre chunks después del primer contenido.
 
@@ -1012,7 +1012,7 @@ stateDiagram-v2
 | A19 | El rollover conserva exactamente el último par, incluidos los casos de cero y un par previo; no reserva 700 ni usa 5300. |
 | A20 | Si el candidato sigue excedido, devuelve 422 sin cortar prompt/puente y sin llamada upstream. |
 | A21 | Fallo con rollover preparado mantiene el contenido original; éxito confirma candidato y par completo. |
-| A22 | Reloj falso verifica 8000/10000/12000 ms desde fetch; headers, rol, contenido vacío y reasoning no detienen timers. |
+| A22 | Reloj falso verifica 15000/20000/10000 ms desde fetch; headers, rol, contenido vacío y reasoning no detienen timers. |
 | A23 | Un primer contenido válido detiene el timer; no aparece un timeout total o postchunk añadido. |
 | A24 | HTTP upstream 403/429, error de red, timeout y respuesta vacía precontenido producen fallback secuencial y cancelación previa. |
 | A25 | Después del primer frame no se llama a otro modelo; se emite error, no `[DONE]`, y no hay commit. |

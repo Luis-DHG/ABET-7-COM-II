@@ -8,6 +8,7 @@ import { useSession } from "@/session/SessionProvider";
 import { StatusNotice } from "@/components/StatusNotice";
 import { CommentItem } from "@/pages/forum/CommentItem";
 import { appendThreadReply } from "@/pages/forum/forumCache";
+import { useCommentStream } from "@/pages/forum/useCommentStream";
 
 export default function ThreadPage() {
   const { rootId } = useParams();
@@ -56,6 +57,22 @@ export default function ThreadPage() {
       cycle.controller.abort();
     };
   }, [scope, refreshThread]);
+
+  const handleCommentCreated = useCallback(
+    ({ rootId: incomingRootId }: { rootId: string }) => {
+      if (incomingRootId === rootId) {
+        refreshThread();
+      }
+    },
+    [refreshThread, rootId],
+  );
+
+  useCommentStream({
+    enabled: Boolean(rootId),
+    streamKey: rootId,
+    onCommentCreated: handleCommentCreated,
+    onReconnect: refreshThread,
+  });
 
   const canReply = status === "authenticated" && Boolean(user?.emailVerified) && !user?.isBanned && online;
   const threadId = thread?.id;

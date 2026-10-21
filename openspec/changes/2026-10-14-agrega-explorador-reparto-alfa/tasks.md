@@ -3,7 +3,7 @@
 ## 1. OpenSpec
 
 - [x] 1.1 Crear el proposal, design, delta completo de `modulos-editoriales` y tareas del change.
-- [x] 1.2 Intentar `openspec validate agrega-explorador-reparto-alfa --strict`; la CLI no está instalada en el entorno, por lo que no se pudo validar. No sincronizar la spec principal ni archivar.
+- [x] 1.2 Validar el change con `openspec validate "2026-10-14-agrega-explorador-reparto-alfa" --type change --strict`; la spec principal se sincronizó por instrucción del usuario y el change permanece sin archivar.
 
 ## 2. Modelo y pruebas
 
@@ -12,9 +12,12 @@
 
 ## 3. Explorador
 
-- [x] 3.1 Crear el componente accesible y responsive con apuesta, slider, radios independientes, pantalla de eco, medidor, curva interactiva y tabla alternativa.
-- [x] 3.2 Añadir ficha visible, preguntas de cierre, invitación existente al foro, estilos mínimos con prefijo `alpha-` y carga diferida con espacio reservado.
+- [ ] 3.1 Crear el componente accesible y responsive con apuesta, slider, radios independientes, pantalla de eco, medidor, curva interactiva y tabla alternativa.
+- [ ] 3.2 Añadir ficha visible, preguntas de cierre, invitación existente al foro, estilos mínimos con prefijo `alpha-` y carga diferida con espacio reservado.
 - [x] 3.3 Insertar la frase y componente en el lugar solicitado del módulo 4 y reescribir únicamente la nota de límites.
+
+> Auditoría QA pendiente: faltan la apuesta opcional con «Comprobar con el modelo» que fija α=90 %, la curva tasa-vs-SNR en SVG `role="img"` (los dos paneles actuales grafican α con `role="slider"`) y la pantalla SVG del eco con distancia/log-potencia.
+> La ficha `dl.editorial-facts` está dentro de un `<details>` cerrado, por lo que no permanece visible.
 
 ## 4. Verificación y entrega
 
