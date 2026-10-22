@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -227,6 +227,7 @@ function ParticipationBox({
   onPublished: (comment: PublicComment) => void;
 }) {
   const { status, user, online } = useSession();
+  const location = useLocation();
   const [resendState, setResendState] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   async function resendVerification() {
@@ -257,7 +258,7 @@ function ParticipationBox({
       <div className="rounded-lg border bg-card p-6">
         <p className="text-sm text-muted-foreground">La lectura es pública. Para publicar necesitas una cuenta.</p>
         <Button asChild className="mt-3">
-          <Link to="/login">Ingresar para participar</Link>
+          <Link to={`/login?returnTo=${encodeURIComponent(location.pathname + location.search + location.hash)}`} state={{ from: location }}>Ingresar para participar</Link>
         </Button>
       </div>
     );

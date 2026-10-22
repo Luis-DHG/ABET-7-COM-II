@@ -8,6 +8,8 @@ type AttemptInput = {
   messages: ChatMessage[];
   ttfbMs: number;
   externalSignal?: AbortSignal;
+  maxTokens?: number;
+  chatTemplateKwargs?: Record<string, unknown>;
 };
 type OnChunk = (chunk: string) => void | Promise<void>;
 
@@ -20,9 +22,28 @@ export async function streamChat(input: {
   fetchImpl?: typeof fetch;
 }, onChunk: OnChunk): Promise<string> {
   const pool = [
-    { model: "nvidia/nemotron-3.5-lightning-30b-a3b", endpoint: "https://integrate.api.nvidia.com/v1/chat/completions", apiKey: input.nvidiaApiKey, ttfbMs: 15000 },
-    { model: "nvidia/nemotron-3.5-lightning:free", endpoint: "https://openrouter.ai/api/v1/chat/completions", apiKey: input.openrouterApiKey, ttfbMs: 20000 },
-    { model: "gemini-3.1-flash-lite", endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", apiKey: input.geminiApiKey, ttfbMs: 10000 },
+    {
+      model: "nvidia/nemotron-3.5-super-vl-120b-a12b",
+      endpoint: "https://integrate.api.nvidia.com/v1/chat/completions",
+      apiKey: input.nvidiaApiKey,
+      ttfbMs: 15000,
+      maxTokens: 16384,
+      chatTemplateKwargs: { enable_thinking: true },
+    },
+    {
+      model: "nvidia/nemotron-3.5-lightning:free",
+      endpoint: "https://openrouter.ai/api/v1/chat/completions",
+      apiKey: input.openrouterApiKey,
+      ttfbMs: 20000,
+      maxTokens: 700,
+    },
+    {
+      model: "gemini-3.1-flash-lite",
+      endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      apiKey: input.geminiApiKey,
+      ttfbMs: 10000,
+      maxTokens: 700,
+    },
   ];
   let emitted = false;
   for (const provider of pool) {
@@ -72,11 +93,18 @@ export async function streamChatAttempt(input: AttemptInput, onChunk: OnChunk, f
   let eventName = "message";
   try {
     if (input.externalSignal?.aborted) throw new Error("Solicitud cancelada.");
+    const bodyPayload = {
+      model: input.model,
+      messages: input.messages,
+      stream: true,
+      max_tokens: input.maxTokens ?? 700,
+      ...(input.chatTemplateKwargs ? { chat_template_kwargs: input.chatTemplateKwargs } : {}),
+    };
     const pending = fetchImpl(input.endpoint, {
       method: "POST",
       redirect: "error",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${input.apiKey}` },
-      body: JSON.stringify({ model: input.model, messages: input.messages, stream: true, max_tokens: 700 }),
+      body: JSON.stringify(bodyPayload),
       signal: controller.signal,
     });
     void pending.then((lateResponse) => {
@@ -111,6 +139,10 @@ export async function streamChatAttempt(input: AttemptInput, onChunk: OnChunk, f
           const payload = JSON.parse(raw);
           if (!payload || typeof payload !== "object" || payload.error || !Array.isArray(payload.choices)) {
             throw new Error("Evento del proveedor inválido.");
+          }
+          const reasoning = payload.choices[0]?.delta?.reasoning_content ?? payload.choices[0]?.delta?.reasoning;
+          if (typeof reasoning === "string" && reasoning.length > 0) {
+            clearTimeout(timer);
           }
           const content = payload.choices[0]?.delta?.content;
           if (content !== undefined && content !== null && typeof content !== "string") throw new Error("Contenido inválido.");

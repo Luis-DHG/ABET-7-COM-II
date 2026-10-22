@@ -522,7 +522,8 @@ Cada intento realiza un POST compatible con OpenAI con exactamente estos campos 
 | `model` | Identificador de la fila correspondiente del pool. |
 | `messages` | Primer mensaje `system` con el apéndice literal completo; después el historial candidato; finalmente el nuevo mensaje `user`. |
 | `stream` | `true`. |
-| `max_tokens` | `700`. |
+| `max_tokens` | `16384` para NVIDIA NIM; `700` para OpenRouter y Gemini. |
+| `chat_template_kwargs` | `{ "enable_thinking": true }` para NVIDIA NIM; omitido para los demás. |
 
 Se envían `Content-Type: application/json` y autenticación Bearer con el secreto del servidor correspondiente.
 
@@ -530,7 +531,7 @@ No se incluyen herramientas, imágenes, datos de perfil, cookies, identificadore
 
 | Orden | Modelo | Endpoint | Secreto | TTFB de contenido |
 |---|---|---|---|---:|
-| 1 | `nvidia/nemotron-3.5-lightning-30b-a3b` | `https://integrate.api.nvidia.com/v1/chat/completions` | `NVIDIA_NIM_API_KEY` | 15000 ms |
+| 1 | `nvidia/nemotron-3.5-super-vl-120b-a12b` | `https://integrate.api.nvidia.com/v1/chat/completions` | `NVIDIA_NIM_API_KEY` | 15000 ms |
 | 2 | `nvidia/nemotron-3.5-lightning:free` | `https://openrouter.ai/api/v1/chat/completions` | `OPENROUTER_API_KEY` | 20000 ms |
 | 3 | `gemini-3.1-flash-lite` | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | `GEMINI_API_KEY` | 10000 ms |
 
@@ -542,7 +543,9 @@ Los nombres se consideran suministrados por el encargo. Su existencia, permisos,
 
 Cada intento tiene su propio `AbortController`.
 
-El timer comienza inmediatamente antes de iniciar `fetch` y finaliza al recibir el primer `delta.content` que sea un string no vacío.
+El timer comienza inmediatamente antes de iniciar `fetch` y finaliza al recibir el primer `delta.content` que sea un string no vacío o el primer token de razonamiento no vacío (`delta.reasoning_content` o `delta.reasoning`).
+
+La recepción de razonamiento no vacío cancela el timer de TTFB para permitir el proceso de pensamiento del modelo, pero el contenido del razonamiento nunca se emite en el stream del cliente (`onChunk`) ni se almacena en la respuesta final del asistente.
 
 No satisfacen ese requisito:
 
@@ -551,11 +554,10 @@ No satisfacen ese requisito:
 - Comentarios o keep-alives SSE.
 - Delta de rol.
 - `delta.content` vacío.
-- Campos de razonamiento.
 - Metadatos.
 - Tool calls.
 
-Solo se extrae texto de contenido de la respuesta conversacional; los campos ajenos se ignoran. No se retransmiten mensajes upstream arbitrarios.
+Solo se extrae texto de contenido (`delta.content`) de la respuesta conversacional; los campos de razonamiento y ajenos se ignoran para el stream downstream. No se retransmiten mensajes upstream arbitrarios.
 
 Antes de escribir el primer frame de contenido al cliente, las siguientes situaciones cancelan el intento y habilitan el siguiente modelo:
 

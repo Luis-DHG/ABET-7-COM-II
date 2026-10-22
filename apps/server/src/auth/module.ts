@@ -346,7 +346,7 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
       return user ? toPublicUser(user) : null;
     },
 
-    async startGoogle(): Promise<{ url: string; stateToken: string }> {
+    async startGoogle(returnTo?: string): Promise<{ url: string; stateToken: string }> {
       const oidcConfig = await getOidcConfig();
       const codeVerifier = oidc.randomPKCECodeVerifier();
       const codeChallenge = await oidc.calculatePKCECodeChallenge(codeVerifier);
@@ -362,11 +362,11 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
       });
       return {
         url: url.toString(),
-        stateToken: await signGoogleState({ state, nonce, codeVerifier }, config.jwtAccessSecret),
+        stateToken: await signGoogleState({ state, nonce, codeVerifier, returnTo }, config.jwtAccessSecret),
       };
     },
 
-    async completeGoogle(callbackUrl: URL, stateToken: string | undefined): Promise<AuthSession> {
+    async completeGoogle(callbackUrl: URL, stateToken: string | undefined): Promise<{ session: AuthSession; returnTo?: string }> {
       if (!stateToken) throw new AppError(400, "GOOGLE_STATE_INVALID", "Falta el estado de autenticación de Google.");
       const state = await verifyGoogleState(stateToken, config.jwtAccessSecret);
       const oidcConfig = await getOidcConfig();
@@ -404,7 +404,8 @@ export function createAuthModule(db: Database, config: AppConfig, mailer: Mailer
         if (!created) throw new Error("No se pudo crear el usuario de Google");
         return created;
       });
-      return createSession(user);
+      const session = await createSession(user);
+      return { session, returnTo: state.returnTo };
     },
   };
 }

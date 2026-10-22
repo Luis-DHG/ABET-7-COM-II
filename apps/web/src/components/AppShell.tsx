@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { ChevronDown, LogOut, Menu, UserRound } from "lucide-react";
 import {
   DropdownMenu,
@@ -49,6 +49,12 @@ export function AppShell() {
 function Header() {
   const { status, user, logout } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+
+  const currentPath = location.pathname + location.search + location.hash;
+  const loginTarget = location.pathname !== "/login" && location.pathname !== "/registro"
+    ? `/login?returnTo=${encodeURIComponent(currentPath)}`
+    : "/login";
 
   return (
     <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur">
@@ -131,7 +137,7 @@ function Header() {
               </DropdownMenu>
             ) : (
               <Button asChild size="sm">
-                <Link to="/login">Ingresar</Link>
+                <Link to={loginTarget} state={{ from: location }}>Ingresar</Link>
               </Button>
             )}
           </div>
@@ -201,7 +207,7 @@ function Header() {
                   </Button>
                 ) : (
                   <Button asChild size="sm" onClick={() => setMobileOpen(false)}>
-                    <Link to="/login">Ingresar</Link>
+                    <Link to={loginTarget} state={{ from: location }}>Ingresar</Link>
                   </Button>
                 )}
                 <Separator className="my-2" />

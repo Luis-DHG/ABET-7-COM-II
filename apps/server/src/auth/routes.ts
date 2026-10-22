@@ -19,6 +19,18 @@ import {
 import { parseWith } from "../http/errors.js";
 import type { AuthModule } from "./module.js";
 
+function sanitizeReturnTo(target: unknown): string | null {
+  if (typeof target !== "string") return null;
+  const trimmed = target.trim();
+  if (!trimmed.startsWith("/") || trimmed.startsWith("//") || trimmed.startsWith("/\\")) {
+    return null;
+  }
+  if (trimmed.startsWith("/login") || trimmed.startsWith("/registro") || trimmed.startsWith("/api")) {
+    return null;
+  }
+  return trimmed;
+}
+
 export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
   const router = Router();
 
@@ -79,8 +91,10 @@ export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
     response.json({ data: { status: "PASSWORD_RESET" } });
   });
 
-  router.get("/google/start", async (_request, response) => {
-    const { url, stateToken } = await auth.startGoogle();
+  router.get("/google/start", async (request, response) => {
+    const rawReturnTo = typeof request.query.returnTo === "string" ? request.query.returnTo : undefined;
+    const returnTo = sanitizeReturnTo(rawReturnTo) ?? undefined;
+    const { url, stateToken } = await auth.startGoogle(returnTo);
     response.cookie(GOOGLE_STATE_COOKIE, stateToken, {
       httpOnly: true,
       secure: config.cookieSecure,
@@ -94,7 +108,7 @@ export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
   router.get("/google/callback", async (request, response) => {
     try {
       const callbackUrl = new URL(request.originalUrl, config.google.redirectUri);
-      const session = await auth.completeGoogle(callbackUrl, readCookie(request, GOOGLE_STATE_COOKIE));
+      const { session, returnTo } = await auth.completeGoogle(callbackUrl, readCookie(request, GOOGLE_STATE_COOKIE));
       response.clearCookie(GOOGLE_STATE_COOKIE, {
         httpOnly: true,
         secure: config.cookieSecure,
@@ -102,7 +116,8 @@ export function createAuthRouter(auth: AuthModule, config: AppConfig): Router {
         path: "/api/auth/google/callback",
       });
       setSessionCookies(response, session, config.cookieSecure);
-      response.redirect(303, new URL("/retroalimentacion", config.appOrigin).toString());
+      const destination = sanitizeReturnTo(returnTo) ?? "/planeacion";
+      response.redirect(303, new URL(destination, config.appOrigin).toString());
     } catch (error) {
       console.error(JSON.stringify({
         level: "error",

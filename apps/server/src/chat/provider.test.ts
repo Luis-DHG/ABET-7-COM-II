@@ -15,6 +15,8 @@ type AttemptInput = {
   messages: Array<{ role: string; content: string }>;
   ttfbMs: number;
   externalSignal?: AbortSignal;
+  maxTokens?: number;
+  chatTemplateKwargs?: Record<string, unknown>;
 };
 type OnChunk = (chunk: string) => void | Promise<void>;
 type StreamChatAttempt = (
@@ -368,7 +370,7 @@ test("onChunk async aplica backpressure; el primer contenido cancela TTFB antes 
 });
 
 for (const ttfbMs of [15000, 20000]) {
-  test(`TTFB ${ttfbMs} ms: headers, rol, keep-alive, reasoning, tools y vacío no evitan abort en el plazo exacto`, async (t) => {
+  test(`TTFB ${ttfbMs} ms: headers, rol, keep-alive, tools y vacío no evitan abort en el plazo exacto`, async (t) => {
     const f = await fixture(t);
     const body = f.body();
     const fetch = fakeFetch(response(body));
@@ -376,7 +378,7 @@ for (const ttfbMs of [15000, 20000]) {
     await drainUntil(() => body.pulls() > 0, "Debe esperar el primer contenido");
     body.push(": keep-alive\r\n\r\n"
       + event({ choices: [{ delta: { role: "assistant" } }] })
-      + event({ choices: [{ delta: { reasoning: RAW, reasoning_content: RAW, tool_calls: [{ id: RAW }] } }] })
+      + event({ choices: [{ delta: { tool_calls: [{ id: RAW }] } }] })
       + event({ choices: [{ delta: { content: null } }], usage: { total_tokens: 1 } })
       + content(""));
     await drainUntil(() => body.pulls() >= 2, "Debe consumir metadata y volver a esperar contenido");
@@ -394,6 +396,25 @@ for (const ttfbMs of [15000, 20000]) {
     f.clean();
   });
 }
+
+test("reasoning_content detiene TTFB pero no se emite a onChunk ni se incluye en la respuesta final", async (t) => {
+  const f = await fixture(t);
+  const body = f.body();
+  const fetch = fakeFetch(response(body));
+  const job = f.run(fetch, undefined, { ...f.input, ttfbMs: 5000 });
+  await drainUntil(() => body.pulls() > 0, "Debe esperar el primer contenido");
+  body.push(event({ choices: [{ delta: { reasoning_content: "Pensando..." } }] }));
+  body.push(event({ choices: [{ delta: { reasoning: "Más razonamiento..." } }] }));
+  await drainUntil(() => body.pulls() >= 2, "Debe consumir razonamiento");
+  t.mock.timers.tick(10000);
+  assert.equal(onlyCall(fetch).signal.aborted, false);
+  assert.deepEqual(f.chunks, []);
+  assert.equal(job.outcome, undefined);
+  body.push(content("Respuesta final") + done());
+  assert.equal(await fulfilled(job), "Respuesta final");
+  assert.deepEqual(f.chunks, ["Respuesta final"]);
+  f.clean();
+});
 
 test("TTFB empieza antes de fetch: también aborta si no llegan headers", async (t) => {
   const f = await fixture(t);
@@ -598,9 +619,28 @@ const GEMINI_POOL_KEY = "fake-gemini-pool-api-key";
 const UNAVAILABLE_MESSAGE = "El asistente no está disponible en este momento. Intenta de nuevo.";
 const INTERRUPTED_MESSAGE = "La respuesta se interrumpió. Intenta de nuevo.";
 const EXPECTED_POOL = [
-  { model: "nvidia/nemotron-3.5-lightning-30b-a3b", endpoint: "https://integrate.api.nvidia.com/v1/chat/completions", key: NVIDIA_POOL_KEY, ttfbMs: 15000 },
-  { model: "nvidia/nemotron-3.5-lightning:free", endpoint: "https://openrouter.ai/api/v1/chat/completions", key: OPENROUTER_POOL_KEY, ttfbMs: 20000 },
-  { model: "gemini-3.1-flash-lite", endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", key: GEMINI_POOL_KEY, ttfbMs: 10000 },
+  {
+    model: "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    endpoint: "https://integrate.api.nvidia.com/v1/chat/completions",
+    key: NVIDIA_POOL_KEY,
+    ttfbMs: 15000,
+    maxTokens: 16384,
+    chatTemplateKwargs: { enable_thinking: true },
+  },
+  {
+    model: "nvidia/nemotron-3.5-lightning:free",
+    endpoint: "https://openrouter.ai/api/v1/chat/completions",
+    key: OPENROUTER_POOL_KEY,
+    ttfbMs: 20000,
+    maxTokens: 700,
+  },
+  {
+    model: "gemini-3.1-flash-lite",
+    endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    key: GEMINI_POOL_KEY,
+    ttfbMs: 10000,
+    maxTokens: 700,
+  },
 ] as const;
 
 async function poolFixture(t: TestContext) {
@@ -718,8 +758,9 @@ async function assertPoolRequests(f: PoolFixture, script: PoolScript, expectedCo
       model: expected.model,
       messages: f.poolInput.messages,
       stream: true,
-      max_tokens: 700,
-    }, "Solo cuatro campos: sin credenciales, tools, imágenes, identidad ni metadata del cliente");
+      max_tokens: expected.maxTokens,
+      ...("chatTemplateKwargs" in expected ? { chat_template_kwargs: expected.chatTemplateKwargs } : {}),
+    }, "Solo los campos acordados: sin credenciales, tools, imágenes, identidad ni metadata del cliente");
     assert.equal(script.hops[index]!.timerDelay, expected.ttfbMs);
     assert.ok(call.signal instanceof AbortSignal);
     assert.notEqual(call.signal, f.external.signal);

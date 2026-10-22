@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ReactNode } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import type { PublicUser } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,18 @@ import { Label } from "@/components/ui/label";
 import { ApiError, api } from "@/lib/http";
 import { useSession } from "@/session/SessionProvider";
 import { FieldError, StatusNotice } from "@/components/StatusNotice";
+
+function sanitizeReturnTo(target: unknown): string | null {
+  if (typeof target !== "string") return null;
+  const trimmed = target.trim();
+  if (!trimmed.startsWith("/") || trimmed.startsWith("//") || trimmed.startsWith("/\\")) {
+    return null;
+  }
+  if (trimmed.startsWith("/login") || trimmed.startsWith("/registro")) {
+    return null;
+  }
+  return trimmed;
+}
 
 export function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
   return (
@@ -22,6 +34,7 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setUser } = useSession();
   const [params] = useSearchParams();
   const [email, setEmail] = useState("");
@@ -30,6 +43,15 @@ export default function LoginPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const googleFailed = params.get("error") === "google_auth_failed";
+
+  const stateFrom = (location.state as { from?: string | { pathname: string; search?: string; hash?: string } } | null)?.from;
+  const statePath = typeof stateFrom === "string"
+    ? stateFrom
+    : stateFrom?.pathname
+      ? `${stateFrom.pathname}${stateFrom.search || ""}${stateFrom.hash || ""}`
+      : null;
+  const paramPath = params.get("returnTo");
+  const destination = sanitizeReturnTo(statePath) ?? sanitizeReturnTo(paramPath) ?? "/planeacion";
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -42,7 +64,7 @@ export default function LoginPage() {
         body: { email, password },
       });
       setUser(data.user);
-      navigate("/retroalimentacion", { replace: true });
+      navigate(destination, { replace: true });
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.fieldErrors) setFieldErrors(error.fieldErrors);
@@ -115,7 +137,7 @@ export default function LoginPage() {
       </div>
 
       <Button asChild variant="outline" className="google-signin w-full">
-        <a href="/api/auth/google/start">
+        <a href={destination !== "/planeacion" ? `/api/auth/google/start?returnTo=${encodeURIComponent(destination)}` : "/api/auth/google/start"}>
           <svg aria-hidden="true" focusable="false" className="size-5" viewBox="10 10 20 20" fill="none">
             <path d="M29.6 20.2273C29.6 19.5182 29.5364 18.8364 29.4182 18.1818H20V22.05H25.3818C25.15 23.3 24.4455 24.3591 23.3864 25.0682V27.5773H26.6182C28.5091 25.8364 29.6 23.2727 29.6 20.2273Z" fill="#4285F4" />
             <path d="M20 30C22.7 30 24.9636 29.1045 26.6181 27.5773L23.3863 25.0682C22.4909 25.6682 21.3454 26.0227 20 26.0227C17.3954 26.0227 15.1909 24.2636 14.4045 21.9H11.0636V24.4909C12.7091 27.7591 16.0909 30 20 30Z" fill="#34A853" />
@@ -127,7 +149,7 @@ export default function LoginPage() {
       </Button>
 
       <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm">
-        <Link to="/registro" className="text-primary underline underline-offset-4">
+        <Link to={destination !== "/planeacion" ? `/registro?returnTo=${encodeURIComponent(destination)}` : "/registro"} className="text-primary underline underline-offset-4">
           Crear cuenta
         </Link>
         <Link to="/olvide-contrasena" className="text-primary underline underline-offset-4">

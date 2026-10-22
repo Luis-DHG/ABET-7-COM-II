@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { Link as LinkIcon, MessageCircle, Send, X } from "lucide-react";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,11 @@ export function ChatWidget() {
   const previousPendingUserRef = useRef<string | null>(null);
   const [completionAnnouncement, setCompletionAnnouncement] = useState("");
   const session = useSession();
+  const location = useLocation();
+  const currentPath = location.pathname + location.search + location.hash;
+  const loginTarget = location.pathname !== "/login" && location.pathname !== "/registro"
+    ? `/login?returnTo=${encodeURIComponent(currentPath)}`
+    : "/login";
   // Keep the stream controller mounted even while the visible panel is closed.
   const chat = useChatSession(draft);
   const previousMessagesLength = useRef(chat.messages.length);
@@ -237,7 +242,7 @@ export function ChatWidget() {
           <div className="border-t border-border px-4 py-3">
             <p className="mb-2 text-sm text-muted-foreground">Inicia sesión para enviar mensajes.</p>
             <Button asChild variant="outline" className="motion-reduce:transition-none">
-              <RouterLink to="/login">Iniciar sesión</RouterLink>
+              <RouterLink to={loginTarget} state={{ from: location }}>Iniciar sesión</RouterLink>
             </Button>
           </div>
         )}

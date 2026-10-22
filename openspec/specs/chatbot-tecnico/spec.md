@@ -131,12 +131,12 @@ El sistema SHALL estimar la entrada como `(longitudDelPromptLiteral + sumaDeLong
 
 ### Requirement: Pool secuencial de modelos
 
-El sistema SHALL intentar en orden exacto: 1) `nvidia/nemotron-3.5-lightning-30b-a3b` en `https://integrate.api.nvidia.com/v1/chat/completions` con `NVIDIA_NIM_API_KEY` (TTFB 15000 ms), 2) `nvidia/nemotron-3.5-lightning:free` en `https://openrouter.ai/api/v1/chat/completions` con `OPENROUTER_API_KEY` (TTFB 20000 ms), 3) `gemini-3.1-flash-lite` en `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` con `GEMINI_API_KEY` (TTFB 10000 ms). Cada intento SHALL ser un POST compatible con OpenAI con `{model, messages, stream: true, max_tokens: 700}` y Bearer server-only, con el primer mensaje `system` conteniendo el prompt literal completo del Appendix A de `openspec/CHATBOT_SPEC.md` sin modificaciones. Cada modelo SHALL intentarse como máximo una vez por solicitud, sin paralelismo. El payload SHALL excluir herramientas, imágenes, cookies, identidad, IP y `tabSessionId`.
+El sistema SHALL intentar en orden exacto: 1) `nvidia/nemotron-3.5-super-vl-120b-a12b` en `https://integrate.api.nvidia.com/v1/chat/completions` con `NVIDIA_NIM_API_KEY` (TTFB 15000 ms, `max_tokens: 16384`, `chat_template_kwargs: { enable_thinking: true }`), 2) `nvidia/nemotron-3.5-lightning:free` en `https://openrouter.ai/api/v1/chat/completions` con `OPENROUTER_API_KEY` (TTFB 20000 ms, `max_tokens: 700`), 3) `gemini-3.1-flash-lite` en `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` con `GEMINI_API_KEY` (TTFB 10000 ms, `max_tokens: 700`). Cada intento SHALL ser un POST compatible con OpenAI con `{model, messages, stream: true, max_tokens}` y Bearer server-only, con el primer mensaje `system` conteniendo el prompt literal completo del Appendix A de `openspec/CHATBOT_SPEC.md` sin modificaciones. Cada modelo SHALL intentarse como máximo una vez por solicitud, sin paralelismo. El payload SHALL excluir herramientas, imágenes, cookies, identidad, IP y `tabSessionId`.
 
 #### Scenario: Construcción de cada intento
 
 - **WHEN** se construye una solicitud para cualquier modelo del pool
-- **THEN** `messages[0]` es `system` con el literal exacto, seguido del historial candidato y el nuevo mensaje `user`, con `stream: true` y `max_tokens: 700`
+- **THEN** `messages[0]` es `system` con el literal exacto, seguido del historial candidato y el nuevo mensaje `user`, con `stream: true`, el `max_tokens` correspondiente y, para NVIDIA NIM, `chat_template_kwargs: { enable_thinking: true }`
 
 #### Scenario: Fallback secuencial
 
@@ -145,17 +145,22 @@ El sistema SHALL intentar en orden exacto: 1) `nvidia/nemotron-3.5-lightning-30b
 
 ### Requirement: Deadline hasta el primer contenido
 
-Cada intento SHALL usar su propio `AbortController` con un timer que comienza inmediatamente antes del fetch y solo se detiene al recibir el primer `delta.content` string no vacío. Headers, keep-alives, comentarios, deltas de rol, contenido vacío, razonamiento, metadatos y tool calls SHALL NOT satisfacer el deadline. El sistema SHALL extraer únicamente texto de `delta.content` y SHALL NOT introducir timeout total ni entre chunks después del primer contenido.
+Cada intento SHALL usar su propio `AbortController` con un timer que comienza inmediatamente antes del fetch y se detiene al recibir el primer `delta.content` string no vacío o el primer token de razonamiento no vacío (`delta.reasoning_content` o `delta.reasoning`). El razonamiento SHALL NOT emitirse al stream del cliente ni guardarse en el mensaje final del asistente. Headers, keep-alives, comentarios SSE, deltas de rol, contenido vacío, metadatos y tool calls SHALL NOT satisfacer el deadline. El sistema SHALL extraer únicamente texto de `delta.content` para la emisión downstream y SHALL NOT introducir timeout total ni entre chunks después del primer contenido.
 
 #### Scenario: Metadatos no detienen el timer
 
-- **WHEN** el proveedor entrega headers, roles o razonamiento sin contenido dentro del plazo
+- **WHEN** el proveedor entrega headers, keep-alive, roles, tool calls o contenido vacío sin razonamiento ni contenido dentro del plazo
 - **THEN** el timer sigue activo y al vencer se aborta el intento
+
+#### Scenario: Razonamiento recibido dentro del plazo
+
+- **WHEN** llega el primer token de razonamiento no vacío (`delta.reasoning_content` o `delta.reasoning`) dentro del plazo
+- **THEN** el timer se cancela sin emitir fragmentos downstream y el razonamiento no se acumula en la respuesta final
 
 #### Scenario: Primer contenido válido
 
-- **WHEN** llega el primer string no vacío dentro del plazo
-- **THEN** el timer se cancela y no se activa ningún otro timeout
+- **WHEN** llega el primer string no vacío de contenido dentro del plazo
+- **THEN** el timer se cancela si seguía activo, se emite el fragmento downstream y no se activa ningún otro timeout
 
 ### Requirement: Fallback solo antes de contenido
 
