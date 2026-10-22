@@ -1,0 +1,110 @@
+{
+  "route": "/divulgacion",
+  "headline": "ISAC, contado paso a paso.",
+  "subject": "Divulgación multimedia",
+  "introduction": "Una síntesis para conectar la idea de una señal compartida con el mini-caso de ingeniería. Este será el recorrido de nuestra pieza de divulgación.",
+  "metadata": "Universidad Industrial de SantanderVideo por definir",
+  "index": [
+    {
+      "text": "Una explicación para ver y escuchar",
+      "href": "#video",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Cinco ideas para llevar contigo",
+      "href": "#resumen",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Continúa el recorrido",
+      "href": "#lectura-complementaria",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "pagination": [
+    {
+      "text": "Índice completo",
+      "href": "/planeacion#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "← Módulo anterior4. Mini-caso técnico aplicado",
+      "href": "/mini-caso",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Módulo siguiente →6. Bitácora metacognitiva",
+      "href": "/bitacora",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "sections": [
+    {
+      "id": "video",
+      "title": "Una explicación para ver y escuchar",
+      "text": "Una explicación para ver y escucharVideo pendienteDe la señal al entornoEstamos definiendo el material audiovisual. Mientras tanto, puedes recorrer las ideas principales en este resumen.Explorar el mini-caso",
+      "ids": [
+        "video-title"
+      ],
+      "links": [
+        {
+          "text": "Explorar el mini-caso",
+          "href": "/mini-caso",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "resumen",
+      "title": "Cinco ideas para llevar contigo",
+      "text": "Cinco ideas para llevar contigoUna infraestructura que percibeISAC integra el transporte de datos y la percepción del entorno, y ambas funciones pueden ayudarse mutuamente: la red comunica, percibe y entiende.Una forma de onda con doble propósitoDFRC conecta comunicación y radar. OFDM ofrece una estructura de subportadoras y símbolos para estudiarlo.El eco contiene informaciónRetardo y Doppler ayudan a describir la distancia y el movimiento de un objetivo.Una métrica no cuenta toda la historiaBER, detección y resolución responden a preguntas distintas. El diseño necesita considerarlas juntas.Las aplicaciones dan sentido al modeloTransporte, drones, interiores e industria permiten plantear escenarios concretos de investigación.",
+      "ids": [
+        "resumen-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "lectura-complementaria",
+      "title": "Continúa el recorrido",
+      "text": "Continúa el recorridoCuando el video esté definido, este espacio incluirá su transcripción, subtítulos y créditos. Por ahora, las explicaciones escritas permanecen disponibles para consultar a tu ritmo.La siguiente pregunta puede ser tuya¿Qué concepto, aplicación o limitación de ISAC te gustaría que explicáramos con mayor claridad?Compartir en el foro",
+      "ids": [
+        "lectura-complementaria-title"
+      ],
+      "links": [
+        {
+          "text": "Compartir en el foro",
+          "href": "/retroalimentacion",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    }
+  ]
+}

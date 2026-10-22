@@ -1,0 +1,183 @@
+{
+  "route": "/analisis",
+  "headline": "De la literatura al mapa de conocimiento.",
+  "subject": "Inteligencia bibliométrica",
+  "introduction": "Seguimos el rastro desde una pregunta sobre ISAC hasta una red de palabras clave: una forma de organizar la búsqueda y decidir qué conviene leer con más atención.",
+  "metadata": "Universidad Industrial de SantanderExploración bibliométrica del equipo",
+  "index": [
+    {
+      "text": "De la búsqueda a la interpretación",
+      "href": "#metodo",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Explora la red de coocurrencia",
+      "href": "#mapa",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "¿Qué relaciones encontramos?",
+      "href": "#resultados",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "pagination": [
+    {
+      "text": "Índice completo",
+      "href": "/planeacion#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "← Módulo anterior1. Inicio y marco del reto",
+      "href": "/planeacion",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Módulo siguiente →3. Estado del arte y tendencias",
+      "href": "/tendencias",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "sections": [
+    {
+      "id": "metodo",
+      "title": "De la búsqueda a la interpretación",
+      "text": "De la búsqueda a la interpretaciónLa pregunta de partida fue amplia: ¿qué se está investigando alrededor de Integrated Sensing and Communications? El proceso documentado por el equipo parte de Scopus, depura los términos y utiliza VOSviewer para construir una red de coocurrencia. Así pasamos de una búsqueda extensa a una estructura que podemos explorar y luego contrastar con los artículos.BuscarEl informe registra una búsqueda inicial de 17.661 documentos y 2.552 palabras clave.Depurar y organizarCon VOSviewer se trabajó con 541 términos distribuidos en ocho agrupaciones temáticas. El mapa que sigue conserva sus coordenadas, enlaces, pesos y clústeres.Interpretar y conectarLas agrupaciones son pistas para orientar la lectura, no conclusiones por sí solas. Después de observar sus relaciones, podremos examinar qué significan técnicamente.",
+      "ids": [
+        "metodo-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "mapa",
+      "title": "Explora la red de coocurrencia",
+      "text": "Explora la red de coocurrenciaLa red completa reúne cientos de términos. Explórala por clúster o busca una palabra para ver sus enlaces y métricas. El propósito no es sustituir la lectura de las publicaciones: es encontrar relaciones que merecen una pregunta mejor.Buscar un términoExplorar agrupaciónTodos los clústeresClúster 1 · 113 términosClúster 2 · 96 términosClúster 3 · 94 términosClúster 4 · 62 términosClúster 5 · 62 términosClúster 6 · 57 términosClúster 7 · 35 términosClúster 8 · 22 términos Ver mapa completoRed completa541 términos · 8 clústeresSelecciona un nodo, busca una palabra o elige un clúster para consultar sus conexiones y métricas.Clúster 1Clúster 2Clúster 3Clúster 4Clúster 5Clúster 6Clúster 7Clúster 8El color del nodo identifica su clúster y el grosor de cada línea representa la fuerza del vínculo. Se muestran los 1.000 enlaces más fuertes; al seleccionar un nodo o clúster, se ocultan los demás para destacar sus conexiones.Fuente: red exportada desde VOSviewer. Se conservan las posiciones y relaciones del análisis original.",
+      "ids": [
+        "mapa-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "resultados",
+      "title": "¿Qué relaciones encontramos?",
+      "text": "¿Qué relaciones encontramos?La frecuencia muestra qué términos aparecen reiteradamente; el número de enlaces cuenta cuántos vecinos tiene cada término; la fuerza total suma los pesos de sus enlaces. Para interpretar la red, miramos también parejas concretas y distinguimos relaciones dentro de un clúster de puentes entre grupos.Más ocurrenciasintegrated sensing43 · clúster 1Más términos enlazadosintegrated sensing200 enlaces distintosMayor fuerza total de enlaceintegrated sensing483 · suma de pesos adyacentesEnlace de mayor pesointegrated sensing ↔ integrated sensing and communication31 · clúster 1Una señal para leer con cuidado: el enlace entre clústeres de mayor peso en toda la red es “human ↔ humans” (12, clústeres 7 y 3). Como son términos genéricos, su peso no basta para llamarlo una tendencia técnica de ISAC.La normalización responde a otra pregunta: la mayor fuerza de asociación relativa de toda la red es “data communication equipment ↔ microrobots” (Sᵢⱼ = 1.088), pero su peso observado es 2. Una asociación relativa alta con pocas coocurrencias no basta para llamarla tendencia.Pares elegidos por su conexión con ISAC: peso de coocurrencia y fuerza de asociación normalizada.TérminoTérmino relacionadoCoocurrencias cᵢⱼFuerza SᵢⱼClústeresintegrated sensingintegrated sensing and communication314,7521 · relación internaantennasunmanned aerial vehicles (uav)139,4211 · relación internaoptical communicationphotonic integration technology115,9082 · relación internaintegrated sensingnetwork layers64,3571 ↔ 4 · cruceintegrated sensing and communicationnetwork layers65,8461 ↔ 4 · cruceintegrated sensingoptical communication40,9471 ↔ 2 · crucePara Sᵢⱼ aplicamos la fórmula de fuerza de asociación de los artículos metodológicos: Sᵢⱼ = 2m cᵢⱼ / (kᵢ kⱼ). Aquí cᵢⱼ es el peso original del enlace, kᵢ y kⱼ son las fuerzas totales de enlace de cada término y m = 13.328 es la suma de pesos de los enlaces únicos. No cambiamos nodos, clústeres ni coordenadas.Ocho agrupaciones observadas en el conjuntoLos términos y enlaces de cada ficha son datos observados; la lectura propuesta es una interpretación provisional, contrastable con los documentos del estudio.Clúster 1113 términosDatos observados. integrated sensing (43) · integrated sensing and communication (31) · economic and social effects (20); una de las coocurrencias internas más altas: integrated sensing ↔ integrated sensing and communication (31; Sᵢⱼ 4,752).Interpretación posible. Es el núcleo más directamente relacionado con ISAC: la asociación entre las dos variantes del término es dominante. Antenas, beamforming, UAV y aprendizaje profundo apuntan a preguntas sobre arquitectura, formas de onda y procesamiento; la literatura técnica ayuda a precisar cada una.Clúster 296 términosDatos observados. optical communication (24) · photonic integration technology (17) · photonic devices (15); una de las coocurrencias internas más altas: optical communication ↔ photonic integration technology (11; Sᵢⱼ 5,908).Interpretación posible. La fotónica y la comunicación óptica forman un grupo consistente. Su enlace directo con integrated sensing es menor que sus enlaces internos, así que aquí aparecen como una línea adyacente que merece lectura específica, no como el centro del conjunto.Clúster 394 términosDatos observados. wireless communication (13) · diagnosis (12) · humans (12); una de las coocurrencias internas más altas: devices ↔ humans (9; Sᵢⱼ 5,015).Interpretación posible. Conviven comunicación inalámbrica con diagnóstico, personas, dispositivos y biosensado. Esa mezcla puede reflejar el alcance amplio de la búsqueda o términos de indexación generales; no basta para afirmar que diagnóstico sea una línea central de ISAC.Clúster 462 términosDatos observados. energy (12) · internet of things (11) · cost effectiveness (9); una de las coocurrencias internas más altas: computer architecture ↔ network architecture (7; Sᵢⱼ 30,715).Interpretación posible. IoT, energía, asignación de recursos y comunicaciones satelitales sugieren una lectura de infraestructura y gestión de recursos. El enlace con network layers ofrece un puente cuantificable hacia el núcleo ISAC.Clúster 562 términosDatos observados. data communication systems (8) · wearable sensors (8) · multi-modal (5); una de las coocurrencias internas más altas: global navigation satellite systems ↔ global positioning system (3; Sᵢⱼ 55,38).Interpretación posible. Aparecen sensores vestibles, sistemas de comunicación y términos multimodales. Es una pista sobre plataformas y aplicaciones de sensado, aunque las fuerzas de enlace son menores y su pertinencia debe verificarse en los artículos fuente.Clúster 657 términosDatos observados. controlled study (23) · bandwidth (13) · nonhuman (12); una de las coocurrencias internas más altas: controlled study ↔ nonhuman (6; Sᵢⱼ 2,596).Interpretación posible. Bandwidth y polarization comparten grupo con controlled study y nonhuman, términos experimentales generales. La combinación aconseja revisar el contexto documental antes de interpretarla como una categoría técnica homogénea.Clúster 735 términosDatos observados. human (26) · learning systems (11) · machine learning (9); una de las coocurrencias internas más altas: learning systems ↔ machine learning (6; Sᵢⱼ 7,908).Interpretación posible. Learning systems y machine learning están conectados, junto a algorithm y términos genéricos de personas. Puede orientar una búsqueda sobre métodos de aprendizaje, pero los enlaces genéricos entre clústeres no describen por sí solos una función ISAC.Clúster 822 términosDatos observados. scanning electron microscopy (5) · absorption (3) · electromagnetic radiation (3); una de las coocurrencias internas más altas: absorption ↔ thickness (2; Sᵢⱼ 60,928).Interpretación posible. Es el grupo más pequeño y reúne técnicas de caracterización de materiales, absorción y electromagnetismo. En esta red queda periférico al núcleo de ISAC; su relación con el tema requiere contrastarse con los documentos asociados.Referencias metodológicas consultadasTomamos como guía su secuencia de mapa, comparación cuantitativa de parejas, lectura de clústeres y discusión de tendencias. Los valores presentados aquí proceden exclusivamente de nuestra exportación de VOSviewer.Tendencias recientes de la Educación Virtual y su fuerte conexión con los Entornos Inmersivos (2017)Trends in Modeling and Simulation in the Automotive Industry Concerning the Bond Graph framework (2018)Innovation, Technology and User Experience in Museums: Insights from Scientific Literature (2020)Reverse Logistics and Sustainability: A Bibliometric Analysis (2024)Analysis in circular economy research in Latin America: A bibliometric review (2023)De las relaciones a la lectura técnicaEl grupo más directamente ligado a ISAC incluye integración, antenas, beamforming y aprendizaje profundo; otros reúnen fotónica, recursos de red, sensado vestible o términos biomédicos y experimentales. Los pesos ayudan a decidir por dónde continuar, pero la coocurrencia no demuestra causalidad ni convierte a un clúster en una categoría definitiva.En el siguiente recorrido examinaremos qué implican técnicamente algunas de estas líneas: cómo se comparten recursos, qué tecnologías y arquitecturas intervienen, qué aplicaciones se proponen y qué desafíos siguen abiertos.Continuar: interpretar técnicamente las tendencias de ISAC Más adelante, el mini-caso estudia cuantitativamente un compromiso concreto entre comunicación y sensing bajo un escenario simplificado; es una aplicación acotada, no una extensión del mapa.",
+      "ids": [
+        "resultados-title"
+      ],
+      "links": [
+        {
+          "text": "Tendencias recientes de la Educación Virtual y su fuerte conexión con los Entornos Inmersivos (2017)",
+          "href": "https://revistaespacios.com/a17v38n15/17381504.html",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "Trends in Modeling and Simulation in the Automotive Industry Concerning the Bond Graph framework (2018)",
+          "href": "https://doi.org/10.14419/ijet.v7i4.16.22876",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "Innovation, Technology and User Experience in Museums: Insights from Scientific Literature (2020)",
+          "href": "https://doi.org/10.1007/978-3-030-58799-4_59",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "Reverse Logistics and Sustainability: A Bibliometric Analysis (2024)",
+          "href": "https://doi.org/10.3390/su16135279",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "Analysis in circular economy research in Latin America: A bibliometric review (2023)",
+          "href": "https://doi.org/10.1016/j.heliyon.2023.e19999",
+          "rel": "noreferrer",
+          "target": "_blank",
+          "label": null
+        },
+        {
+          "text": "Continuar: interpretar técnicamente las tendencias de ISAC",
+          "href": "/tendencias",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [
+        {
+          "summary": "Clúster 1113 términos",
+          "open": false,
+          "text": "Clúster 1113 términosDatos observados. integrated sensing (43) · integrated sensing and communication (31) · economic and social effects (20); una de las coocurrencias internas más altas: integrated sensing ↔ integrated sensing and communication (31; Sᵢⱼ 4,752).Interpretación posible. Es el núcleo más directamente relacionado con ISAC: la asociación entre las dos variantes del término es dominante. Antenas, beamforming, UAV y aprendizaje profundo apuntan a preguntas sobre arquitectura, formas de onda y procesamiento; la literatura técnica ayuda a precisar cada una."
+        },
+        {
+          "summary": "Clúster 296 términos",
+          "open": false,
+          "text": "Clúster 296 términosDatos observados. optical communication (24) · photonic integration technology (17) · photonic devices (15); una de las coocurrencias internas más altas: optical communication ↔ photonic integration technology (11; Sᵢⱼ 5,908).Interpretación posible. La fotónica y la comunicación óptica forman un grupo consistente. Su enlace directo con integrated sensing es menor que sus enlaces internos, así que aquí aparecen como una línea adyacente que merece lectura específica, no como el centro del conjunto."
+        },
+        {
+          "summary": "Clúster 394 términos",
+          "open": false,
+          "text": "Clúster 394 términosDatos observados. wireless communication (13) · diagnosis (12) · humans (12); una de las coocurrencias internas más altas: devices ↔ humans (9; Sᵢⱼ 5,015).Interpretación posible. Conviven comunicación inalámbrica con diagnóstico, personas, dispositivos y biosensado. Esa mezcla puede reflejar el alcance amplio de la búsqueda o términos de indexación generales; no basta para afirmar que diagnóstico sea una línea central de ISAC."
+        },
+        {
+          "summary": "Clúster 462 términos",
+          "open": false,
+          "text": "Clúster 462 términosDatos observados. energy (12) · internet of things (11) · cost effectiveness (9); una de las coocurrencias internas más altas: computer architecture ↔ network architecture (7; Sᵢⱼ 30,715).Interpretación posible. IoT, energía, asignación de recursos y comunicaciones satelitales sugieren una lectura de infraestructura y gestión de recursos. El enlace con network layers ofrece un puente cuantificable hacia el núcleo ISAC."
+        },
+        {
+          "summary": "Clúster 562 términos",
+          "open": false,
+          "text": "Clúster 562 términosDatos observados. data communication systems (8) · wearable sensors (8) · multi-modal (5); una de las coocurrencias internas más altas: global navigation satellite systems ↔ global positioning system (3; Sᵢⱼ 55,38).Interpretación posible. Aparecen sensores vestibles, sistemas de comunicación y términos multimodales. Es una pista sobre plataformas y aplicaciones de sensado, aunque las fuerzas de enlace son menores y su pertinencia debe verificarse en los artículos fuente."
+        },
+        {
+          "summary": "Clúster 657 términos",
+          "open": false,
+          "text": "Clúster 657 términosDatos observados. controlled study (23) · bandwidth (13) · nonhuman (12); una de las coocurrencias internas más altas: controlled study ↔ nonhuman (6; Sᵢⱼ 2,596).Interpretación posible. Bandwidth y polarization comparten grupo con controlled study y nonhuman, términos experimentales generales. La combinación aconseja revisar el contexto documental antes de interpretarla como una categoría técnica homogénea."
+        },
+        {
+          "summary": "Clúster 735 términos",
+          "open": false,
+          "text": "Clúster 735 términosDatos observados. human (26) · learning systems (11) · machine learning (9); una de las coocurrencias internas más altas: learning systems ↔ machine learning (6; Sᵢⱼ 7,908).Interpretación posible. Learning systems y machine learning están conectados, junto a algorithm y términos genéricos de personas. Puede orientar una búsqueda sobre métodos de aprendizaje, pero los enlaces genéricos entre clústeres no describen por sí solos una función ISAC."
+        },
+        {
+          "summary": "Clúster 822 términos",
+          "open": false,
+          "text": "Clúster 822 términosDatos observados. scanning electron microscopy (5) · absorption (3) · electromagnetic radiation (3); una de las coocurrencias internas más altas: absorption ↔ thickness (2; Sᵢⱼ 60,928).Interpretación posible. Es el grupo más pequeño y reúne técnicas de caracterización de materiales, absorción y electromagnetismo. En esta red queda periférico al núcleo de ISAC; su relación con el tema requiere contrastarse con los documentos asociados."
+        },
+        {
+          "summary": "Referencias metodológicas consultadas",
+          "open": false,
+          "text": "Referencias metodológicas consultadasTomamos como guía su secuencia de mapa, comparación cuantitativa de parejas, lectura de clústeres y discusión de tendencias. Los valores presentados aquí proceden exclusivamente de nuestra exportación de VOSviewer.Tendencias recientes de la Educación Virtual y su fuerte conexión con los Entornos Inmersivos (2017)Trends in Modeling and Simulation in the Automotive Industry Concerning the Bond Graph framework (2018)Innovation, Technology and User Experience in Museums: Insights from Scientific Literature (2020)Reverse Logistics and Sustainability: A Bibliometric Analysis (2024)Analysis in circular economy research in Latin America: A bibliometric review (2023)"
+        }
+      ],
+      "formulas": []
+    }
+  ]
+}

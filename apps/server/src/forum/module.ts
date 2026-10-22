@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { and, asc, desc, eq, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import type { CommentsQuery, CreateCommentInput, PublicComment } from "@blogdpc/contracts";
-import { MAX_COMMENT_DEPTH } from "@blogdpc/contracts";
+import { MAX_DIRECT_REPLIES_PER_ROOT } from "@blogdpc/contracts";
 import type { Database } from "../db/client.js";
 import { comments, users } from "../db/schema.js";
 import { decodeCursor, encodeCursor } from "../http/cursor.js";
@@ -159,8 +159,15 @@ export function createForumModule(db: Database) {
           const [parent] = await tx.select().from(comments)
             .where(eq(comments.id, input.parentId)).limit(1).for("update");
           if (!parent) throw new AppError(404, "PARENT_NOT_FOUND", "El comentario al que respondes no existe.");
-          if (depthOf(parent.path) >= MAX_COMMENT_DEPTH) {
-            throw new AppError(409, "MAX_THREAD_DEPTH", "La conversación alcanzó el máximo de seis niveles.");
+          if (parent.parentId !== null || parent.rootId !== parent.id || depthOf(parent.path) !== 1) {
+            throw new AppError(409, "REPLY_ROOT_ONLY", "Solo puedes responder a un comentario raíz; las respuestas no admiten nuevas respuestas.");
+          }
+          // Una sentencia posterior al lock ve el commit del publicador anterior.
+          const [total] = await tx.select({ count: sql<number>`count(*)::integer` }).from(comments)
+            .where(eq(comments.parentId, parent.id));
+          if (!total) throw new AppError(500, "REPLY_COUNT_UNAVAILABLE", "No se pudo verificar el cupo de respuestas.");
+          if (total.count >= MAX_DIRECT_REPLIES_PER_ROOT) {
+            throw new AppError(409, "ROOT_REPLY_LIMIT_REACHED", `Este comentario ya tiene el máximo de ${MAX_DIRECT_REPLIES_PER_ROOT} respuestas directas.`);
           }
           parentId = parent.id;
           rootId = parent.rootId;
@@ -187,7 +194,7 @@ export function createForumModule(db: Database) {
           depth: depthOf(path),
           replies: [],
         };
-      });
+      }, { isolationLevel: "read committed" });
     },
   };
 }

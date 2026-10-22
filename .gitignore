@@ -8,17 +8,12 @@ dist/
 !.env.example
 coverage/
 *.log
-*.md
-!README.md
 !openspec/**/*.md
-docs/
 .opencode/
 graphify-out/*
 !graphify-out/graph.json
 !graphify-out/GRAPH_REPORT.md
 !graphify-out/graph.html
-.atl/
-*.pi/
 
 # Build caches
 *.tsbuildinfo
@@ -37,3 +32,9 @@ Desktop.ini
 
 # Env locals
 *.local
+
+imagen
+.atl/
+.pi/
+/tmp/
+docs/

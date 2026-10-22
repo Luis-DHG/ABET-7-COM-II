@@ -30,6 +30,7 @@ const config: AppConfig = {
   trustProxyHops: 0,
   smtp: { host: "localhost", port: 25, user: "test@example.com", password: "unused", from: "test@example.com" },
   google: { clientId: "unused", clientSecret: "unused", redirectUri: "http://localhost/callback" },
+  chat: { nvidiaApiKey: "fake-nvidia-api-key", openrouterApiKey: "fake-openrouter-api-key", geminiApiKey: "fake-gemini-api-key" },
 };
 
 interface Fixture {

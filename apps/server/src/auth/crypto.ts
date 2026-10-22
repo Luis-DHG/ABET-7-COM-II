@@ -24,6 +24,7 @@ const googleStateSchema = z.object({
   state: z.string().min(1),
   nonce: z.string().min(1),
   codeVerifier: z.string().min(1),
+  returnTo: z.string().optional(),
 });
 
 export type AccessClaims = z.infer<typeof accessClaimsSchema>;

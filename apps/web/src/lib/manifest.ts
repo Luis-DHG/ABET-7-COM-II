@@ -10,19 +10,19 @@ export const MODULES: ModuleInfo[] = [
     number: 1,
     path: "/planeacion",
     title: "Inicio y marco del reto",
-    scope: "Qué es ISAC, para qué sirve y cómo recorrer sus conceptos, aplicaciones y literatura.",
+    scope: "La visión de ISAC: por qué importa, qué puede percibir una red y cómo se organiza el recorrido.",
   },
   {
     number: 2,
     path: "/analisis",
     title: "Inteligencia bibliométrica",
-    scope: "Cómo leer la investigación en ISAC. Búsqueda en Scopus e IEEE Xplore pendiente de realizar.",
+    scope: "Cómo el equipo pasó de una búsqueda bibliográfica a una red de coocurrencia para orientar la lectura técnica de ISAC.",
   },
   {
     number: 3,
     path: "/tendencias",
     title: "Estado del arte y tendencias",
-    scope: "De una señal compartida a cuatro escenarios de aplicación: transporte, drones, salud e industria.",
+    scope: "Aplicaciones, tecnologías, integración, redes perceptivas, beneficio mutuo, Edge AI, industria y desafíos.",
   },
   {
     number: 4,
@@ -34,7 +34,7 @@ export const MODULES: ModuleInfo[] = [
     number: 5,
     path: "/divulgacion",
     title: "Divulgación multimedia",
-    scope: "Las ideas esenciales del proyecto y el recorrido del futuro video de divulgación.",
+    scope: "Las ideas esenciales del proyecto y cinco recursos audiovisuales integrados sobre ISAC.",
   },
   {
     number: 6,

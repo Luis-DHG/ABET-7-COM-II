@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,12 +16,6 @@ export default function RegisterPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [registered, setRegistered] = useState(false);
-  const summaryRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (formError) summaryRef.current?.focus();
-  }, [formError]);
-
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
     setFormError(null);
@@ -68,7 +62,7 @@ export default function RegisterPage() {
   return (
     <AuthShell title="Crear cuenta" subtitle="Necesitas una cuenta verificada para participar en el foro.">
       {formError ? (
-        <div ref={summaryRef} tabIndex={-1} className="mb-4">
+        <div tabIndex={-1} className="mb-4">
           <StatusNotice tone="destructive" title="No se pudo crear la cuenta">
             {formError}
           </StatusNotice>

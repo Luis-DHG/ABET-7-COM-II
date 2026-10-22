@@ -1,0 +1,241 @@
+{
+  "route": "/mini-caso",
+  "headline": "Evaluar una señal que comunica y percibe.",
+  "subject": "Mini-caso técnico aplicado",
+  "introduction": "Construimos paso a paso el modelo del mini-caso: qué información trae el eco, qué papel juegan el ancho de banda y la potencia, cómo se reparte el recurso compartido mediante el parámetro α y qué ecuaciones conectan todo. Al llegar al explorador, cada variable tendrá un significado físico.",
+  "metadata": "Universidad Industrial de SantanderModelo hipotético ideal",
+  "index": [
+    {
+      "text": "El escenario: un nodo, una señal y un objetivo",
+      "href": "#escenario",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Qué significa «sensing»: leer el eco",
+      "href": "#el-eco",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "El papel del ancho de banda: la resolución de rango",
+      "href": "#ancho-de-banda",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "El papel de la potencia: la SNR del eco",
+      "href": "#potencia",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Cómo representar el reparto: el parámetro α",
+      "href": "#reparto",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Las dos ecuaciones del compromiso",
+      "href": "#modelos",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Los KPIs: qué observaremos y por qué",
+      "href": "#kpis",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Explora el compromiso",
+      "href": "#explorador",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "De la predicción a la simulación",
+      "href": "#validacion",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "pagination": [
+    {
+      "text": "Índice completo",
+      "href": "/planeacion#recorrido",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "← Módulo anterior3. Estado del arte y tendencias",
+      "href": "/tendencias",
+      "rel": null,
+      "target": null,
+      "label": null
+    },
+    {
+      "text": "Módulo siguiente →5. Divulgación multimedia",
+      "href": "/divulgacion",
+      "rel": null,
+      "target": null,
+      "label": null
+    }
+  ],
+  "sections": [
+    {
+      "id": "escenario",
+      "title": "El escenario: un nodo, una señal y un objetivo",
+      "text": "El escenario: un nodo, una señal y un objetivoProponemos un escenario ISAC con arquitectura monostática: un mismo nodo transmite una señal OFDM hacia un usuario y, con esa misma señal, escucha el eco que regresa de un objetivo del entorno. El nodo tiene una potencia total limitada, un ancho de banda disponible y una portadora de 5,9 GHz, banda típica de comunicaciones vehiculares [2].Antes de observar un solo número conviene responder tres preguntas: qué información trae el eco, qué recursos se reparten ambas funciones y con qué ecuaciones se describe cada una. Este módulo construye esa base conceptual; el explorador interactivo, al final, la pone en movimiento.",
+      "ids": [
+        "escenario-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "el-eco",
+      "title": "Qué significa «sensing»: leer el eco",
+      "text": "Qué significa «sensing»: leer el ecoCuando la señal encuentra un objeto, una pequeña parte de su energía regresa como eco. Sensing es leer ese eco: no se transmite una señal nueva para percibir, sino que se aprovecha la que ya viaja. El eco llega más tarde y con una frecuencia levemente desplazada, y esas dos huellas contienen la información física del objetivo [4].τ=2RcfD=2vfcc\\tau = \\frac{2R}{c}\\qquad f_D = \\frac{2vf_c}{c}El retardo τ depende de la distancia R: la señal recorre dos veces el camino, de ida y vuelta, a la velocidad de la luz c. El Doppler f_D depende de la velocidad radial v y de la portadora f_c.Un objetivo a 80 m produce un eco que regresa 0,53 μs después de la transmisión; si se acerca a 15 m/s, su eco sube de frecuencia unos 590 Hz. Medir retardo y Doppler equivale, respectivamente, a medir distancia y velocidad.En OFDM, ese eco afecta a cada subportadora con un giro de fase distinto. Tras compensar la señal transmitida, el receptor observa una respuesta que depende solo del objetivo:H[k,m]=β exp⁡(−j2πkΔfτ) exp⁡(j2πfDmTsym)H[k,m] = \\beta\\,\\exp(-j2\\pi k\\Delta f\\tau)\\,\\exp(j2\\pi f_DmT_{\\mathrm{sym}})Modelo ideal del eco en la subportadora k y el símbolo m: β es la intensidad de la reflexión, τ su retardo y f_D su desplazamiento Doppler.Al aplicar transformadas de frecuencia sobre esta respuesta se construye el mapa rango-Doppler: una representación donde cada pico potencial corresponde a un objetivo con cierta distancia y cierta velocidad radial. Declarar que un pico «es» un objetivo exige además una regla de detección, algo que este modelo ideal todavía no incluye.",
+      "ids": [
+        "el-eco-title"
+      ],
+      "links": [
+        {
+          "text": "mapa rango-Doppler",
+          "href": "/glosario",
+          "rel": null,
+          "target": null,
+          "label": null
+        }
+      ],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": [
+        "\\tau = \\frac{2R}{c}\\qquad f_D = \\frac{2vf_c}{c}",
+        "H[k,m] = \\beta\\,\\exp(-j2\\pi k\\Delta f\\tau)\\,\\exp(j2\\pi f_DmT_{\\mathrm{sym}})"
+      ]
+    },
+    {
+      "id": "ancho-de-banda",
+      "title": "El papel del ancho de banda: la resolución de rango",
+      "text": "El papel del ancho de banda: la resolución de rango¿Qué tan cerca pueden estar dos objetos para que el sistema los vea separados? Esa pregunta la responde la resolución de rango, y su respuesta depende directamente del ancho de banda B de la señal:ΔR=c2B\\Delta R = \\frac{c}{2B}Δr: mínima distancia distinguible [m]; c: velocidad de la luz; B: ancho de banda de la señal [Hz].La física es intuitiva: para distinguir dos ecos, la señal debe «verlos» en tiempos distintos. Un eco corto en el tiempo —que exige una señal de gran ancho de banda— ocupa poca duración y no se solapa con el eco del vecino. Con 20 MHz, Δr ≈ 7,5 m: dos objetivos separados menos de 7,5 metros aparecen como uno solo. Con 80 MHz, Δr ≈ 1,9 m. Más ancho de banda significa, literalmente, una mirada más fina sobre el rango.El ancho de banda también es un recurso compartidoPara el radar, más B mejora la resolución de rango. Para la comunicación, más B aumenta la tasa alcanzable. Pero hay una tensión: el ruido térmico del receptor también crece proporcionalmente a B, de modo que repartir la señal en más espectro puede reducir la SNR disponible. El ancho de banda, como la potencia, es un recurso que ambas funciones comparten y que el diseño debe dosificar.",
+      "ids": [
+        "ancho-de-banda-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": [
+        "\\Delta R = \\frac{c}{2B}"
+      ]
+    },
+    {
+      "id": "potencia",
+      "title": "El papel de la potencia: la SNR del eco",
+      "text": "El papel de la potencia: la SNR del eco¿Y si el eco es tan débil que no se distingue del ruido? Para responder esa pregunta necesitamos la relación señal/ruido (SNR): cuántas veces supera la potencia útil a la potencia del ruido en el receptor. Suele expresarse en decibeles:SNRdB=10log⁡10 ⁣(Psen˜alPruido) [dB]\\mathrm{SNR}_{\\mathrm{dB}} = 10\\log_{10}\\!\\left(\\frac{P_{\\text{señal}}}{P_{\\text{ruido}}}\\right)\\;[\\mathrm{dB}]SNR de 10 dB equivale a «diez veces más potencia útil que de ruido»; +3 dB significa duplicar la relación.La potencia es el recurso más directo del compromiso ISAC. Dedicar más potencia al sensado fortalece el eco y mejora su SNR; pero esa potencia sale de algún lado: reducir la potencia de comunicaciones baja la SNR del enlace de datos y, con ella, la tasa de transmisión. Un watt no puede estar en dos funciones a la vez.",
+      "ids": [
+        "potencia-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": [
+        "\\mathrm{SNR}_{\\mathrm{dB}} = 10\\log_{10}\\!\\left(\\frac{P_{\\text{señal}}}{P_{\\text{ruido}}}\\right)\\;[\\mathrm{dB}]"
+      ]
+    },
+    {
+      "id": "reparto",
+      "title": "Cómo representar el reparto: el parámetro α",
+      "text": "Cómo representar el reparto: el parámetro αPara estudiar el compromiso con una sola perilla, repartimos la potencia total del nodo entre las dos funciones:Pc=αPtotal,Ps=(1−α) Ptotal,0≤α≤1P_c = \\alpha P_{\\mathrm{total}}, \\qquad P_s = (1-\\alpha)\\,P_{\\mathrm{total}}, \\qquad 0 \\le \\alpha \\le 1P_c: potencia para comunicaciones; P_s: potencia para sensing; P_total: potencia total del nodo; α: fracción asignada a comunicaciones.α es un número entre 0 y 1. Con α = 1 el nodo dedica toda su potencia a comunicar y el sensing desaparece; con α = 0 ocurre lo contrario. Cada valor intermedio define un punto de operación con una tasa de datos y una SNR de radar específicas: al recorrer α de 0 a 1 se dibuja la curva de compromiso del sistema.¿Y el punto medio α = 0,5? No es una ley de ISAC. El valor conveniente depende del escenario, de los requisitos de cada función y de cómo se ponderen sus resultados. Si en algún experimento aparece como punto de operación, es una conclusión de ese escenario estudiado, no una regla general de la tecnología.",
+      "ids": [
+        "reparto-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": [
+        "P_c = \\alpha P_{\\mathrm{total}}, \\qquad P_s = (1-\\alpha)\\,P_{\\mathrm{total}}, \\qquad 0 \\le \\alpha \\le 1"
+      ]
+    },
+    {
+      "id": "modelos",
+      "title": "Las dos ecuaciones del compromiso",
+      "text": "Las dos ecuaciones del compromisoCon las variables definidas, solo falta una ecuación por función. Para la comunicación usamos la capacidad de Shannon de un canal con ruido gaussiano, alimentada por la SNR del enlace:SNRcom=∣h∣2 Pck T0 B F\\mathrm{SNR}_{\\mathrm{com}} = \\frac{|h|^2\\,P_c}{k\\,T_0\\,B\\,F}SNR de comunicaciones: |h|² modela la atenuación fija del canal, P_c = α·P_total es la potencia asignada y k·T₀·B·F es la potencia de ruido térmico (constante de Boltzmann, temperatura, ancho de banda y figura de ruido del receptor).R=B log⁡2 ⁣(1+SNRcom) [bit/s]R = B\\,\\log_2\\!\\left(1 + \\mathrm{SNR}_{\\mathrm{com}}\\right) \\;[\\mathrm{bit/s}]Tasa máxima teórica [bit/s] de un canal de ancho de banda B y SNR dada. Es una cota ideal: ningún esquema práctico la supera.La lectura es directa: más banda o más SNR, más bits por segundo. Como P_c = α·P_total, cualquier aumento de α sube la tasa de datos… y deja menos potencia para el radar.Para el sensing, el eco que regresa del objetivo se describe con la forma monostática de la ecuación de radar, simplificada para el escenario de este mini-caso:SNRradar=Ps G2λ2 σ(4π)3 R4 k T0 B F\\mathrm{SNR}_{\\mathrm{radar}} = \\frac{P_s\\,G^2\\lambda^2\\,\\sigma}{(4\\pi)^3\\,R^4\\,k\\,T_0\\,B\\,F}SNR del eco: P_s = (1−α)·P_total es la potencia de sensing; G es la ganancia de antena, al cuadrado porque la misma antena transmite y recibe; λ la longitud de onda; σ la sección recta radar del objetivo; R la distancia al objetivo; k·T₀·B·F el ruido térmico del receptor.Cada término tiene una lectura física. σ (sección recta radar) describe cuánto refleja el objetivo: un dron pequeño refleja mucho menos que un camión. El factor R⁴ es la firma del radar monostático: el eco viaja de ida y de vuelta, y en cada trayecto la potencia se diluye sobre una esfera que crece con la distancia; duplicar R reduce la SNR del eco dieciséis veces (−12 dB). Por eso detectar objetivos lejanos exige tanta potencia.Ambos modelos son simplificaciones declaradasLas ecuaciones describen un solo objetivo, sin ecos del entorno (clutter), sin interferencia entre subportadoras y con antena y procesamiento ideales. Son las relaciones que el mini-caso utiliza para comprender el compromiso; no constituyen un modelo universal de todos los sistemas ISAC [1], [4].",
+      "ids": [
+        "modelos-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": [
+        "\\mathrm{SNR}_{\\mathrm{com}} = \\frac{|h|^2\\,P_c}{k\\,T_0\\,B\\,F}",
+        "R = B\\,\\log_2\\!\\left(1 + \\mathrm{SNR}_{\\mathrm{com}}\\right) \\;[\\mathrm{bit/s}]",
+        "\\mathrm{SNR}_{\\mathrm{radar}} = \\frac{P_s\\,G^2\\lambda^2\\,\\sigma}{(4\\pi)^3\\,R^4\\,k\\,T_0\\,B\\,F}"
+      ]
+    },
+    {
+      "id": "kpis",
+      "title": "Los KPIs: qué observaremos y por qué",
+      "text": "Los KPIs: qué observaremos y por quéEl mini-caso observa cuatro indicadores, cada uno ligado a una variable y a una pregunta de ingeniería:Indicadores del compromiso ISAC en el mini-casoKPIDepende dePregunta que respondeTasa de datosα y B, a través de la SNR de comunicaciones¿Cuántos bits por segundo llegan al usuario?SNR de radar1−α, R y σ, a través de la ecuación de radar¿El eco se distingue del ruido?Resolución de rangoAncho de banda B¿A qué distancia mínima se separan dos objetivos?Resolución de velocidadTiempo de observación (M símbolos)¿Qué tan próximas pueden ser dos velocidades distinguibles?Δv=c2fcMTsym\\Delta v = \\frac{c}{2f_cMT_{\\mathrm{sym}}}Resolución de velocidad [m/s]: se reduce —mejora— observando la señal durante más tiempo (más símbolos M); f_c es la portadora.Así se cierra el mapa conceptual: α controla la potencia, B controla la resolución y aparece en ambas relaciones señal/ruido, y el tiempo de observación gobierna la velocidad. Mover α desplaza el sistema sobre la curva tasa ↔ SNR de radar; mover B cambia la «finura» del sensado y la capacidad del enlace a la vez.",
+      "ids": [
+        "kpis-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": [
+        "\\Delta v = \\frac{c}{2f_cMT_{\\mathrm{sym}}}"
+      ]
+    },
+    {
+      "id": "explorador",
+      "title": "Explora el compromiso",
+      "text": "Explora el compromisoEl explorador pone en movimiento la parte implementada del mini-caso: con la potencia total fija, puedes variar el ancho de banda B, el número de símbolos observados M y la posición y velocidad del objetivo, y observar cómo responden la resolución de rango, la resolución de velocidad, el retardo y el Doppler del eco.Configura el escenarioAncho de banda20 MHz10 MHz80 MHzSímbolos observados256 símbolos64 símbolos512 símbolosDistancia del objetivo80 m10 m200 mVelocidad radial15 m/s-30 m/s30 m/s Restablecer valoresPortadora: 5,9 GHz · 1024 subportadoras · QPSK · prefijo cíclico: 25 % del símbolo útil.Predicción del modelo idealResolución de distancia7,49 mMenor es mejor para separar objetivos.Resolución de velocidad1,55 m/sMenor distingue velocidades más próximas.Tiempo de observación16,38 msDuración de los símbolos observados.Tasa bruta QPSK32 Mbit/sIncluye CP; sin pilotos ni codificación.Eco del objetivo a 80 mτ = 0,534 μsfD = 590,41 HzEl signo Doppler sigue la convención v positiva al acercarse. Cambiar distancia o velocidad desplaza el eco; no cambia la resolución del sistema.Cómo leer el explorador con lo aprendidoAl subir B, la resolución de distancia baja —la ecuación c/(2B) en acción— mientras la tasa bruta crece: el mismo recurso beneficia a ambas funciones, aunque también agranda el ruido térmico del receptor. Al subir M, la resolución de velocidad mejora porque el sistema observa el movimiento durante más tiempo. Cambiar la distancia o la velocidad del objetivo desplaza el eco (τ, f_D), pero no cambia la resolución del sistema. La «tasa bruta QPSK» es una cuenta determinista de símbolos por segundo, no la capacidad de Shannon: sirve como orden de magnitud del enlace.Qué todavía no muestra el exploradorEsta primera versión trabaja con relaciones ideales deterministas. Las curvas de tasa de datos y de SNR de radar en función de α, el ruido, el canal real y la detección de objetivos son la siguiente etapa del mini-caso; las ecuaciones de este módulo ya las anticipan.",
+      "ids": [
+        "explorador-title",
+        "ofdm-bandwidthMHz",
+        "ofdm-symbols",
+        "ofdm-range",
+        "ofdm-velocity"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    },
+    {
+      "id": "validacion",
+      "title": "De la predicción a la simulación",
+      "text": "De la predicción a la simulaciónLas relaciones ideales del mini-caso son el primer paso, no el último. Para acercarse a escenarios reales, el modelo debe incorporar elementos adicionales como ruido, características del canal inalámbrico, interferencias y algoritmos de procesamiento de recepción.BER frente a SNREvaluar la calidad de la comunicación mediante la comparación entre información transmitida y recuperada.Probabilidad de detecciónAnalizar la capacidad del sistema para identificar objetivos bajo diferentes condiciones.Error de estimaciónComparar la precisión con la que se calculan parámetros como distancia y velocidad.Alcance de esta primera versiónEl explorador representa relaciones ideales del sistema ISAC. La incorporación de ruido, canales reales, detección avanzada y validación experimental corresponde a etapas posteriores del desarrollo.",
+      "ids": [
+        "validacion-title"
+      ],
+      "links": [],
+      "images": [],
+      "figures": [],
+      "details": [],
+      "formulas": []
+    }
+  ]
+}

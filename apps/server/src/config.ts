@@ -21,6 +21,9 @@ const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string().min(1),
   GOOGLE_REDIRECT_URI: z.string().url(),
   WEB_DIST_PATH: z.string().optional(),
+  NVIDIA_NIM_API_KEY: z.string().min(1),
+  OPENROUTER_API_KEY: z.string().min(1),
+  GEMINI_API_KEY: z.string().min(1),
 });
 
 export interface AppConfig {
@@ -46,6 +49,11 @@ export interface AppConfig {
     redirectUri: string;
   };
   webDistPath?: string;
+  chat: {
+    nvidiaApiKey: string;
+    openrouterApiKey: string;
+    geminiApiKey: string;
+  };
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
@@ -79,5 +87,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       redirectUri: value.GOOGLE_REDIRECT_URI,
     },
     ...(value.WEB_DIST_PATH ? { webDistPath: value.WEB_DIST_PATH } : {}),
+    chat: {
+      nvidiaApiKey: value.NVIDIA_NIM_API_KEY,
+      openrouterApiKey: value.OPENROUTER_API_KEY,
+      geminiApiKey: value.GEMINI_API_KEY,
+    },
   };
 }

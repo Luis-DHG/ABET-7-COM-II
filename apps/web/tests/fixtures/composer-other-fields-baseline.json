@@ -1,0 +1,224 @@
+{
+  "samples": [
+    {
+      "variant": "light/no-preference",
+      "auth": [
+        {
+          "id": "email",
+          "type": "email",
+          "background": "rgb(255, 255, 255)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "email"
+        },
+        {
+          "id": "password",
+          "type": "password",
+          "background": "rgb(255, 255, 255)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "current-password"
+        }
+      ],
+      "admin": [
+        {
+          "id": "search",
+          "type": "search",
+          "background": "rgb(255, 255, 255)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": false,
+          "autoComplete": ""
+        }
+      ]
+    },
+    {
+      "variant": "dark/no-preference",
+      "auth": [
+        {
+          "id": "email",
+          "type": "email",
+          "background": "oklab(0.604558 -0.0126363 -0.0195023 / 0.3)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "email"
+        },
+        {
+          "id": "password",
+          "type": "password",
+          "background": "oklab(0.604558 -0.0126363 -0.0195023 / 0.3)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "current-password"
+        }
+      ],
+      "admin": [
+        {
+          "id": "search",
+          "type": "search",
+          "background": "oklab(0.604558 -0.0126363 -0.0195023 / 0.3)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": false,
+          "autoComplete": ""
+        }
+      ]
+    },
+    {
+      "variant": "light/reduce",
+      "auth": [
+        {
+          "id": "email",
+          "type": "email",
+          "background": "rgb(255, 255, 255)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "email"
+        },
+        {
+          "id": "password",
+          "type": "password",
+          "background": "rgb(255, 255, 255)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "current-password"
+        }
+      ],
+      "admin": [
+        {
+          "id": "search",
+          "type": "search",
+          "background": "rgb(255, 255, 255)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": false,
+          "autoComplete": ""
+        }
+      ]
+    },
+    {
+      "variant": "dark/reduce",
+      "auth": [
+        {
+          "id": "email",
+          "type": "email",
+          "background": "oklab(0.604558 -0.0126363 -0.0195023 / 0.3)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "email"
+        },
+        {
+          "id": "password",
+          "type": "password",
+          "background": "oklab(0.604558 -0.0126363 -0.0195023 / 0.3)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": true,
+          "autoComplete": "current-password"
+        }
+      ],
+      "admin": [
+        {
+          "id": "search",
+          "type": "search",
+          "background": "oklab(0.604558 -0.0126363 -0.0195023 / 0.3)",
+          "border": "rgb(117, 132, 142)",
+          "color": "rgb(26, 37, 44)",
+          "padding": [
+            "8px",
+            "12px",
+            "8px",
+            "12px"
+          ],
+          "fontSize": "14px",
+          "required": false,
+          "autoComplete": ""
+        }
+      ]
+    }
+  ]
+}

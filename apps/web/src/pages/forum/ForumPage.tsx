@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,6 +9,7 @@ import { StatusNotice } from "@/components/StatusNotice";
 import { CommentComposer } from "@/pages/forum/CommentComposer";
 import { CommentItem } from "@/pages/forum/CommentItem";
 import { appendForumPage, isForumCacheStale, readForumCache, refreshForumCache } from "@/pages/forum/forumCache";
+import { useCommentStream } from "@/pages/forum/useCommentStream";
 
 const PAGE_SIZE = 10;
 
@@ -62,6 +63,25 @@ export default function ForumPage() {
     window.addEventListener("online", retryOnline);
     return () => window.removeEventListener("online", retryOnline);
   }, []);
+
+  const refreshFromStream = useCallback(() => {
+    refreshForumCache(loadPage)
+      .then((cached) => {
+        setComments(cached.comments);
+        setNextCursor(cached.nextCursor);
+        setError(null);
+      })
+      .catch((err: unknown) => {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        setError(err instanceof ApiError ? err.message : "No se pudieron cargar los comentarios.");
+      });
+  }, [loadPage]);
+
+  useCommentStream({
+    enabled: true,
+    onCommentCreated: refreshFromStream,
+    onReconnect: refreshFromStream,
+  });
 
   async function loadMore() {
     if (!nextCursor || loadingMore || refreshing) return;
@@ -152,10 +172,15 @@ export default function ForumPage() {
             </div>
           ) : (
             <>
-              <ol className="divide-y divide-border rounded-lg border bg-card">
+              <ol className="divide-y divide-border rounded-xl bg-card">
                 {comments.map((comment) => (
                   <div key={comment.id} className="px-4 sm:px-6">
-                    <CommentItem comment={comment} canReply={canPublish && !error} onReplyPublished={handlePublished} />
+                    <CommentItem
+                      comment={comment}
+                      canReply={canPublish && !error}
+                      onReplyPublished={handlePublished}
+                      onConflict={() => setRetry((current) => current + 1)}
+                    />
                   </div>
                 ))}
               </ol>
@@ -183,8 +208,7 @@ export default function ForumPage() {
           <div className="rounded-lg border bg-card p-4 text-sm">
             <h2 className="font-semibold">Cómo participar</h2>
             <p className="mt-2 text-muted-foreground">
-              Crea una cuenta, verifica tu correo y publica. Puedes responder hasta varios niveles; las conversaciones
-              profundas se abren en una vista dedicada.
+              Crea una cuenta, verifica tu correo y publica.
             </p>
           </div>
         </aside>
@@ -203,6 +227,7 @@ function ParticipationBox({
   onPublished: (comment: PublicComment) => void;
 }) {
   const { status, user, online } = useSession();
+  const location = useLocation();
   const [resendState, setResendState] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   async function resendVerification() {
@@ -233,7 +258,7 @@ function ParticipationBox({
       <div className="rounded-lg border bg-card p-6">
         <p className="text-sm text-muted-foreground">La lectura es pública. Para publicar necesitas una cuenta.</p>
         <Button asChild className="mt-3">
-          <Link to="/login">Ingresar para participar</Link>
+          <Link to={`/login?returnTo=${encodeURIComponent(location.pathname + location.search + location.hash)}`} state={{ from: location }}>Ingresar para participar</Link>
         </Button>
       </div>
     );
@@ -278,7 +303,7 @@ function ParticipationBox({
   if (!canPublish) return null;
 
   return (
-    <div className="rounded-lg border bg-card p-6">
+    <div className="rounded-xl bg-card p-6">
       <CommentComposer disabled={disabled} onPublished={onPublished} />
     </div>
   );

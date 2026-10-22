@@ -70,7 +70,7 @@ export interface ApiResult<T> {
   meta?: { nextCursor: string | null };
 }
 
-export async function api<T>(path: string, options: ApiOptions = {}, canRetry = true): Promise<ApiResult<T>> {
+export async function apiResponse(path: string, options: ApiOptions = {}, canRetry = true): Promise<Response> {
   let response: Response;
   try {
     response = await fetch(path, {
@@ -87,34 +87,38 @@ export async function api<T>(path: string, options: ApiOptions = {}, canRetry = 
 
   if (response.status === 401 && canRetry && (!path.startsWith("/api/auth/") || path === "/api/auth/session")) {
     const refreshed = await refreshSession();
-    if (refreshed === "ok") return api<T>(path, options, false);
-    if (refreshed === "unverifiable") throw new ApiError(0, "NETWORK_ERROR", "No se pudo comprobar la sesión.");
+    if (refreshed === "ok") {
+      await response.body?.cancel().catch(() => undefined);
+      return apiResponse(path, options, false);
+    }
+    if (refreshed === "unverifiable") {
+      await response.body?.cancel().catch(() => undefined);
+      throw new ApiError(0, "NETWORK_ERROR", "No se pudo comprobar la sesión.");
+    }
     for (const listener of sessionInvalidListeners) listener();
   }
   if (response.status === 401 && !canRetry) {
     for (const listener of sessionInvalidListeners) listener();
   }
 
+  if (response.ok) return response;
+
+  const payload: unknown = await response.json().catch(() => null);
+  const errorBody = (payload as { error?: { code?: string; message?: string; fieldErrors?: Record<string, string[]>; retryAfterSeconds?: number } })?.error;
+  throw new ApiError(
+    response.status,
+    errorBody?.code ?? "UNKNOWN_ERROR",
+    errorBody?.message ?? "Ocurrió un error inesperado.",
+    errorBody?.fieldErrors,
+    errorBody?.retryAfterSeconds,
+  );
+}
+
+export async function api<T>(path: string, options: ApiOptions = {}, canRetry = true): Promise<ApiResult<T>> {
+  const response = await apiResponse(path, options, canRetry);
   if (response.status === 204) return { data: undefined as T };
 
-  let payload: unknown = null;
-  try {
-    payload = await response.json();
-  } catch {
-    // respuesta sin cuerpo JSON
-  }
-
-  if (!response.ok) {
-    const errorBody = (payload as { error?: { code?: string; message?: string; fieldErrors?: Record<string, string[]>; retryAfterSeconds?: number } })?.error;
-    throw new ApiError(
-      response.status,
-      errorBody?.code ?? "UNKNOWN_ERROR",
-      errorBody?.message ?? "Ocurrió un error inesperado.",
-      errorBody?.fieldErrors,
-      errorBody?.retryAfterSeconds,
-    );
-  }
-
+  const payload: unknown = await response.json().catch(() => null);
   const body = payload as { data: T; meta?: { nextCursor: string | null } };
   return { data: body.data, meta: body.meta };
 }

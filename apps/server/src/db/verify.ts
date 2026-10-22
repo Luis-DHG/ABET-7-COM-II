@@ -164,6 +164,7 @@ try {
     trustProxyHops: 0,
     smtp: { host: "localhost", port: 25, user: "test@example.com", password: "unused", from: "test@example.com" },
     google: { clientId: "unused", clientSecret: "unused", redirectUri: "http://localhost/callback" },
+    chat: { nvidiaApiKey: "unused", openrouterApiKey: "unused", geminiApiKey: "unused" },
   };
   const mailer: Mailer = {
     sendVerification: async () => undefined,

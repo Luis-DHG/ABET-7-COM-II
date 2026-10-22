@@ -2,10 +2,12 @@ import { createApp } from "./app.js";
 import { loadConfig } from "./config.js";
 import { createDatabase } from "./db/client.js";
 import { createMailer } from "./mail/index.js";
+import { createChatModule } from "./chat/module.js";
 
 const config = loadConfig();
 const database = createDatabase(config);
-const app = createApp(config, database.db, createMailer(config));
+const chatModule = createChatModule();
+const app = createApp(config, database.db, createMailer(config), chatModule);
 const server = app.listen(config.port, "0.0.0.0", () => {
   console.log(JSON.stringify({ level: "info", event: "server_started", port: config.port }));
 });
@@ -18,6 +20,7 @@ async function shutdown(signal: string): Promise<void> {
 
   const forceClose = setTimeout(() => server.closeAllConnections(), 8_000);
   forceClose.unref();
+  chatModule.dispose();
   server.close(async (error) => {
     clearTimeout(forceClose);
     try {

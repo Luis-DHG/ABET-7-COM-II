@@ -34,12 +34,23 @@ export function appendForumPage(comments: PublicComment[], nextCursor: string | 
   return cache;
 }
 
+/**
+ * Añade una respuesta directa a su raíz sin duplicar ids ni tocar otros nodos:
+ * la lectura previa (historial incluido) se conserva intacta.
+ */
+export function appendThreadReply(root: PublicComment, reply: PublicComment): PublicComment {
+  if (reply.parentId !== root.id || root.replies.some((existing) => existing.id === reply.id)) {
+    return root;
+  }
+  return { ...root, replies: [...root.replies, reply] };
+}
+
 export function publishForumComment(comment: PublicComment): ForumCache {
   const comments = comment.depth === 1
     ? [comment, ...cache.comments.filter((root) => root.id !== comment.id)]
     : cache.comments.map((root) => {
         if (comment.parentId === root.id) {
-          return { ...root, replies: [...root.replies, comment] };
+          return appendThreadReply(root, comment);
         }
         if (root.id === comment.rootId && comment.depth >= 3) {
           return { ...root, hasDeepConversation: true };

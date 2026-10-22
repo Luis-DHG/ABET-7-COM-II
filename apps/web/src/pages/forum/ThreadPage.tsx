@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import type { PublicComment } from "@blogdpc/contracts";
 import { Button } from "@/components/ui/button";
@@ -7,25 +7,32 @@ import { api, ApiError } from "@/lib/http";
 import { useSession } from "@/session/SessionProvider";
 import { StatusNotice } from "@/components/StatusNotice";
 import { CommentItem } from "@/pages/forum/CommentItem";
+import { appendThreadReply } from "@/pages/forum/forumCache";
+import { useCommentStream } from "@/pages/forum/useCommentStream";
 
 export default function ThreadPage() {
   const { rootId } = useParams();
   const { hash } = useLocation();
-  const { status, user } = useSession();
+  const { status, user, online } = useSession();
   const [thread, setThread] = useState<PublicComment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
+  const scope = useMemo(() => ({ rootId }), [rootId]);
+  const readCycle = useRef({ scope, active: false, latest: 0, controller: null as AbortController | null });
 
-  useEffect(() => {
-    if (!rootId) return;
-    const controller = new AbortController();
-    setLoading(true);
-    api<PublicComment>(`/api/comments/${rootId}/thread`, { signal: controller.signal })
+  const refreshThread = useCallback(() => {
+    const cycle = readCycle.current;
+    if (!scope.rootId || cycle.scope !== scope || !cycle.active) return;
+    const request = ++cycle.latest;
+    const current = () => readCycle.current === cycle && cycle.active && request === cycle.latest;
+    void api<PublicComment>(`/api/comments/${scope.rootId}/thread`, { signal: cycle.controller?.signal })
       .then(({ data }) => {
+        if (!current()) return;
         setThread(data);
         setError(null);
       })
       .catch((err: unknown) => {
+        if (!current()) return;
         if (err instanceof DOMException && err.name === "AbortError") return;
         setError(
           err instanceof ApiError
@@ -33,11 +40,41 @@ export default function ThreadPage() {
             : { code: "UNKNOWN", message: "No se pudo cargar la conversación." },
         );
       })
-      .finally(() => setLoading(false));
-    return () => controller.abort();
-  }, [rootId]);
+      .finally(() => {
+        if (current()) setLoading(false);
+      });
+  }, [scope]);
 
-  const canReply = status === "authenticated" && Boolean(user?.emailVerified) && !user?.isBanned;
+  useEffect(() => {
+    const cycle = { scope, active: true, latest: 0, controller: new AbortController() };
+    readCycle.current = cycle;
+    setError(null);
+    setLoading(true);
+    refreshThread();
+    return () => {
+      cycle.active = false;
+      cycle.latest++;
+      cycle.controller.abort();
+    };
+  }, [scope, refreshThread]);
+
+  const handleCommentCreated = useCallback(
+    ({ rootId: incomingRootId }: { rootId: string }) => {
+      if (incomingRootId === rootId) {
+        refreshThread();
+      }
+    },
+    [refreshThread, rootId],
+  );
+
+  useCommentStream({
+    enabled: Boolean(rootId),
+    streamKey: rootId,
+    onCommentCreated: handleCommentCreated,
+    onReconnect: refreshThread,
+  });
+
+  const canReply = status === "authenticated" && Boolean(user?.emailVerified) && !user?.isBanned && online;
   const threadId = thread?.id;
 
   useEffect(() => {
@@ -45,14 +82,15 @@ export default function ThreadPage() {
     const element = document.getElementById(hash.slice(1));
     if (!element) return;
     element.scrollIntoView({ block: "center" });
-    element.focus();
   }, [threadId, hash]);
 
-  const handleReplyPublished = useCallback((_comment: PublicComment) => {
-    // Releer el hilo para reflejar el árbol definitivo del servidor.
-    if (!rootId) return;
-    void api<PublicComment>(`/api/comments/${rootId}/thread`).then(({ data }) => setThread(data));
-  }, [rootId]);
+  const handleReplyPublished = useCallback((comment: PublicComment) => {
+    const cycle = readCycle.current;
+    if (!cycle.active || cycle.scope !== scope || comment.parentId !== scope.rootId) return;
+    // Incorporar el éxito recibido y releer el hilo para reflejar el árbol definitivo del servidor.
+    setThread((current) => (current && comment.parentId === current.id ? appendThreadReply(current, comment) : current));
+    refreshThread();
+  }, [refreshThread, scope]);
 
   return (
     <div className="space-y-6">
@@ -75,9 +113,15 @@ export default function ThreadPage() {
         </StatusNotice>
       ) : null}
 
-      {thread ? (
-        <div className="rounded-lg border bg-card px-4 sm:px-6">
-          <CommentItem comment={thread} canReply={canReply} threadMode onReplyPublished={handleReplyPublished} />
+      {thread && thread.id === rootId ? (
+        <div className="rounded-xl bg-card px-4 sm:px-6">
+          <CommentItem
+            comment={thread}
+            canReply={canReply}
+            threadMode
+            onReplyPublished={handleReplyPublished}
+            onConflict={refreshThread}
+          />
         </div>
       ) : null}
     </div>
